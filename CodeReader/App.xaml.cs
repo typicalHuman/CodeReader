@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeReader.Scripts.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,10 @@ namespace CodeReader
     /// </summary>
     public partial class App : Application
     {
+        public static MainVM mainVM { get; set; }
+        public App()
+        {
+            mainVM = new MainVM();
+        }
     }
 }
