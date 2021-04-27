@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,18 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CodeReader
+namespace CodeReader.Scripts.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for CodeTree.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class CodeTree : UserControl
     {
-        public MainWindow()
+        public CodeTree()
         {
             InitializeComponent();
         }
-
     }
-
 }

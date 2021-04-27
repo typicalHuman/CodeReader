@@ -1,0 +1,89 @@
+﻿<UserControl x:Class="CodeReader.Scripts.View.CodeTree"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CodeReader"        
+             xmlns:model="clr-namespace:CodeReader.Scripts.Model"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="CodeTreeControl"  >
+    <Grid>
+        <TreeView ItemsSource="{Binding CodeComponents}" DataContext="{x:Static local:App.codeTreeVM}">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type model:CodeComponent}" ItemsSource="{Binding Children}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Margin="0,0,5,0" VerticalAlignment="Center"
+                                   RenderOptions.BitmapScalingMode="HighQuality">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Method}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/method.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Class}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/class.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Code}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/braces.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.AbstractClass}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/abstractClass.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Attribute}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/attribute.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Delegate}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/delegate.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Enum}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/enum.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Event}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/event.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Indexer}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/indexer.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Interface}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/interface.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Variable}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/variable.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Namespace}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/namespace.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Struct}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/struct.png"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Property}">
+                                            <Setter Property="Source" Value="pack://application:,,,/Images/property.png"/>
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
+                        <TextBlock Text="{Binding Label}" FontFamily="Consolas"
+                                   FontSize="22" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+        </TreeView>
+    </Grid>
+</UserControl>
