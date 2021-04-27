@@ -79,8 +79,8 @@
                                 </Style>
                             </Image.Style>
                         </Image>
-                        <TextBlock Text="{Binding Label}" FontFamily="Consolas"
-                                   FontSize="22" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock Text="{Binding Label}" FontFamily="pack://application:,,,/Fonts/#Dosis"
+                                   FontSize="20" VerticalAlignment="Center"></TextBlock>
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.Resources>

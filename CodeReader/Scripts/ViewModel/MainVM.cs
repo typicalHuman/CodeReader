@@ -60,58 +60,33 @@ namespace CodeReader.Scripts.ViewModel
 
         #endregion
 
+        #region IsDarkModeEnabled
+
+        private bool isDarkModeEnabled = true;
+        public bool IsDarkModeEnabled
+        {
+            get => isDarkModeEnabled;
+            set
+            {
+                isDarkModeEnabled = value;
+                OnPropertyChanged("IsDarkModeEnabled");
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
 
-        #region CloseCommand
-        /// <summary>
-        /// Action that should close main window.
-        /// </summary>
-        public Action CloseAction { get; set; }
-        private RelayCommand closeCommand;
-        /// <summary>
-        /// Close window and save decks.
-        /// </summary>
-        public RelayCommand CloseCommand
+
+        #region ChangeThemeCommand
+        private RelayCommand changeThemeCommand;
+        public RelayCommand ChangeThemeCommand
         {
-            get => closeCommand ?? (closeCommand = new RelayCommand(obj =>
+            get => changeThemeCommand ?? (changeThemeCommand = new RelayCommand(obj =>
             {
-                CloseAction();
-            }));
 
-        }
-        #endregion
-
-        #region MaximizeCommand
-
-        private RelayCommand maximizeCommand;
-        public RelayCommand MaximizeCommand
-        {
-            get => maximizeCommand ?? (maximizeCommand = new RelayCommand(obj =>
-            {
-                WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
-                if (WindowState == WindowState.Maximized)
-                {
-                    ResizeMode = ResizeMode.NoResize;
-                    WindowBorderThickness = new Thickness(0);
-                }
-                else
-                {
-                    ResizeMode = ResizeMode.CanResizeWithGrip;
-                    WindowBorderThickness = new Thickness(1);
-                }
-            }));
-        }
-        #endregion
-
-        #region MinimizeCommand
-        private RelayCommand minimizeCommand;
-        public RelayCommand MinimizeCommand
-        {
-            get => minimizeCommand ?? (minimizeCommand = new RelayCommand(obj =>
-            {
-                WindowState = WindowState.Minimized;
             }));
         }
         #endregion
