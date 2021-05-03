@@ -162,3 +162,5 @@ C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Microsoft.Expressi
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\System.Windows.Interactivity.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Microsoft.Expression.Interactions.xml
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\System.Windows.Interactivity.xml
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\ExtendedPanel.g.cs
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\ExtendedPanel.baml

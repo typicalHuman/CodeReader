@@ -76,6 +76,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Scripts\View\ExtendedPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Scripts\View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -88,11 +92,13 @@
     <Compile Include="Scripts\Model\CodeComponentType.cs" />
     <Compile Include="Scripts\Model\ICodeComponent.cs" />
     <Compile Include="Scripts\ViewModel\BaseViewModel.cs" />
-    <Compile Include="Scripts\ViewModel\CodeTreeVM.cs" />
     <Compile Include="Scripts\ViewModel\MainVM.cs" />
     <Compile Include="Scripts\ViewModel\RelayCommand.cs" />
     <Compile Include="Scripts\View\CodeTree.xaml.cs">
       <DependentUpon>CodeTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Scripts\View\ExtendedPanel.xaml.cs">
+      <DependentUpon>ExtendedPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Scripts\View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

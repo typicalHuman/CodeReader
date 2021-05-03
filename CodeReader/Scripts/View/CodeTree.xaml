@@ -6,8 +6,10 @@
              xmlns:local="clr-namespace:CodeReader"     
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:model="clr-namespace:CodeReader.Scripts.Model"
+             xmlns:view="clr-namespace:CodeReader.Scripts.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
+             FontFamily="pack://application:,,,/Fonts/#Dosis"
              x:Name="CodeTreeControl">
     <UserControl.Resources>
         <Style x:Key="VerticalSeparatorStyle" 
@@ -26,105 +28,146 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="TransparentTextBox" TargetType="TextBox"
+               BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
     </UserControl.Resources>
-    <Grid Name="mainGrid" >
+    <Grid Name="mainGrid">
+        <!--#region Column Definitions-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-
-       
-        <Grid >
+        <!--#endregion-->
+        <Grid>
+            <!--#region Column Definitions-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
+            <!--#endregion-->
+
+            <!--#region Tree Manipulating Buttons-->
             <ui:SimpleStackPanel Orientation="Horizontal" Spacing="20" HorizontalAlignment="Center">
                 <Button Height="40" Width="150" Content="Add parent"
+                        FontFamily="pack://application:,,,/Fonts/#Dosis"
                     Style="{StaticResource AccentButtonStyle}" Click="Button_Click"/>
-                <Button Height="40" Width="150" Content="Add child"/>
+                <Button Height="40" Width="150" Content="Add child"
+                        FontFamily="pack://application:,,,/Fonts/#Dosis"/>
             </ui:SimpleStackPanel>
-            <TreeView Name="codeTree" Grid.Row="1">
-                <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type model:CodeComponent}" ItemsSource="{Binding Children}">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Margin="0,0,5,0" VerticalAlignment="Center"
-                                   RenderOptions.BitmapScalingMode="HighQuality">
-                                <Image.Style>
-                                    <Style TargetType="Image">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Method}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/method.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Class}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/class.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Code}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/braces.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.AbstractClass}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/abstractClass.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Attribute}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/attribute.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Delegate}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/delegate.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Enum}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/enum.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Event}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/event.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Indexer}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/indexer.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Interface}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/interface.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Variable}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/variable.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Namespace}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/namespace.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Struct}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/struct.png"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ComponentType}"
-                                                         Value="{x:Static model:CodeComponentType.Property}">
-                                                <Setter Property="Source" Value="pack://application:,,,/Images/property.png"/>
-                                            </DataTrigger>
+            <!--#endregion-->
 
-                                        </Style.Triggers>
-                                    </Style>
-                                </Image.Style>
-                            </Image>
-                            <TextBlock Text="{Binding Label}" FontFamily="pack://application:,,,/Fonts/#Dosis"
-                                   FontSize="20" VerticalAlignment="Center"></TextBlock>
-                        </StackPanel>
+            <!--#region CodeTree-->
+            <TreeView Name="codeTree" Grid.Row="1" DataContext="{x:Null}">
+                <TreeView.Resources>
+                    <!--#region Data Template-->
+                    <HierarchicalDataTemplate DataType="{x:Type model:CodeComponent}" ItemsSource="{Binding Children}">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="0,0,5,0" VerticalAlignment="Center"
+                                   RenderOptions.BitmapScalingMode="HighQuality">
+                                    <!--#region Image Style-->
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Method}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/method.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Class}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/class.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Code}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/braces.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.AbstractClass}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/abstractClass.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Attribute}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/attribute.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Delegate}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/delegate.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Enum}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/enum.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Event}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/event.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Indexer}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/indexer.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Interface}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/interface.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Variable}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/variable.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Namespace}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/namespace.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Struct}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/struct.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding ComponentType}"
+                                                         Value="{x:Static model:CodeComponentType.Property}">
+                                                    <Setter Property="Source" Value="pack://application:,,,/Images/property.png"/>
+                                                </DataTrigger>
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                    <!--#endregion-->
+                                </Image>
+                                <TextBox Text="{Binding Label}" FontFamily="pack://application:,,,/Fonts/#Dosis"
+                                   FontSize="20" VerticalAlignment="Center"
+                                         Style="{DynamicResource TransparentTextBox}"
+                                     IsReadOnly="True">
+                                </TextBox>
+                            </StackPanel>
+                            <Grid.ContextMenu>
+                                <ContextMenu FontFamily="pack://application:,,,/Fonts/#Dosis">
+                                    <MenuItem Header="Open" Click="OpenCodeComponent"/>
+                                    <MenuItem Header="Rename"/>
+                                    <MenuItem Header="Delete"/>
+                                </ContextMenu>
+                            </Grid.ContextMenu>
+                        </Grid>
+                     
                     </HierarchicalDataTemplate>
+                    <!--#endregion-->
                 </TreeView.Resources>
             </TreeView>
+            <!--#endregion-->
         </Grid>
+        <Separator Grid.Column="1" Height="3"  Background="#686868" HorizontalAlignment="Left"
+                   Margin="0 20 0 20">
+            <Separator.LayoutTransform>
+                <RotateTransform Angle="90" />
+            </Separator.LayoutTransform>
+        </Separator>
 
-        <StackPanel  Grid.Column="1" x:Name="secondPanel" Orientation="Horizontal">
-            <StackPanel.Style>
-                <Style TargetType="StackPanel">
+
+        <ui:CommandBarOverflowPanel/>
+        <!--<view:ExtendedPanel Grid.Column="1" x:Name="extendedPanel"> 
+            --><!--<view:ExtendedPanel.Style>
+                <Style TargetType="view:ExtendedPanel">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsExtended, UpdateSourceTrigger=PropertyChanged}"
                                      Value="True">
@@ -136,15 +179,12 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </StackPanel.Style>
-            <Separator Height="3"  Background="#686868" HorizontalAlignment="Left"
-                   Margin="0 20 0 20">
-                <Separator.LayoutTransform>
-                    <RotateTransform Angle="90" />
-                </Separator.LayoutTransform>
-            </Separator>
-            <Button Background="Red" Height="50" Width="50"/>
-        </StackPanel>
+            </view:ExtendedPanel.Style>--><!--
+            
+        </view:ExtendedPanel>-->
+        <Button Background="Transparent" Content="x" HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    FontFamily="pack://application:,,,/Fonts/#Dosis"
+                    Height="30" Width="30" Click="CloseExtendedPanel" Visibility="{Binding ElementName=extendedPanel, Path=Visibility, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
-   
 </UserControl>

@@ -28,7 +28,6 @@ namespace CodeReader.Scripts.View
         public CodeTree()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
         #endregion
@@ -86,6 +85,7 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
+
         #region PropertyChanged
         /// <summary>
         /// Event for updating value.
@@ -100,5 +100,16 @@ namespace CodeReader.Scripts.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
         #endregion
+
+        private void CloseExtendedPanel(object sender, RoutedEventArgs e)
+        {
+            mainGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Auto);
+            IsExtended = false;
+        }
+
+        private void OpenCodeComponent(object sender, RoutedEventArgs e)
+        {
+            IsExtended = true;
+        }
     }
 }
