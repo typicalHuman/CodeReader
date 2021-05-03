@@ -13,7 +13,7 @@
         ui:ThemeManager.IsThemeAware="True" ui:TitleBar.ExtendViewIntoTitleBar="True"
        Height="450" Width="800" FontFamily="pack://application:,,,/Fonts/#Dosis"
         ResizeMode="CanResizeWithGrip"
-        WindowChrome.IsHitTestVisibleInChrome="True">
+       >
     <Window.Style>
         <Style TargetType="{x:Type Window}" BasedOn="{StaticResource {x:Type Window}}">
             <Style.Triggers>
@@ -26,7 +26,7 @@
             </Style.Triggers>
         </Style>
     </Window.Style>
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition/>
@@ -54,21 +54,16 @@
                 <TextBlock FontSize="25" Text="CodeReader" 
                         Margin="10 0 0 0" VerticalAlignment="Center"/>
             </StackPanel>
-            <ui:ToggleSwitch OnContent="Light mode" OffContent="Dark mode"  
+            <ui:ToggleSwitch OnContent="Dark mode" OffContent="Light mode"  
+                             WindowChrome.IsHitTestVisibleInChrome="True"
                             IsOn="{Binding IsDarkModeEnabled,UpdateSourceTrigger=PropertyChanged}"
                              VerticalAlignment="Top" Margin="0 0 170 0" 
                              HorizontalAlignment="Right" FontFamily="pack://application:,,,/Fonts/#Dosis">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Toggled">
-                        <i:InvokeCommandAction 
-                Command="{Binding ChangeThemeCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
             </ui:ToggleSwitch>
         </DockPanel>
       
-        <ui:SimpleStackPanel Spacing="24" Grid.Row="1">
-            <view:CodeTree/>
-        </ui:SimpleStackPanel>
+        <Grid Grid.Row="1">
+            <view:CodeTree CodeComponents="{Binding CodeComponents}"/>
+        </Grid>
     </Grid>
 </Window>
