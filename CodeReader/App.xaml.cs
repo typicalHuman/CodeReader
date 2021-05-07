@@ -15,9 +15,11 @@ namespace CodeReader
     public partial class App : Application
     {
         public static MainVM mainVM { get; set; }
+        public static ExtendedPanelVM extendedPanelVM { get; set; }
         public App()
         {
             mainVM = new MainVM();
+            extendedPanelVM = new ExtendedPanelVM();
         }
     }
 }

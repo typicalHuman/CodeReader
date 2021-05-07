@@ -24,6 +24,7 @@ namespace CodeReader
         public MainWindow()
         {
             InitializeComponent();
+            var a = PanPan.DataContext;
         }
 
     }

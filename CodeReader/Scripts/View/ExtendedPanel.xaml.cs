@@ -24,37 +24,6 @@ namespace CodeReader.Scripts.View
         public ExtendedPanel()
         {
             InitializeComponent();
-            DataContext = this;
         }
-
-        #region CodeComponents
-
-        public static readonly DependencyProperty CodeComponentProperty =
-   DependencyProperty.Register("OpenedCodeComponent", typeof(ICodeComponent), typeof(ExtendedPanel), new
-      PropertyMetadata(new CodeComponent(), new PropertyChangedCallback(OnCodeComponentChanged)));
-
-        public ICodeComponent OpenedCodeComponent
-        {
-            get { return (ICodeComponent)GetValue(CodeComponentProperty); }
-            set { SetValue(CodeComponentProperty, value); }
-        }
-
-        private static void OnCodeComponentChanged(DependencyObject d,
-     DependencyPropertyChangedEventArgs e)
-        {
-            ExtendedPanel panel = d as ExtendedPanel;
-            panel.OnCodeComponentChanged(e);
-        }
-
-        private void OnCodeComponentChanged(DependencyPropertyChangedEventArgs e)
-        {
-            OpenedCodeComponent = e.NewValue as ICodeComponent;
-        }
-
-        #endregion
-
-
-        
-
     }
 }

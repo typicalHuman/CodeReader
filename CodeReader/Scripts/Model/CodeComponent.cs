@@ -10,7 +10,7 @@ namespace CodeReader.Scripts.Model
     /// <summary>
     /// Implementation of <see cref="ICodeComponent"/> inteface.
     /// </summary>
-    class CodeComponent: ICodeComponent
+    public class CodeComponent: ICodeComponent
     {
         #region Constructor
 

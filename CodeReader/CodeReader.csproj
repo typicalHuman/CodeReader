@@ -92,6 +92,7 @@
     <Compile Include="Scripts\Model\CodeComponentType.cs" />
     <Compile Include="Scripts\Model\ICodeComponent.cs" />
     <Compile Include="Scripts\ViewModel\BaseViewModel.cs" />
+    <Compile Include="Scripts\ViewModel\ExtendedPanelVM.cs" />
     <Compile Include="Scripts\ViewModel\MainVM.cs" />
     <Compile Include="Scripts\ViewModel\RelayCommand.cs" />
     <Compile Include="Scripts\View\CodeTree.xaml.cs">

@@ -3,17 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:CodeReader.Scripts.View"
+             xmlns:local="clr-namespace:CodeReader"
              mc:Ignorable="d" 
+             DataContext="{x:Static local:App.extendedPanelVM}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="extendedPanel">
-      
-
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Name" Margin="5" VerticalAlignment="Center"/>
-                <TextBox Text="{Binding OpenedCodeComponent.Label, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Text="{Binding  CurrentComponent.Label, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
         </StackPanel>
+
     </Grid>
+    <UserControl.Style>
+        <Style TargetType="UserControl" BasedOn="{StaticResource {x:Type UserControl}}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding CurrentComponent, UpdateSourceTrigger=PropertyChanged}"
+                             Value="{x:Null}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Style>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using CodeReader.Scripts.Model;
+using CodeReader.Scripts.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,6 +29,7 @@ namespace CodeReader.Scripts.View
         public CodeTree()
         {
             InitializeComponent();
+            
         }
 
         #endregion
@@ -64,27 +66,6 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            mainGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
-            IsExtended = true;
-        }
-
-        #region IsExtended
-
-        private bool isExtended = false;
-        public bool IsExtended
-        {
-            get => isExtended;
-            set
-            {
-                isExtended = value;
-                OnPropertyChanged("IsExtended");
-            }
-        }
-
-        #endregion
-
 
         #region PropertyChanged
         /// <summary>
@@ -101,15 +82,27 @@ namespace CodeReader.Scripts.View
         }
         #endregion
 
-        private void CloseExtendedPanel(object sender, RoutedEventArgs e)
+
+
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            mainGrid.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Auto);
-            IsExtended = false;
+            Grid mainGrid = sender as Grid;
+            if (firstColumn.ActualWidth < 85)
+            {
+                mainGrid.Visibility = Visibility.Hidden;
+                firstRow.Height = new GridLength(1);
+            }
+            else if (mainGrid.Visibility == Visibility.Hidden)
+            {
+                mainGrid.Visibility = Visibility.Visible;
+                firstRow.Height = new GridLength(1, GridUnitType.Auto);
+            }
         }
 
-        private void OpenCodeComponent(object sender, RoutedEventArgs e)
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            IsExtended = true;
+            App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
         }
     }
 }

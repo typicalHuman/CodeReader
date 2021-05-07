@@ -61,9 +61,19 @@
                              HorizontalAlignment="Right" FontFamily="pack://application:,,,/Fonts/#Dosis">
             </ui:ToggleSwitch>
         </DockPanel>
-      
+
         <Grid Grid.Row="1">
-            <view:CodeTree CodeComponents="{Binding CodeComponents}"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <view:CodeTree CodeComponents="{Binding CodeComponents}" Margin="0 10 0 10"/>
+            <GridSplitter Grid.Column ="1" Background="#686868" Width="4"
+                      ShowsPreview="True" Grid.Row="1" Margin="10"
+                HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+            <view:ExtendedPanel x:Name="PanPan" Grid.Column="2"/>
         </Grid>
+
     </Grid>
 </Window>
