@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -24,7 +25,17 @@ namespace CodeReader
         public MainWindow()
         {
             InitializeComponent();
-            var a = PanPan.DataContext;
+            Splitter.DragDelta += SplitterDragDelta;
+        }
+
+        /// <summary>
+        /// Event for catching window change and resizing grid columns.
+        /// </summary>
+        private void SplitterDragDelta(object sender, DragDeltaEventArgs e)
+        {
+            double newWidth = codeReaderPanel.ColumnDefinitions[0].ActualWidth + e.HorizontalChange;
+            if(newWidth >= 0)
+                codeReaderPanel.ColumnDefinitions[0].Width = new GridLength(newWidth);
         }
 
     }
