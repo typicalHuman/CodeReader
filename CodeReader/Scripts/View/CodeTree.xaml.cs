@@ -87,7 +87,7 @@ namespace CodeReader.Scripts.View
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Grid mainGrid = sender as Grid;
-            if (firstColumn.ActualWidth < 85)
+            if (firstColumn.ActualWidth < 50)
             {
                 mainGrid.Visibility = Visibility.Hidden;
                 firstRow.Height = new GridLength(1);
@@ -103,6 +103,15 @@ namespace CodeReader.Scripts.View
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
+        }
+        private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is TreeViewItem item)
+            {
+                item.Focus();
+                item.IsSelected = true;
+                e.Handled = true;
+            }
         }
     }
 }

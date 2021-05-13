@@ -15,6 +15,11 @@ namespace CodeReader.Scripts.ViewModel
         public MainVM()
         {
             CodeComponents[0].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
+            CodeComponents[0].Children[0].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
+            CodeComponents.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
+            CodeComponents[1].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
+            CodeComponents[1].Children[0].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
+            CodeComponents[1].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
         }
         public ObservableCollection<ICodeComponent> CodeComponents { get; set; } = new ObservableCollection<ICodeComponent>()
         {

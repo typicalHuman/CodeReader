@@ -12,40 +12,12 @@
              FontFamily="pack://application:,,,/Fonts/#Dosis"
              x:Name="CodeTreeControl">
     <UserControl.Resources>
-        <Style x:Key="VerticalSeparatorStyle" 
-       TargetType="{x:Type Separator}"
-       BasedOn="{StaticResource {x:Type Separator}}">
-            <Setter Property="Margin" Value="6,0,6,0"/>
-            <Setter Property="LayoutTransform">
-                <Setter.Value>
-                    <TransformGroup>
-                        <TransformGroup.Children>
-                            <TransformCollection>
-                                <RotateTransform Angle="90"/>
-                            </TransformCollection>
-                        </TransformGroup.Children>
-                    </TransformGroup>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <!--<Separator Grid.Column="1" Height="3"  Background="#686868" HorizontalAlignment="Left"
-                   Margin="0 20 0 20">
-            <Separator.LayoutTransform>
-                <RotateTransform Angle="90" />
-            </Separator.LayoutTransform>
-        </Separator>-->
         <ContextMenu FontFamily="pack://application:,,,/Fonts/#Dosis"
                      x:Key="ContextMenu">
             <MenuItem Header="Open" Click="MenuItem_Click"/>
             <MenuItem Header="Rename"/>
             <MenuItem Header="Delete"/>
         </ContextMenu>
-        <Style x:Key="TransparentTextBox" TargetType="TextBox"
-               BasedOn="{StaticResource {x:Type TextBox}}">
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Background" Value="Transparent"/>
-        </Style>
     </UserControl.Resources>
     <Grid Name="mainGrid">
 
@@ -68,10 +40,10 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <!--#endregion-->
-                <Button Height="40" Width="100"  HorizontalAlignment="Stretch" Content="Add parent"
+                <Button Height="40" Width="Auto"  HorizontalAlignment="Stretch" Content="Add parent"
                         FontFamily="pack://application:,,,/Fonts/#Dosis"
                     Style="{StaticResource AccentButtonStyle}"/>
-                <Button Height="40" Width="100"  Content="Add child"
+                <Button Height="40" Width="Auto "  Content="Add child"
                         HorizontalAlignment="Stretch" 
                         FontFamily="pack://application:,,,/Fonts/#Dosis"
                         Grid.Column="2"/>
@@ -79,7 +51,7 @@
             <!--#endregion-->
 
             <!--#region CodeTree-->
-            <TreeView Name="codeTree" Grid.Row="1" DataContext="{x:Null}"
+            <TreeView Name="codeTree" Grid.Row="1"
                       Margin="0 10 0 0">
                 <TreeView.Resources>
                     <!--#region Data Template-->
@@ -156,7 +128,7 @@
                                 </Image>
                                 <TextBox Text="{Binding Label}" FontFamily="pack://application:,,,/Fonts/#Dosis"
                                    FontSize="15" VerticalAlignment="Center"
-                                         Style="{DynamicResource TransparentTextBox}"
+                                         Style="{StaticResource TransparentTextBox}"
                                          ui:TextBoxHelper.IsDeleteButtonVisible="False">
                                 </TextBox>
                             </StackPanel>
@@ -166,8 +138,9 @@
                 </TreeView.Resources>
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
-                        <Setter Property="ContextMenu" Value="{StaticResource ContextMenu}">
-                        </Setter>
+                        <EventSetter Event="MouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
+                        <Setter Property="ContextMenu" Value="{StaticResource ContextMenu}"/>
+                        <Setter Property="MinHeight" Value="7"/>
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>
