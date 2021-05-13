@@ -166,10 +166,6 @@ C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Exten
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\ExtendedPanel.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\TextBoxStyle.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\CodeBox.dll
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\HandyControl.dll
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\HandyControl.pdb
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\HandyControl.xml
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\en\HandyControl.resources.dll
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\fa\HandyControl.resources.dll
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\fr\HandyControl.resources.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\IDETHemes.dll
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\ICSharpCode.AvalonEdit.dll
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\ICSharpCode.AvalonEdit.xml

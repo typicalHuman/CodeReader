@@ -9,7 +9,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using CodeBox;
 using CodeReader;
 using CodeReader.Scripts.View;
 using ModernWpf;
