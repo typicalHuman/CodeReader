@@ -11,27 +11,48 @@
              DataContext="{x:Static local:App.extendedPanelVM}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="extendedPanel">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="341*"/>
+        </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Name" Margin="5" VerticalAlignment="Center"
-                           FontSize="17"  FontFamily="pack://application:,,,/Fonts/#Dosis"/>
-                <TextBox Text="{Binding  CurrentComponent.Label, UpdateSourceTrigger=PropertyChanged}"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Name" Margin="5" VerticalAlignment="Center"
+                           FontSize="17" />
+                    <TextBox Text="{Binding  CurrentComponent.Label, UpdateSourceTrigger=PropertyChanged}"
+                         Background="Transparent"  
+                        FontFamily="pack://application:,,,/Fonts/#Dosis" Margin="5 5"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <TextBlock Text="Type" Margin="5" VerticalAlignment="Center"
+                           FontSize="17"  />
+                    <ComboBox Text="{Binding  CurrentComponent.ComponentType, UpdateSourceTrigger=PropertyChanged}"
                          Background="Transparent" 
                         FontFamily="pack://application:,,,/Fonts/#Dosis" Margin="5 5"/>
-            </StackPanel>
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="Description" Margin="5" VerticalAlignment="Center"
-                           FontSize="17"  FontFamily="pack://application:,,,/Fonts/#Dosis"/>
-                <!--<TextBox Text="{Binding  CurrentComponent.Description, UpdateSourceTrigger=PropertyChanged}"
-                         Background="Transparent" 
-                        FontFamily="pack://application:,,,/Fonts/#Dosis" Margin="5 5"
-                         Height="120"/>-->
-                <codeBox:CodeBoxControl DefaultTheme="DarkTheme"/>
-
-
-            </StackPanel>
+                </StackPanel>
+            </Grid>
         </StackPanel>
-
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Description" Margin="5 0 0 0" VerticalAlignment="Center"
+                       Grid.Row="0"
+                           FontSize="17"  FontFamily="pack://application:,,,/Fonts/#Dosis"/>
+            <TextBox Text="{Binding  CurrentComponent.Description, UpdateSourceTrigger=PropertyChanged}"
+                         Background="Transparent" FontSize="17" Grid.Row="1"
+                        FontFamily="pack://application:,,,/Fonts/#Dosis" Margin="5 0" TextWrapping="Wrap"/>
+        </Grid>
+        <codeBox:CodeBoxControl DefaultTheme="DarkTheme" Grid.Row="3"
+                                        Margin="5 0 10 0"/>
     </Grid>
     <UserControl.Style>
         <Style TargetType="UserControl" BasedOn="{StaticResource {x:Type UserControl}}">
