@@ -87,7 +87,7 @@ namespace CodeReader.Scripts.View
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Grid mainGrid = sender as Grid;
-            if (firstColumn.ActualWidth < 50)
+            if (firstColumn.ActualWidth < 75)
             {
                 mainGrid.Visibility = Visibility.Hidden;
                 firstRow.Height = new GridLength(1);

@@ -69,11 +69,24 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <view:CodeTree CodeComponents="{Binding CodeComponents}" Margin="0 10 0 10"/>
-            <GridSplitter Grid.Column ="1" Background="#686868" Width="4"
+                <GridSplitter Grid.Column ="1" Width="4" 
+                              Background="#686868"
                       ShowsPreview="True" Grid.Row="1" Margin="10" Name="Splitter"
-                HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+                HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                <GridSplitter.Template>
+                    <ControlTemplate TargetType="GridSplitter">
+                        <Border Background="{TemplateBinding Background}"
+                                Height="6"
+                            BorderThickness="0 1 0 0"
+                            CornerRadius="3" >
+                            <Border.LayoutTransform>
+                                <RotateTransform Angle="90"/>
+                            </Border.LayoutTransform>
+                        </Border>
+                    </ControlTemplate>
+                </GridSplitter.Template>
+            </GridSplitter>
             <view:ExtendedPanel Grid.Column="2"/>
         </Grid>
-
     </Grid>
 </Window>
