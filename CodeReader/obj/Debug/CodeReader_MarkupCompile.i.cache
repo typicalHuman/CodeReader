@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\files\Programming\Projects\CodeReader\CodeReader\App.xaml
-4753478279
+7-686438234
 
 18-793007433
 126-954425978
-Scripts\Styles\TextBoxStyle.xaml;Scripts\View\CodeTree.xaml;Scripts\View\ExtendedPanel.xaml;Scripts\View\MainWindow.xaml;
+Scripts\Resources\EnumItemsSource.xaml;Scripts\Styles\ComboBoxStyle.xaml;Scripts\Styles\Fonts.xaml;Scripts\Styles\TextBoxStyle.xaml;Scripts\View\CodeTree.xaml;Scripts\View\ExtendedPanel.xaml;Scripts\View\MainWindow.xaml;
 
-True
+False
 

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace CodeReader.Scripts.ViewModel
 {
+    /// <summary>
+    /// View model for Extended panel.
+    /// </summary>
     public class ExtendedPanelVM: BaseViewModel
     {
         #region Properties

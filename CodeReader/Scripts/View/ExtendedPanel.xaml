@@ -4,81 +4,79 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CodeReader"
-             xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:ui="http://schemas.modernwpf.com/2019"
-             xmlns:model="clr-namespace:CodeReader.Scripts.Model"
              mc:Ignorable="d" 
-             xmlns:codeBox="clr-namespace:CodeBox;assembly=CodeBox"
-             xmlns:cbEnums="clr-namespace:CodeBox.Enums;assembly=CodeBox"
+             xmlns:codeBox="clr-namespace:CodeBox;assembly=CodeBox"          
              FontFamily="pack://application:,,,/Fonts/#Dosis"
              DataContext="{x:Static local:App.extendedPanelVM}"
              d:DesignHeight="450" d:DesignWidth="800">
+    <!--#region Resources-->
     <UserControl.Resources>
-        <ObjectDataProvider x:Key="typesEnum" MethodName="GetValues"
-                            ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="model:CodeComponentType"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="langsEnum" MethodName="GetValues"
-                            ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="cbEnums:Languages"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        <Style BasedOn="{StaticResource {x:Type ComboBoxItem}}" TargetType="ComboBoxItem">
+            <EventSetter Event="RequestBringIntoView" Handler="ComboBoxItem_RequestBringIntoView"/>
+        </Style>
     </UserControl.Resources>
+    <!--#endregion-->
     <Grid x:Name="extendedPanel">
+        <!--#region Grid definitions-->
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="60*"/>
             <RowDefinition Height="10"/>
             <RowDefinition Height="341*"/>
         </Grid.RowDefinitions>
+        <!--#endregion-->
+        <!--#region Main info panel-->
         <StackPanel Orientation="Vertical">
             <Grid>
+                <!--#region Grid definitions-->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
+                <!--#endregion-->
+                <!--#region Name-->
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Name" Margin="5" VerticalAlignment="Center"
                            FontSize="17" />
                     <TextBox Text="{Binding  CurrentComponent.Label, UpdateSourceTrigger=PropertyChanged}"
                          Background="Transparent"  
-                        FontFamily="pack://application:,,,/Fonts/#Dosis" Margin="5 5"/>
+                        FontFamily="{StaticResource Dosis}" Margin="5 5"/>
                 </StackPanel>
+                <!--#endregion-->
+                <!--#region Type-->
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
                     <TextBlock Text="Type" Margin="5" VerticalAlignment="Center"
                            FontSize="17"  />
                     <ComboBox Text="{Binding  CurrentComponent.ComponentType, UpdateSourceTrigger=PropertyChanged}"
-                         Background="Transparent" 
-                              MaxDropDownHeight="110"
                               ItemsSource="{Binding Source={StaticResource typesEnum}}"
-                        FontFamily="pack://application:,,,/Fonts/#Dosis" Margin="5 5">
-                        <ComboBox.ItemContainerStyle>
-                            <Style BasedOn="{StaticResource {x:Type ComboBoxItem}}" TargetType="ComboBoxItem">
-                                <EventSetter Event="RequestBringIntoView" Handler="ComboBoxItem_RequestBringIntoView"/>
-                            </Style>
-                        </ComboBox.ItemContainerStyle>
+                               ui:ComboBoxHelper.TextBoxStyle="{StaticResource TransparentTextBox}"
+                              Style="{StaticResource CodeComponentCmbBox}">
                     </ComboBox>
                 </StackPanel>
+                <!--#endregion-->
+                <!--#region Programming language-->
                 <StackPanel Orientation="Horizontal" Grid.Column="2">
                     <TextBlock Text="Language" Margin="5" VerticalAlignment="Center"
                            FontSize="17"  />
                     <ComboBox Text="{Binding  CurrentComponent.Language, UpdateSourceTrigger=PropertyChanged}"
-                         Background="Transparent"     
-                              MaxDropDownHeight="110"
-                              ItemsSource="{Binding Source={StaticResource langsEnum}}"
-                        FontFamily="pack://application:,,,/Fonts/#Dosis" Margin="5 5"/>
+                             Style="{StaticResource CodeComponentCmbBox}"
+                              ui:ComboBoxHelper.TextBoxStyle="{StaticResource TransparentTextBox}"
+                              ItemsSource="{Binding Source={StaticResource langsEnum}}"/>
                 </StackPanel>
+                <!--#endregion-->
             </Grid>
         </StackPanel>
+        <!--#endregion-->
+        <!--#region Description-->
         <Grid Grid.Row="1">
+            <!--#region Grid definitions-->
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
+            <!--#endregion-->
             <TextBlock Text="Description" Margin="5 0 0 0" VerticalAlignment="Center"
                        Grid.Row="0"
                            FontSize="17"  FontFamily="pack://application:,,,/Fonts/#Dosis"/>
@@ -86,9 +84,12 @@
                          Background="Transparent" FontSize="17" Grid.Row="1"
                         FontFamily="pack://application:,,,/Fonts/#Dosis" Margin="5 0" TextWrapping="Wrap"/>
         </Grid>
+        <!--#endregion-->
+        <!-- Code Editor-->
         <codeBox:CodeBoxControl DefaultTheme="DarkTheme" Grid.Row="3"
                                         Margin="5 0 10 0"/>
     </Grid>
+    <!--#region UserControl style-->
     <UserControl.Style>
         <Style TargetType="UserControl" BasedOn="{StaticResource {x:Type UserControl}}">
             <Style.Triggers>
@@ -99,4 +100,5 @@
             </Style.Triggers>
         </Style>
     </UserControl.Style>
+    <!--#endregion-->
 </UserControl>

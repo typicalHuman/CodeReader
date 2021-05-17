@@ -169,3 +169,6 @@ C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\CodeReader.csproj.
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\CodeReader.csproj.CopyComplete
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\CodeReader.exe
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\CodeReader.pdb
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Resources\EnumItemsSource.baml
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\ComboBoxStyle.baml
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\Fonts.baml
