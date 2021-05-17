@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using CodeBox.Enums;
 
 namespace CodeReader.Scripts.Model
 {
@@ -31,5 +32,9 @@ namespace CodeReader.Scripts.Model
         /// Parent of component.
         /// </summary>
         ICodeComponent Parent { get; set; }
+        /// <summary>
+        /// Programming language
+        /// </summary>
+        Languages Language { get; set; }
     }
 }

@@ -4,12 +4,29 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CodeReader"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:model="clr-namespace:CodeReader.Scripts.Model"
              mc:Ignorable="d" 
              xmlns:codeBox="clr-namespace:CodeBox;assembly=CodeBox"
+             xmlns:cbEnums="clr-namespace:CodeBox.Enums;assembly=CodeBox"
              FontFamily="pack://application:,,,/Fonts/#Dosis"
              DataContext="{x:Static local:App.extendedPanelVM}"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="typesEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="model:CodeComponentType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="langsEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="cbEnums:Languages"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
     <Grid x:Name="extendedPanel">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -20,6 +37,7 @@
         <StackPanel Orientation="Vertical">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
@@ -35,6 +53,23 @@
                            FontSize="17"  />
                     <ComboBox Text="{Binding  CurrentComponent.ComponentType, UpdateSourceTrigger=PropertyChanged}"
                          Background="Transparent" 
+                              MaxDropDownHeight="110"
+                              ItemsSource="{Binding Source={StaticResource typesEnum}}"
+                        FontFamily="pack://application:,,,/Fonts/#Dosis" Margin="5 5">
+                        <ComboBox.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource {x:Type ComboBoxItem}}" TargetType="ComboBoxItem">
+                                <EventSetter Event="RequestBringIntoView" Handler="ComboBoxItem_RequestBringIntoView"/>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="2">
+                    <TextBlock Text="Language" Margin="5" VerticalAlignment="Center"
+                           FontSize="17"  />
+                    <ComboBox Text="{Binding  CurrentComponent.Language, UpdateSourceTrigger=PropertyChanged}"
+                         Background="Transparent"     
+                              MaxDropDownHeight="110"
+                              ItemsSource="{Binding Source={StaticResource langsEnum}}"
                         FontFamily="pack://application:,,,/Fonts/#Dosis" Margin="5 5"/>
                 </StackPanel>
             </Grid>
