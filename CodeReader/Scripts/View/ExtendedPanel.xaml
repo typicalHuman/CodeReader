@@ -7,9 +7,10 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              mc:Ignorable="d" 
              xmlns:codeBox="clr-namespace:CodeBox;assembly=CodeBox"          
-             FontFamily="pack://application:,,,/Fonts/#Dosis"
+             FontFamily="{StaticResource RegularFont}"
              DataContext="{x:Static local:App.extendedPanelVM}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Name="ExtendedPanelControl">
     <!--#region Resources-->
     <UserControl.Resources>
         <Style BasedOn="{StaticResource {x:Type ComboBoxItem}}" TargetType="ComboBoxItem">
@@ -17,57 +18,69 @@
         </Style>
     </UserControl.Resources>
     <!--#endregion-->
-    <Grid x:Name="extendedPanel">
+    <Grid x:Name="extendedPanel" MinWidth="1">
         <!--#region Grid definitions-->
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto" MaxHeight="40"/>
             <RowDefinition Height="60*"/>
             <RowDefinition Height="10"/>
             <RowDefinition Height="341*"/>
         </Grid.RowDefinitions>
         <!--#endregion-->
         <!--#region Main info panel-->
-        <StackPanel Orientation="Vertical">
-            <Grid>
-                <!--#region Grid definitions-->
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <!--#endregion-->
-                <!--#region Name-->
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Name" Margin="5" VerticalAlignment="Center"
-                           FontSize="17" />
-                    <TextBox Text="{Binding  CurrentComponent.Label, UpdateSourceTrigger=PropertyChanged}"
-                         Background="Transparent"  
-                        FontFamily="{StaticResource Dosis}" Margin="5 5"/>
-                </StackPanel>
-                <!--#endregion-->
-                <!--#region Type-->
-                <StackPanel Orientation="Horizontal" Grid.Column="1">
-                    <TextBlock Text="Type" Margin="5" VerticalAlignment="Center"
+
+
+        <ui:SplitView Name="spv" DisplayMode="Overlay" OpenPaneLength="{Binding ElementName=ExtendedPanelControl,Path=ActualWidth,FallbackValue=800}"
+                      PaneBackground="Transparent">
+            <ui:SplitView.Pane>
+                <StackPanel Orientation="Vertical">
+                    <Grid>
+                        <!--#region Grid definitions-->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <!--#endregion-->
+                        <!--#region Name-->
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Name" Margin="5" VerticalAlignment="Center"
+                           FontSize="17" DockPanel.Dock="Left"/>
+                            <TextBox Text="{Binding  CurrentComponent.Label, UpdateSourceTrigger=PropertyChanged}"
+                         Background="Transparent" MaxWidth="100" HorizontalAlignment="Stretch"
+                             Width="150" 
+                        FontFamily="{StaticResource RegularFont}" Margin="5 5"/>
+                        </StackPanel>
+                        <!--#endregion-->
+                        <!--#region Type-->
+                        <StackPanel Orientation="Horizontal" Grid.Column="1">
+                            <TextBlock Text="Type" Margin="5" VerticalAlignment="Center"
                            FontSize="17"  />
-                    <ComboBox Text="{Binding  CurrentComponent.ComponentType, UpdateSourceTrigger=PropertyChanged}"
+                            <ComboBox Text="{Binding  CurrentComponent.ComponentType, UpdateSourceTrigger=PropertyChanged}"
                               ItemsSource="{Binding Source={StaticResource typesEnum}}"
                                ui:ComboBoxHelper.TextBoxStyle="{StaticResource TransparentTextBox}"
                               Style="{StaticResource CodeComponentCmbBox}">
-                    </ComboBox>
-                </StackPanel>
-                <!--#endregion-->
-                <!--#region Programming language-->
-                <StackPanel Orientation="Horizontal" Grid.Column="2">
-                    <TextBlock Text="Language" Margin="5" VerticalAlignment="Center"
+                            </ComboBox>
+                        </StackPanel>
+                        <!--#endregion-->
+                        <!--#region Programming language-->
+                        <StackPanel Orientation="Horizontal" Grid.Column="2">
+                            <TextBlock Text="Language" Margin="5" VerticalAlignment="Center"
                            FontSize="17"  />
-                    <ComboBox Text="{Binding  CurrentComponent.Language, UpdateSourceTrigger=PropertyChanged}"
+                            <ComboBox Text="{Binding  CurrentComponent.Language, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource CodeComponentCmbBox}"
                               ui:ComboBoxHelper.TextBoxStyle="{StaticResource TransparentTextBox}"
-                              ItemsSource="{Binding Source={StaticResource langsEnum}}"/>
+                              ItemsSource="{Binding Source={StaticResource langsEnum}}"
+                                    />
+                        </StackPanel>
+                        <!--#endregion-->
+                    </Grid>
                 </StackPanel>
-                <!--#endregion-->
-            </Grid>
-        </StackPanel>
+            </ui:SplitView.Pane>
+               
+            </ui:SplitView>
+      
+
         <!--#endregion-->
         <!--#region Description-->
         <Grid Grid.Row="1">
@@ -77,17 +90,20 @@
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <!--#endregion-->
-            <TextBlock Text="Description" Margin="5 0 0 0" VerticalAlignment="Center"
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Description" Margin="5 0 0 0" VerticalAlignment="Center"
                        Grid.Row="0"
-                           FontSize="17"  FontFamily="pack://application:,,,/Fonts/#Dosis"/>
+                           FontSize="17" />
+                <Button Click="Button_Click"/>
+            </StackPanel>
             <TextBox Text="{Binding  CurrentComponent.Description, UpdateSourceTrigger=PropertyChanged}"
                          Background="Transparent" FontSize="17" Grid.Row="1"
-                        FontFamily="pack://application:,,,/Fonts/#Dosis" Margin="5 0" TextWrapping="Wrap"/>
+                        FontFamily="{StaticResource RegularFont}" Margin="5 0" TextWrapping="Wrap"/>
         </Grid>
         <!--#endregion-->
         <!-- Code Editor-->
         <codeBox:CodeBoxControl DefaultTheme="DarkTheme" Grid.Row="3"
-                                        Margin="5 0 10 0"/>
+                                        Margin="5 0 10 10" Text="{Binding CurrentComponent.Code, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
     <!--#region UserControl style-->
     <UserControl.Style>

@@ -11,12 +11,17 @@
                     <ui:ThemeResources.ThemeDictionaries>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Background}" />
+                            <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}"/>
                             <ResourceDictionary.MergedDictionaries>
                                 <ui:ColorPaletteResources
                     TargetTheme="Dark"
                     AltHigh="#1e1e1e"/>
                                 
                             </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Light">
+                            <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Background}" />
+                            <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}"/>
                         </ResourceDictionary>
                     </ui:ThemeResources.ThemeDictionaries>
                 </ui:ThemeResources>

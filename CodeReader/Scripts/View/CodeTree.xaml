@@ -9,10 +9,10 @@
              xmlns:view="clr-namespace:CodeReader.Scripts.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             FontFamily="pack://application:,,,/Fonts/#Dosis"
+             FontFamily="{StaticResource RegularFont}"
              x:Name="CodeTreeControl">
     <UserControl.Resources>
-        <ContextMenu FontFamily="pack://application:,,,/Fonts/#Dosis"
+        <ContextMenu FontFamily="{StaticResource RegularFont}"
                      x:Key="ContextMenu">
             <MenuItem Header="Open" Click="MenuItem_Click"/>
             <MenuItem Header="Rename"/>
@@ -41,12 +41,13 @@
                 </Grid.ColumnDefinitions>
                 <!--#endregion-->
                 <Button Height="40" Width="Auto"  HorizontalAlignment="Stretch" Content="Add parent"
-                        FontFamily="pack://application:,,,/Fonts/#Dosis"
+                        FontFamily="{StaticResource RegularFont}"
                     Style="{StaticResource AccentButtonStyle}"/>
                 <Button Height="40" Width="Auto "  Content="Add child"
                         HorizontalAlignment="Stretch" 
-                        FontFamily="pack://application:,,,/Fonts/#Dosis"
-                        Grid.Column="2"/>
+                        FontFamily="{StaticResource RegularFont}"
+                        Grid.Column="2">
+                </Button>
             </Grid>
             <!--#endregion-->
 
@@ -126,7 +127,7 @@
                                     </Image.Style>
                                     <!--#endregion-->
                                 </Image>
-                                <TextBox Text="{Binding Label}" FontFamily="pack://application:,,,/Fonts/#Dosis"
+                                <TextBox Text="{Binding Label}" FontFamily="{StaticResource RegularFont}"
                                    FontSize="15" VerticalAlignment="Center"
                                          Style="{StaticResource TransparentTextBox}"
                                          ui:TextBoxHelper.IsDeleteButtonVisible="False">

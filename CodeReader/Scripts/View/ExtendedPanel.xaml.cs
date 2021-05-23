@@ -33,5 +33,10 @@ namespace CodeReader.Scripts.View
         {
             e.Handled = true;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            spv.IsPaneOpen = !spv.IsPaneOpen;
+        }
     }
 }

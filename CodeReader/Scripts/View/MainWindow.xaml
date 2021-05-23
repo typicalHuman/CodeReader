@@ -8,12 +8,13 @@
         xmlns:view="clr-namespace:CodeReader.Scripts.View"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
+         BorderBrush="#007acb"
         Title="CodeReader" MinHeight="450" MinWidth="800"
         DataContext="{x:Static local:App.mainVM}"    ui:WindowHelper.UseModernWindowStyle="True" 
         ui:ThemeManager.IsThemeAware="True" ui:TitleBar.ExtendViewIntoTitleBar="True"
-       Height="450" Width="800" FontFamily="pack://application:,,,/Fonts/#Dosis"
-        ResizeMode="CanResizeWithGrip"
-       >
+       Height="450" Width="800" 
+        ResizeMode="CanResizeWithGrip">
+
     <Window.Style>
         <Style TargetType="{x:Type Window}" BasedOn="{StaticResource {x:Type Window}}">
             <Style.Triggers>
@@ -26,14 +27,15 @@
             </Style.Triggers>
         </Style>
     </Window.Style>
-    <Grid >
+    <Grid>
+       
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <DockPanel Background="Transparent">
             <StackPanel Orientation="Horizontal" Background="Transparent">
-                <ui:TitleBarButton Height="40" Width="60"
+                <!--<ui:TitleBarButton Height="40" Width="60"
                                VerticalAlignment="Center" Margin="0 -2">
                     <Image 
                            RenderOptions.BitmapScalingMode="HighQuality">
@@ -50,16 +52,19 @@
                             </Style>
                         </Image.Style>
                     </Image>
-                </ui:TitleBarButton>
+                </ui:TitleBarButton>-->
                 <TextBlock FontSize="25" Text="CodeReader" 
+                           FontFamily="{StaticResource TitleFont}"
                         Margin="10 0 0 0" VerticalAlignment="Center"/>
             </StackPanel>
+           <!--#region ThemeSwitcher-->
             <ui:ToggleSwitch OnContent="Dark mode" OffContent="Light mode"  
                              WindowChrome.IsHitTestVisibleInChrome="True"
                             IsOn="{Binding IsDarkModeEnabled,UpdateSourceTrigger=PropertyChanged}"
                              VerticalAlignment="Top" Margin="0 0 170 0" 
-                             HorizontalAlignment="Right" FontFamily="pack://application:,,,/Fonts/#Dosis">
+                             HorizontalAlignment="Right" FontFamily="{StaticResource RegularFont}">
             </ui:ToggleSwitch>
+            <!--#endregion-->
         </DockPanel>
 
         <Grid Grid.Row="1" Name="codeReaderPanel">

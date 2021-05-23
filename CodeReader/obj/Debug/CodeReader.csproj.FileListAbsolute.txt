@@ -11,17 +11,13 @@ C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\CodeReader.pdb
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\CodeBox.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\ICSharpCode.AvalonEdit.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\IDETHemes.dll
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Microsoft.Expression.Interactions.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\ModernWpf.Controls.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\ModernWpf.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\System.ValueTuple.dll
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\System.Windows.Interactivity.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\ICSharpCode.AvalonEdit.xml
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Microsoft.Expression.Interactions.xml
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\ModernWpf.xml
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\ModernWpf.Controls.xml
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\System.ValueTuple.xml
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\System.Windows.Interactivity.xml
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\af-ZA\ModernWpf.resources.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\am-ET\ModernWpf.resources.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\ar-SA\ModernWpf.resources.dll
