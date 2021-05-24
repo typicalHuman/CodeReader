@@ -26,17 +26,11 @@ namespace CodeReader.Scripts.View
         public ExtendedPanel()
         {
             InitializeComponent();
-
         }
 
         private void ComboBoxItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
         {
             e.Handled = true;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            spv.IsPaneOpen = !spv.IsPaneOpen;
         }
     }
 }

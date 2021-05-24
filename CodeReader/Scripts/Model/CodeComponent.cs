@@ -1,4 +1,5 @@
 ﻿using CodeBox.Enums;
+using CodeReader.Scripts.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace CodeReader.Scripts.Model
     /// <summary>
     /// Implementation of <see cref="ICodeComponent"/> inteface.
     /// </summary>
-    public class CodeComponent: ICodeComponent
+    public class CodeComponent: BaseViewModel, ICodeComponent
     {
         #region Constructor
 
@@ -38,9 +39,36 @@ namespace CodeReader.Scripts.Model
         #region Properties
 
         #region Public
-        public CodeComponentType ComponentType { get; set; }
+        #region ComponentType
+        private CodeComponentType componentType;
+        public CodeComponentType ComponentType
+        {
+            get => componentType;
+            set
+            {
+                componentType = value;
+                OnPropertyChanged("ComponentType");
+            }
+        }
+
+        #endregion
+
         public string Label { get; set; }
-        public string Code { get; set; }
+
+        #region Code
+        private string code;
+        public string Code
+        {
+            get => code;
+            set
+            {
+                code = value;
+                OnPropertyChanged("Code");
+            }
+
+        }
+        #endregion
+
         public string Description { get; set; }
         public List<ICodeComponent> Children { get; private set; } = new List<ICodeComponent>();
         public ICodeComponent Parent { get; set; }
