@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CodeReader.Scripts.Model
 {
-
+    
     /// <summary>
     /// Implementation of <see cref="ICodeComponent"/> inteface.
     /// </summary>
@@ -16,7 +16,7 @@ namespace CodeReader.Scripts.Model
     {
         #region Constructor
 
-
+        
 
         /// <summary>
         /// Initialize control with children.
@@ -53,7 +53,20 @@ namespace CodeReader.Scripts.Model
 
         #endregion
 
-        public string Label { get; set; }
+        #region Label
+
+        private string label;
+        public string Label
+        {
+            get => label;
+            set
+            {
+                label = value;
+                OnPropertyChanged("label");
+            }
+        }
+
+        #endregion
 
         #region Code
         private string code;
@@ -69,10 +82,39 @@ namespace CodeReader.Scripts.Model
         }
         #endregion
 
-        public string Description { get; set; }
+        #region Description
+
+        private string description;
+        public string Description
+        {
+            get => description;
+            set
+            {
+                description = value;
+                OnPropertyChanged("Description");
+            }
+        }
+
+        #endregion
+
+        #region Language
+
+        private Languages language;
+        public Languages Language
+        {
+            get => language;
+            set
+            {
+                language = value;
+                OnPropertyChanged("Language");
+            }
+        }
+
+        #endregion
+
         public List<ICodeComponent> Children { get; private set; } = new List<ICodeComponent>();
         public ICodeComponent Parent { get; set; }
-        public Languages Language { get; set; }
+
         #endregion
 
         #endregion

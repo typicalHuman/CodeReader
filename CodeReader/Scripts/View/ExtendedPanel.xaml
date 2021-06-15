@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:CodeReader"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              mc:Ignorable="d" 
+             xmlns:vm="clr-namespace:CodeReader.Scripts.ViewModel"
              xmlns:codeBox="clr-namespace:CodeBox;assembly=CodeBox"          
              FontFamily="{StaticResource RegularFont}"
              DataContext="{x:Static local:App.extendedPanelVM}"
@@ -16,6 +17,7 @@
         <Style BasedOn="{StaticResource {x:Type ComboBoxItem}}" TargetType="ComboBoxItem">
             <EventSetter Event="RequestBringIntoView" Handler="ComboBoxItem_RequestBringIntoView"/>
         </Style>
+        <vm:MainVM x:Key="mainVM"/>
     </UserControl.Resources>
     <!--#endregion-->
     <Grid x:Name="extendedPanel" MinWidth="1">
@@ -99,7 +101,7 @@
             <GridSplitter.Template>
                 <ControlTemplate TargetType="GridSplitter">
                     <Border Background="{TemplateBinding Background}"
-                                Height="2" 
+                                Height="4" 
                             BorderThickness="0 1 0 0"
                             CornerRadius="3" >
                     </Border>
@@ -107,9 +109,26 @@
             </GridSplitter.Template>
         </GridSplitter>
         <!-- Code Editor-->
-        <codeBox:CodeBoxControl DefaultTheme="DarkTheme" Grid.Row="3"
+        <codeBox:CodeBoxControl Grid.Row="3"
                                 Name="cbc"
-                                        Margin="5 0 10 10" Text="{Binding CurrentComponent.Code, UpdateSourceTrigger=PropertyChanged}"/>
+                                ProgrammingLanguage="{Binding CurrentComponent.Language, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="5 0 10 10" Text="{Binding CurrentComponent.Code, UpdateSourceTrigger=PropertyChanged}">
+            <codeBox:CodeBoxControl.Style>
+                <Style 
+                       TargetType="codeBox:CodeBoxControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Source={x:Static local:App.mainVM}, 
+                            Path=IsDarkModeEnabled}" Value="True">
+                            <Setter Property="DefaultTheme" Value="DarkTheme"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Source={x:Static local:App.mainVM},
+                            Path=IsDarkModeEnabled}" Value="False">
+                            <Setter Property="DefaultTheme" Value="LightTheme"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </codeBox:CodeBoxControl.Style>
+        </codeBox:CodeBoxControl>
     </Grid>
     <!--#region UserControl style-->
     <UserControl.Style>
