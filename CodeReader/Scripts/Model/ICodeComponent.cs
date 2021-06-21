@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using CodeBox.Enums;
 
 namespace CodeReader.Scripts.Model
@@ -27,7 +28,7 @@ namespace CodeReader.Scripts.Model
         /// <summary>
         /// Children of component.
         /// </summary>
-        List<ICodeComponent> Children { get; }
+        ObservableCollection<ICodeComponent> Children { get; }
         /// <summary>
         /// Parent of component.
         /// </summary>

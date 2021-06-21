@@ -2,6 +2,7 @@
 using CodeReader.Scripts.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -112,7 +113,7 @@ namespace CodeReader.Scripts.Model
 
         #endregion
 
-        public List<ICodeComponent> Children { get; private set; } = new List<ICodeComponent>();
+        public ObservableCollection<ICodeComponent> Children { get; set; } = new ObservableCollection<ICodeComponent>();
         public ICodeComponent Parent { get; set; }
 
         #endregion

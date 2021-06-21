@@ -66,7 +66,6 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
-
         #region PropertyChanged
         /// <summary>
         /// Event for updating value.
@@ -82,8 +81,92 @@ namespace CodeReader.Scripts.View
         }
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Get child in subroot of treeview.
+        /// </summary>
+        /// <param name="source">Root of treeview.</param>
+        private static TreeViewItem VisualUpwardSearch(DependencyObject source)
+        {
+            while (source != null && !(source is TreeViewItem))
+                source = VisualTreeHelper.GetParent(source);
+
+            return source as TreeViewItem;
+        }
+
+        private void DeleteItem(CodeComponent cc)
+        {
+            if(cc.Parent == null)
+            {
+                CodeComponents.Remove(cc);
+                return;
+            }
+            var parent = cc.Parent;
+           parent.Children.Remove(cc);
+        }
+
+        #endregion
+
+        #region Event
+
+        #region MenuEvents
+
+        #region Open
+
+        private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
+        }
+
+        #endregion
+
+        #region Rename
+        /// <summary>
+        /// This instance is needed for getting subroot children of treeview.
+        /// </summary>
+        private static TreeViewItem selectedItem { get; set; }
+        private void RenameMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            TextBox nameTb = selectedItem.GetChildOfType<TextBox>();
+            nameTb.Focus();
+            nameTb.SelectAll();
+        }
+
+        #endregion
+
+        #region Delete
 
 
+
+        #endregion
+
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteItem(codeTree.SelectedItem as CodeComponent);
+        }
+
+        #endregion
+
+        #region PreviewMouseRightButtonDown
+        /// <summary>
+        /// Event for selection item after right button click on it.
+        /// </summary>
+        private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem item = VisualUpwardSearch(e.OriginalSource as DependencyObject);
+            if (item != null)
+            {
+                item.IsSelected = true;
+                e.Handled = true;
+            }
+        }
+        #endregion
+
+        #region GridSizeChanged
+        /// <summary>
+        /// Event for resizing control button with resizing of grid with gridsplitter.
+        /// </summary>
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Grid mainGrid = sender as Grid;
@@ -99,19 +182,52 @@ namespace CodeReader.Scripts.View
             }
         }
 
+        #endregion
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        #region TreeViewItem_Selected
+
+        /// <summary>
+        /// Event for setting static instance of treeview selected item.
+        /// </summary>
+        private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
         {
-            App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
+            selectedItem = e.OriginalSource as TreeViewItem;
         }
-        private void TreeViewItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+
+
+
+
+
+        #endregion
+
+        #endregion
+
+       
+    }
+    /// <summary>
+    /// Extension class for finding ui children of element.
+    /// </summary>
+    public static class FindChildExtension
+    {
+
+        /// <summary>
+        /// Get ui child of <paramref name="depObj"/> by child type.
+        /// </summary>
+        public static T GetChildOfType<T>(this DependencyObject depObj)
+             where T : DependencyObject
         {
-            if (sender is TreeViewItem item)
+            if (depObj == null) return null;
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
             {
-                item.Focus();
-                item.IsSelected = true;
-                e.Handled = true;
+                var child = VisualTreeHelper.GetChild(depObj, i);
+
+                var result = (child as T) ?? GetChildOfType<T>(child);
+                if (result != null) return result;
             }
+            return null;
         }
     }
+
+
 }

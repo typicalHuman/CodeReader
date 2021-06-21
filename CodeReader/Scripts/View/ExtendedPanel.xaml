@@ -47,8 +47,8 @@
                                 <TextBlock Text="Name" Margin="5" VerticalAlignment="Center"
                            FontSize="17" DockPanel.Dock="Left"/>
                                 <TextBox Text="{Binding  CurrentComponent.Label, UpdateSourceTrigger=PropertyChanged}"
-                         Background="Transparent" MaxWidth="100" HorizontalAlignment="Stretch"
-                             Width="150" 
+                         Background="Transparent" HorizontalAlignment="Stretch"
+                             MinWidth="150" MaxWidth="150"
                         FontFamily="{StaticResource RegularFont}" Margin="5 5"/>
                             </StackPanel>
                             <!--#endregion-->
