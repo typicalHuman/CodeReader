@@ -75,7 +75,7 @@
             </Grid.ColumnDefinitions>
             <view:CodeTree CodeComponents="{Binding CodeComponents, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="0 10 0 10"/>
                 <GridSplitter Grid.Column ="1" Width="4" 
-                              Background="#686868"
+                              Background="{StaticResource GridSplitterGray}"
                       ShowsPreview="True" Grid.Row="1" Margin="10" Name="Splitter"
                 HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <GridSplitter.Template>

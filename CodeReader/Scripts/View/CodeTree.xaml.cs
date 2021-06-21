@@ -29,7 +29,7 @@ namespace CodeReader.Scripts.View
         public CodeTree()
         {
             InitializeComponent();
-            
+            mainGrid.DataContext = this;
         }
 
         #endregion
@@ -100,10 +100,17 @@ namespace CodeReader.Scripts.View
             if(cc.Parent == null)
             {
                 CodeComponents.Remove(cc);
+                UpdateExtendedPanel();
                 return;
             }
             var parent = cc.Parent;
            parent.Children.Remove(cc);
+           UpdateExtendedPanel();
+        }
+
+        private void UpdateExtendedPanel()
+        {
+            App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
         }
 
         private void OpenItem(object selectedItem)
@@ -111,9 +118,19 @@ namespace CodeReader.Scripts.View
             App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
         }
 
+        private void RenameCurrentItem()
+        {
+            if (selectedItem != null)
+            {
+                TextBox nameTb = selectedItem.GetChildOfType<TextBox>();
+                nameTb.Focus();
+                nameTb.SelectAll();
+            }
+        }
+
         #endregion
 
-        #region Event
+        #region Events
 
         #region MenuEvents
 
@@ -133,9 +150,7 @@ namespace CodeReader.Scripts.View
         private static TreeViewItem selectedItem { get; set; }
         private void RenameMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            TextBox nameTb = selectedItem.GetChildOfType<TextBox>();
-            nameTb.Focus();
-            nameTb.SelectAll();
+            RenameCurrentItem();
         }
 
         #endregion
@@ -178,12 +193,12 @@ namespace CodeReader.Scripts.View
             if (firstColumn.ActualWidth < 75)
             {
                 mainGrid.Visibility = Visibility.Hidden;
-                firstRow.Height = new GridLength(1);
+                controlRow.Height = new GridLength(1);
             }
             else if (mainGrid.Visibility == Visibility.Hidden)
             {
                 mainGrid.Visibility = Visibility.Visible;
-                firstRow.Height = new GridLength(1, GridUnitType.Auto);
+                controlRow.Height = new GridLength(1, GridUnitType.Auto);
             }
         }
 
@@ -199,15 +214,20 @@ namespace CodeReader.Scripts.View
             selectedItem = e.OriginalSource as TreeViewItem;
         }
 
-
-
-
-
-
         #endregion
 
-        #endregion
+        #region MouseDoubleClick
+        /// <summary>
+        /// When you're clicking on subroot treeviewitem event of clicking is handled several times 
+        /// (it depends on item depth) 
+        /// For this reason there's an instant, which is counting number of enters in the event, 
+        /// because we have functionality of hiding padding on double click 
+        /// (by default padding updates after double click and I want to remove this function)
+        /// </summary>
         private int childrenCount { get; set; }
+        /// <summary>
+        /// Event for counting item depth.
+        /// </summary>
         private void PrevTreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             childrenCount++;
@@ -215,10 +235,16 @@ namespace CodeReader.Scripts.View
 
         private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            if(childrenCount < 0)
+            {
+                childrenCount = 0;
+                return;
+            }
             if (selectedItem != null)
             {
                 OpenItem(codeTree.SelectedItem);
                 childrenCount--;
+                //if it's last enter then update item expansion.
                 if (childrenCount == 0)
                 {
                     var a = VisualUpwardSearch(selectedItem);
@@ -226,10 +252,64 @@ namespace CodeReader.Scripts.View
                 }
             }
         }
-
+        /// <summary>
+        /// Refresh (for excluding duplicates, because clicking on textbox is +1 to depth).
+        /// </summary>
         private void NameBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             childrenCount = 0;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region KeyCommands
+
+
+        #region RenameCommand
+        private RelayCommand renameCommand;
+        public RelayCommand RenameCommand
+        {
+            get => renameCommand ?? (renameCommand = new RelayCommand(obj =>
+            {
+                RenameCurrentItem();
+            }));
+        }
+        #endregion
+
+        #region DeleteCommand
+        private RelayCommand deleteCommand;
+        public RelayCommand DeleteCommand
+        {
+            get => deleteCommand ?? (deleteCommand = new RelayCommand(obj =>
+            {
+                CodeComponent selectedComponent = codeTree.SelectedItem as CodeComponent;
+                if(selectedComponent != null)
+                     DeleteItem(codeTree.SelectedItem as CodeComponent);
+            }));
+        }
+        #endregion
+
+        #endregion
+
+        private void AddParent_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            ICodeComponent newComponent = new CodeComponent() as ICodeComponent;
+            CodeComponents.Insert(0, newComponent);
+            TreeViewItem newItem = codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem;
+            newItem.IsSelected = true;
+            OpenItem(selectedItem);
+        }
+
+        private void AddChild_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            ICodeComponent newComponent = new CodeComponent() as ICodeComponent;
+            (codeTree.SelectedItem as ICodeComponent).Children.Insert(0, newComponent);
+            var newItem = codeTree.ItemContainerGenerator.ContainerFromItem(codeTree.SelectedItem) as TreeViewItem;
+            var new2Item = newItem.ItemContainerGenerator.ContainerFromItem<ICodeComponent>(newComponent, n => n) as TreeViewItem;
+            //newItem.IsSelected = true;
+            //OpenItem(selectedItem);
         }
     }
 
@@ -239,6 +319,47 @@ namespace CodeReader.Scripts.View
     /// </summary>
     public static class FindChildExtension
     {
+
+        public static ItemsControl ContainerFromItem<TItem>(
+         this ItemContainerGenerator rootContainerGenerator,
+         TItem item,
+         Func<TItem, TItem> itemParentSelector)
+        {
+            //  Caller can pass in treeView.SelectedItem as TItem in cases where 
+            //  treeView.SelectedItem is null. Seems to me correct behavior there is 
+            //  "No container". 
+            if (item == null)
+            {
+                return null;
+            }
+
+            if (itemParentSelector == null)
+            {
+                throw new ArgumentNullException(nameof(itemParentSelector));
+            }
+
+            var parentItem = itemParentSelector(item);
+
+            //  When we run out of parents, we're a root level node so we query the 
+            //  rootContainerGenerator itself for the top level child container, and 
+            //  start unwinding back to the item the caller gave us. 
+            if (parentItem == null)
+            {
+                //  Our item is the parent of our caller's item. 
+                //  This is the parent of our caller's container. 
+                return rootContainerGenerator.ContainerFromItem(item) as ItemsControl;
+            }
+            else
+            {
+                //  This gets parents by unwinding the stack back down from root
+                var parentContainer =
+                    ContainerFromItem<TItem>(rootContainerGenerator,
+                                             parentItem, itemParentSelector);
+
+                return parentContainer.ItemContainerGenerator.ContainerFromItem(item)
+                    as ItemsControl;
+            }
+        }
 
         /// <summary>
         /// Get ui child of <paramref name="depObj"/> by child type.

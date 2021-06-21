@@ -105,7 +105,7 @@
         <!--#endregion-->
 
         <GridSplitter  Margin="5 0 5 0" ResizeDirection="Rows"
-                              Background="#686868"
+                              Background="{StaticResource GridSplitterGray}"
                       ShowsPreview="True" Grid.Row="2" Name="Splitter"
                 HorizontalAlignment="Stretch" VerticalAlignment="Center">
             <GridSplitter.Template>

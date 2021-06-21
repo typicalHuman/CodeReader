@@ -28,8 +28,10 @@ namespace CodeReader.Scripts.Converters
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+            if (string.IsNullOrWhiteSpace(value.ToString()))
+                return null;
             CodeComponentType type = (CodeComponentType)value;
-            return ComponentTypes.FirstOrDefault(t => t.Key == type).Value;
+               return ComponentTypes.FirstOrDefault(t => t.Key == type).Value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
