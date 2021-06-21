@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CodeReader.Scripts.Styles">
+    <SolidColorBrush Color="#7d7d7d" x:Key="MenuItemTip"/>
+    <SolidColorBrush Color="#686868" x:Key="GridSplitterGray"/>
+</ResourceDictionary>

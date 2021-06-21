@@ -16,8 +16,29 @@
         <ContextMenu FontFamily="{StaticResource RegularFont}"
                      x:Key="ContextMenu">
             <MenuItem Header="Open" Click="OpenMenuItem_Click"/>
-            <MenuItem Header="Rename" Click="RenameMenuItem_Click"/>
-            <MenuItem Header="Delete" Click="DeleteMenuItem_Click"/>
+            <MenuItem Click="RenameMenuItem_Click">
+                <MenuItem.Header>
+                    <Grid>
+                        <TextBlock Text="Rename" HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Text="F2" HorizontalAlignment="Right"
+                                   VerticalAlignment="Bottom" FontSize="11"
+                                   
+                                   Foreground="{StaticResource MenuItemTip}"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem  Click="DeleteMenuItem_Click">
+                <MenuItem.Header>
+                    <Grid>
+                        <TextBlock Text="Delete" HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Text="Dlt" HorizontalAlignment="Right"
+                                   VerticalAlignment="Bottom" FontSize="11"
+                                   Foreground="{StaticResource MenuItemTip}"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
         </ContextMenu>
         <conv:TypeToImageConverter x:Key="TypeToSourceConverter"/>
     </UserControl.Resources>
@@ -63,11 +84,12 @@
                             <StackPanel Orientation="Horizontal">
                                 <Image Margin="0,0,5,0" VerticalAlignment="Center"
                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                       
                                       Source="{Binding Path=ComponentType, Converter={StaticResource TypeToSourceConverter}, UpdateSourceTrigger=PropertyChanged}">
                                 </Image>
                                 <TextBox Text="{Binding Label}" FontFamily="{StaticResource RegularFont}"
                                    FontSize="15" VerticalAlignment="Center" Name="nameBox"
-                                         Style="{StaticResource TransparentTextBox}"
+                                         Style="{StaticResource TransparentTextBox}" PreviewMouseDoubleClick="NameBox_MouseDoubleClick"
                                          ui:TextBoxHelper.IsDeleteButtonVisible="False">
                                 </TextBox>
                             </StackPanel>
@@ -79,6 +101,8 @@
                     <Style TargetType="TreeViewItem" BasedOn="{StaticResource {x:Type TreeViewItem}}">
                         <EventSetter Event="PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
                         <EventSetter Event="Selected" Handler="TreeViewItem_Selected"/>
+                        <EventSetter Event="PreviewMouseDoubleClick" Handler="PrevTreeViewItem_MouseDoubleClick"/>
+                        <EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick"/>
                         <Setter Property="ContextMenu" Value="{StaticResource ContextMenu}"/>
                         <Setter Property="MinHeight" Value="7"/>
                     </Style>

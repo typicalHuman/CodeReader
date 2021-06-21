@@ -106,6 +106,11 @@ namespace CodeReader.Scripts.View
            parent.Children.Remove(cc);
         }
 
+        private void OpenItem(object selectedItem)
+        {
+            App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
+        }
+
         #endregion
 
         #region Event
@@ -116,7 +121,7 @@ namespace CodeReader.Scripts.View
 
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
+            OpenItem(codeTree.SelectedItem);
         }
 
         #endregion
@@ -137,14 +142,14 @@ namespace CodeReader.Scripts.View
 
         #region Delete
 
-
-
-        #endregion
-
         private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
         {
             DeleteItem(codeTree.SelectedItem as CodeComponent);
         }
+
+        #endregion
+
+
 
         #endregion
 
@@ -198,12 +203,37 @@ namespace CodeReader.Scripts.View
 
 
 
-        #endregion
 
         #endregion
 
-       
+        #endregion
+        private int childrenCount { get; set; }
+        private void PrevTreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            childrenCount++;
+        }
+
+        private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (selectedItem != null)
+            {
+                OpenItem(codeTree.SelectedItem);
+                childrenCount--;
+                if (childrenCount == 0)
+                {
+                    var a = VisualUpwardSearch(selectedItem);
+                    a.IsExpanded = !a.IsExpanded;
+                }
+            }
+        }
+
+        private void NameBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            childrenCount = 0;
+        }
     }
+
+    #region FindChildExtension
     /// <summary>
     /// Extension class for finding ui children of element.
     /// </summary>
@@ -228,6 +258,8 @@ namespace CodeReader.Scripts.View
             return null;
         }
     }
+
+    #endregion
 
 
 }
