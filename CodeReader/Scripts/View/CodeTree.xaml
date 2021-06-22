@@ -14,8 +14,19 @@
              x:Name="CodeTreeControl" >
     <UserControl.Resources>
         <ContextMenu FontFamily="{StaticResource RegularFont}"
-                     x:Key="ContextMenu">
+                     x:Key="ContextMenu" MinWidth="150">
             <MenuItem Header="Open" Click="OpenMenuItem_Click"/>
+            <MenuItem Click="AddChildMenuItem_Click">
+                <MenuItem.Header>
+                    <Grid>
+                        <TextBlock Text="Add child" HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Text="Ctrl+N" HorizontalAlignment="Right"
+                                   VerticalAlignment="Bottom" FontSize="11"
+                                   Foreground="{StaticResource MenuItemTip}"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
             <MenuItem Click="RenameMenuItem_Click">
                 <MenuItem.Header>
                     <Grid>
@@ -123,6 +134,7 @@
             <KeyBinding Key="Delete" Command="{Binding DeleteCommand}"/>
             <KeyBinding Key="Down" Command="{Binding SelectNextCommand}"/>
             <KeyBinding Key="Up" Command="{Binding SelectPrevCommand}"/>
+            <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="N" Command="{Binding AddChildCommand}"/>
         </Grid.InputBindings>
         <!--#endregion-->
 

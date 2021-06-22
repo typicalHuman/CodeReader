@@ -175,6 +175,8 @@ namespace CodeReader.Scripts.View
         private void SelectComponent(TreeViewItem item)
         {
             item.IsSelected = true;
+            Keyboard.Focus(item);
+            item.Focus();
             OpenItem(item);
         }
         #endregion
@@ -457,6 +459,8 @@ namespace CodeReader.Scripts.View
         }
         #endregion
 
+        #region MoveSelectionCommands
+
         #region SelectNextCommand
         private RelayCommand selectNextCommand;
         public RelayCommand SelectNextCommand
@@ -464,10 +468,11 @@ namespace CodeReader.Scripts.View
             get => selectNextCommand ?? (selectNextCommand = new RelayCommand(obj =>
             {
                 MoveSelection(Direction.Down);
-
             }));
         }
+        #endregion
 
+        #region SelectPrevCommand
         private RelayCommand selectPrevCommand;
         public RelayCommand SelectPrevCommand
         {
@@ -477,11 +482,27 @@ namespace CodeReader.Scripts.View
 
             }));
         }
-
-       
         #endregion
 
         #endregion
+
+        #region AddChildCommand
+        private RelayCommand addChildCommand;
+        public RelayCommand AddChildCommand
+        {
+            get => addChildCommand ?? (addChildCommand = new RelayCommand(obj =>
+            {
+                AddChild(selectedItem);
+            }));
+        }
+        #endregion
+
+        #endregion
+
+        private void AddChildMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            AddChild(selectedItem);
+        }
     }
   
 }
