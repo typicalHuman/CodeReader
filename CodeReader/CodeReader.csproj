@@ -97,6 +97,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Scripts\Styles\TreeViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Scripts\View\CodeTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

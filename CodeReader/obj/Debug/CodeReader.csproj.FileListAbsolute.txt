@@ -169,3 +169,4 @@ C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Resources\
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\ComboBoxStyle.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\Fonts.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\Colors.baml
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\TreeViewStyle.baml

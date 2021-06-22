@@ -1,5 +1,6 @@
 ﻿using CodeReader.Scripts.Model;
 using CodeReader.Scripts.ViewModel;
+using ModernWpf.Controls.Primitives;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -83,6 +85,7 @@ namespace CodeReader.Scripts.View
 
         #region Methods
 
+        #region VisualUpwardSearch
         /// <summary>
         /// Get child in subroot of treeview.
         /// </summary>
@@ -94,29 +97,43 @@ namespace CodeReader.Scripts.View
 
             return source as TreeViewItem;
         }
+        #endregion
+
+
+        #region DeleteItem
 
         private void DeleteItem(CodeComponent cc)
         {
-            if(cc.Parent == null)
+            if (cc.Parent == null)
             {
                 CodeComponents.Remove(cc);
                 UpdateExtendedPanel();
                 return;
             }
             var parent = cc.Parent;
-           parent.Children.Remove(cc);
-           UpdateExtendedPanel();
+            parent.Children.Remove(cc);
+            UpdateExtendedPanel();
         }
+        #endregion
+
+        #region UpdateExtendedPanel
 
         private void UpdateExtendedPanel()
         {
             App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
         }
+        #endregion
+
+        #region OpenItem
 
         private void OpenItem(object selectedItem)
         {
             App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
         }
+
+        #endregion
+
+        #region RenameCurrentItem
 
         private void RenameCurrentItem()
         {
@@ -127,6 +144,52 @@ namespace CodeReader.Scripts.View
                 nameTb.SelectAll();
             }
         }
+        #endregion
+
+        #region GetDefaultComponent
+
+        private ICodeComponent GetDefaultComponent(ICodeComponent parent)
+        {
+            ICodeComponent newComponent = new CodeComponent() as ICodeComponent;
+            newComponent.Parent = parent;
+            return newComponent;
+        }
+
+        #endregion
+
+        #region SelectComponent
+
+        private void SelectComponent(TreeViewItem item)
+        {
+            Keyboard.Focus(item);
+            item.Focus();
+            item.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            //OpenItem(item);
+        }
+        #endregion
+
+        #region InitItemContainer
+
+        private void InitItemContainer(TreeViewItem parent)
+        {
+            parent.IsExpanded = true;
+            parent.UpdateLayout();
+        }
+
+        #endregion
+
+        #region AddChild
+
+        private void AddChild(TreeViewItem parent)
+        {
+            ICodeComponent newComponent = GetDefaultComponent(codeTree.SelectedItem as ICodeComponent);
+            (codeTree.SelectedItem as ICodeComponent).Children.Insert(0, newComponent);
+            InitItemContainer(selectedItem);
+            TreeViewItem newItem = selectedItem.ItemContainerGenerator.ContainerFromItem(newComponent) as TreeViewItem;
+            SelectComponent(newItem);
+        }
+
+        #endregion
 
         #endregion
 
@@ -262,6 +325,28 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
+        #region ControlButtonsClick
+
+        #region AddParent
+        private void AddParent_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            ICodeComponent newComponent = GetDefaultComponent(null);
+            CodeComponents.Insert(0, newComponent);
+            TreeViewItem newItem = codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem;
+            SelectComponent(newItem);
+        }
+        #endregion
+
+        #region AddChild
+
+        private void AddChild_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            AddChild(selectedItem);
+        }
+
+        #endregion
+
+        #endregion
         #endregion
 
         #region KeyCommands
@@ -291,26 +376,36 @@ namespace CodeReader.Scripts.View
         }
         #endregion
 
+        #region SelectNextCommand
+        private RelayCommand selectNextCommand;
+        public RelayCommand SelectNextCommand
+        {
+            get => selectNextCommand ?? (selectNextCommand = new RelayCommand(obj =>
+            {
+                TreeViewItem parent = selectedItem.Parent as TreeViewItem;
+                if (parent == null)
+                {
+                    int index = CodeComponents.IndexOf(codeTree.SelectedItem as ICodeComponent);
+                    if (index == CodeComponents.Count - 1)
+                    {
+                        SelectComponent(codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem);
+                    }
+                    else
+                    {
+                        SelectComponent(codeTree.ItemContainerGenerator.ContainerFromIndex(++index) as TreeViewItem);
+                    }
+                }
+            }));
+        }
         #endregion
 
-        private void AddParent_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            ICodeComponent newComponent = new CodeComponent() as ICodeComponent;
-            CodeComponents.Insert(0, newComponent);
-            TreeViewItem newItem = codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem;
-            newItem.IsSelected = true;
-            OpenItem(selectedItem);
-        }
+        #endregion
 
-        private void AddChild_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            ICodeComponent newComponent = new CodeComponent() as ICodeComponent;
-            (codeTree.SelectedItem as ICodeComponent).Children.Insert(0, newComponent);
-            var newItem = codeTree.ItemContainerGenerator.ContainerFromItem(codeTree.SelectedItem) as TreeViewItem;
-            var new2Item = newItem.ItemContainerGenerator.ContainerFromItem<ICodeComponent>(newComponent, n => n) as TreeViewItem;
-            //newItem.IsSelected = true;
-            //OpenItem(selectedItem);
-        }
+
+
+
+
+
     }
 
     #region FindChildExtension
@@ -319,48 +414,6 @@ namespace CodeReader.Scripts.View
     /// </summary>
     public static class FindChildExtension
     {
-
-        public static ItemsControl ContainerFromItem<TItem>(
-         this ItemContainerGenerator rootContainerGenerator,
-         TItem item,
-         Func<TItem, TItem> itemParentSelector)
-        {
-            //  Caller can pass in treeView.SelectedItem as TItem in cases where 
-            //  treeView.SelectedItem is null. Seems to me correct behavior there is 
-            //  "No container". 
-            if (item == null)
-            {
-                return null;
-            }
-
-            if (itemParentSelector == null)
-            {
-                throw new ArgumentNullException(nameof(itemParentSelector));
-            }
-
-            var parentItem = itemParentSelector(item);
-
-            //  When we run out of parents, we're a root level node so we query the 
-            //  rootContainerGenerator itself for the top level child container, and 
-            //  start unwinding back to the item the caller gave us. 
-            if (parentItem == null)
-            {
-                //  Our item is the parent of our caller's item. 
-                //  This is the parent of our caller's container. 
-                return rootContainerGenerator.ContainerFromItem(item) as ItemsControl;
-            }
-            else
-            {
-                //  This gets parents by unwinding the stack back down from root
-                var parentContainer =
-                    ContainerFromItem<TItem>(rootContainerGenerator,
-                                             parentItem, itemParentSelector);
-
-                return parentContainer.ItemContainerGenerator.ContainerFromItem(item)
-                    as ItemsControl;
-            }
-        }
-
         /// <summary>
         /// Get ui child of <paramref name="depObj"/> by child type.
         /// </summary>
