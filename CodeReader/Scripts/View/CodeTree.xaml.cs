@@ -27,6 +27,18 @@ namespace CodeReader.Scripts.View
     /// </summary>
     public partial class CodeTree : UserControl, INotifyPropertyChanged
     {
+        #region Enum
+
+        /// <summary>
+        /// Enum for establishing movement direction in <see cref="CodeTree"/> control.
+        /// </summary>
+        private enum Direction
+        {
+            Up = -1, Down = 1
+        }
+
+        #endregion
+
         #region Ctor
 
         public CodeTree()
@@ -167,12 +179,6 @@ namespace CodeReader.Scripts.View
         }
         #endregion
 
-        #region InitItemContainer
-
-    
-
-        #endregion
-
         #region AddChild
 
         private void AddChild(TreeViewItem parent)
@@ -182,6 +188,86 @@ namespace CodeReader.Scripts.View
             selectedItem.InitItemContainer();
             TreeViewItem newItem = selectedItem.ItemContainerGenerator.ContainerFromItem(newComponent) as TreeViewItem;
             SelectComponent(newItem);
+        }
+
+        #endregion
+
+        #region SelectionChangeMethods
+
+        /// <summary>
+        /// Move selection in <paramref name="dir"/> direction.
+        /// </summary>
+        /// <param name="dir">Direction of moving.</param>
+        private void MoveSelection(Direction dir)
+        {
+            TreeViewItem parent = selectedItem.GetRoot() as TreeViewItem;
+            List<TreeViewItem> stack = GenerateStack(parent);
+            int index = stack.IndexOf(selectedItem);
+            if (CanMoveInSubRoot(dir, index, stack.Count))
+            {
+                SelectComponent(stack[index + (int)dir]);
+                return;
+            }
+            SelectRootItem(dir, parent);
+        }
+        /// <summary>
+        /// Gets boolean value: can you go deeper into items, or it's last item.
+        /// </summary>
+        /// <param name="dir">Direction of moving.</param>
+        /// <param name="index">Index of selected item.</param>
+        /// <param name="stackCount">Items count of selected item parent.</param>
+        private bool CanMoveInSubRoot(Direction dir, int index, int stackCount)
+        {
+            return (dir == Direction.Down && index + (int)dir < stackCount) ||
+                (dir == Direction.Up && index + (int)dir >= 0);
+        }
+
+        /// <summary>
+        /// Create stack based on parent (if it's not null) or on selected item.
+        /// </summary>
+        private List<TreeViewItem> GenerateStack(TreeViewItem parent)
+        {
+            List<TreeViewItem> stack = new List<TreeViewItem>();
+            if (selectedItem.Items.Count > 0)
+                stack = selectedItem.IterateTree();
+            else if (parent != null)
+                stack = parent.IterateTree();
+            return stack;
+        }
+
+        /// <summary>
+        /// Select root item 
+        /// (it needs when the range with child items is over).
+        /// </summary>
+        /// <param name="dir">Direction of moving.</param>
+        private void SelectRootItem(Direction dir, TreeViewItem parent)
+        {
+            int index = CodeComponents.IndexOf(
+                codeTree.ItemContainerGenerator.ItemFromContainer(parent)
+                as ICodeComponent);
+            if ((index == CodeComponents.Count - 1 && dir == Direction.Down) ||
+                (index == 0 && dir == Direction.Up))
+                SelectComponent(GetRootItem(GetItemsBorder(dir)));
+            else
+                SelectComponent(GetRootItem(index + (int)dir));
+        }
+
+        /// <summary>
+        /// Get <see cref="TreeViewItem"/> root by it's index.
+        /// </summary>
+        /// <param name="index">Index of root.</param>
+        private TreeViewItem GetRootItem(int index)
+        {
+            return codeTree.ItemContainerGenerator.ContainerFromIndex(index) as TreeViewItem;
+        }
+        
+        /// <summary>
+        /// For movement upwards the border is 0, for movement downwards the border is items count
+        /// </summary>
+        /// <param name="dir">Direction of movement.</param>
+        private int GetItemsBorder(Direction dir)
+        {
+            return dir == Direction.Down ? 0 : codeTree.Items.Count - 1;
         }
 
         #endregion
@@ -377,7 +463,7 @@ namespace CodeReader.Scripts.View
         {
             get => selectNextCommand ?? (selectNextCommand = new RelayCommand(obj =>
             {
-                MoveSelection(1);
+                MoveSelection(Direction.Down);
 
             }));
         }
@@ -387,59 +473,15 @@ namespace CodeReader.Scripts.View
         {
             get => selectPrevCommand ?? (selectPrevCommand = new RelayCommand(obj =>
             {
-                MoveSelection(-1);
+                MoveSelection(Direction.Up);
 
             }));
         }
 
-        private void MoveSelection(int upValue)
-        {
-            TreeViewItem parent = selectedItem.GetRoot() as TreeViewItem;
-            List<TreeViewItem> stack = GenerateStack(parent);
-            int index = stack.IndexOf(selectedItem);
-            if (CanMoveInSubRoot(upValue, index, stack.Count))
-            {
-                SelectComponent(stack[index + upValue]);
-                return;
-            }
-            SelectRootItem(upValue, parent);
-        }
-
-        private bool CanMoveInSubRoot(int upValue, int index, int stackCount)
-        {
-            return (upValue == 1 && index + upValue < stackCount) ||
-                (upValue == -1 && index + upValue > 0);
-        }
-        
-
-        private List<TreeViewItem> GenerateStack(TreeViewItem parent)
-        {
-            List<TreeViewItem> stack = new List<TreeViewItem>();
-            if (selectedItem.Items.Count > 0)
-                stack = selectedItem.IterateTree();
-            else if (parent != null)
-                stack = parent.IterateTree();
-            return stack;
-        }
-
-
-        private void SelectRootItem(int upValue, TreeViewItem parent)
-        {
-            int index = CodeComponents.IndexOf(codeTree.ItemContainerGenerator.ItemFromContainer(parent) as ICodeComponent);
-            if ((index == CodeComponents.Count - 1 && upValue == 1) || (index == 0 && upValue == -1))
-                SelectComponent(codeTree.ItemContainerGenerator.ContainerFromIndex(upValue == 1 ? 0 : codeTree.Items.Count - 1) as TreeViewItem);
-            else
-                SelectComponent(codeTree.ItemContainerGenerator.ContainerFromIndex(index + upValue) as TreeViewItem);
-        }
+       
         #endregion
 
         #endregion
-
-
-
-
-
-
     }
   
 }
