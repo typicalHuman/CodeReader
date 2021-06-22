@@ -305,8 +305,8 @@ namespace CodeReader.Scripts.View
                 //if it's last enter then update item expansion.
                 if (childrenCount <= 0)
                 {
-                    var a = VisualUpwardSearch(selectedItem);
-                    a.IsExpanded = !a.IsExpanded;
+                    TreeViewItem item = VisualUpwardSearch(selectedItem);
+                    item.IsExpanded = !item.IsExpanded;
                     childrenCount = 0;
                 }
             }
@@ -377,36 +377,59 @@ namespace CodeReader.Scripts.View
         {
             get => selectNextCommand ?? (selectNextCommand = new RelayCommand(obj =>
             {
-                TreeViewItem parent = selectedItem.GetRoot() as TreeViewItem;
-                int index;
-                if (selectedItem.Items.Count > 0)
-                {
-                    List<TreeViewItem> stack = selectedItem.IterateTree();
-                    index = stack.IndexOf(selectedItem);
-                    if (index + 1 < stack.Count)
-                    {
-                        SelectComponent(stack[++index]);
-                        return;
-                    }
-                }
-                else if (parent != null)
-                {
-                    List<TreeViewItem> stack = parent.IterateTree();
-                    index = stack.IndexOf(selectedItem);
-                    if (index + 1 < stack.Count)
-                    {
-                        SelectComponent(stack[++index]);
-                        return;
-                    }
-                }
-                index = CodeComponents.IndexOf(codeTree.ItemContainerGenerator.ItemFromContainer(parent) as ICodeComponent);
-                if (index == CodeComponents.Count - 1)
-                    SelectComponent(codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem);
-                else
-                    SelectComponent(codeTree.ItemContainerGenerator.ContainerFromIndex(++index) as TreeViewItem);
-
+                MoveSelection(1);
 
             }));
+        }
+
+        private RelayCommand selectPrevCommand;
+        public RelayCommand SelectPrevCommand
+        {
+            get => selectPrevCommand ?? (selectPrevCommand = new RelayCommand(obj =>
+            {
+                MoveSelection(-1);
+
+            }));
+        }
+
+        private void MoveSelection(int upValue)
+        {
+            TreeViewItem parent = selectedItem.GetRoot() as TreeViewItem;
+            List<TreeViewItem> stack = GenerateStack(parent);
+            int index = stack.IndexOf(selectedItem);
+            if (CanMoveInSubRoot(upValue, index, stack.Count))
+            {
+                SelectComponent(stack[index + upValue]);
+                return;
+            }
+            SelectRootItem(upValue, parent);
+        }
+
+        private bool CanMoveInSubRoot(int upValue, int index, int stackCount)
+        {
+            return (upValue == 1 && index + upValue < stackCount) ||
+                (upValue == -1 && index + upValue > 0);
+        }
+        
+
+        private List<TreeViewItem> GenerateStack(TreeViewItem parent)
+        {
+            List<TreeViewItem> stack = new List<TreeViewItem>();
+            if (selectedItem.Items.Count > 0)
+                stack = selectedItem.IterateTree();
+            else if (parent != null)
+                stack = parent.IterateTree();
+            return stack;
+        }
+
+
+        private void SelectRootItem(int upValue, TreeViewItem parent)
+        {
+            int index = CodeComponents.IndexOf(codeTree.ItemContainerGenerator.ItemFromContainer(parent) as ICodeComponent);
+            if ((index == CodeComponents.Count - 1 && upValue == 1) || (index == 0 && upValue == -1))
+                SelectComponent(codeTree.ItemContainerGenerator.ContainerFromIndex(upValue == 1 ? 0 : codeTree.Items.Count - 1) as TreeViewItem);
+            else
+                SelectComponent(codeTree.ItemContainerGenerator.ContainerFromIndex(index + upValue) as TreeViewItem);
         }
         #endregion
 

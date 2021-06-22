@@ -122,7 +122,7 @@
             <KeyBinding Key="F2" Command="{Binding RenameCommand}"/>
             <KeyBinding Key="Delete" Command="{Binding DeleteCommand}"/>
             <KeyBinding Key="Down" Command="{Binding SelectNextCommand}"/>
-            <KeyBinding Key="Up" Command="{Binding SelectNextCommand}"/>
+            <KeyBinding Key="Up" Command="{Binding SelectPrevCommand}"/>
         </Grid.InputBindings>
         <!--#endregion-->
 
