@@ -111,7 +111,6 @@
                         <EventSetter Event="PreviewMouseDoubleClick" Handler="PrevTreeViewItem_MouseDoubleClick"/>
                         <EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick"/>
                         <Setter Property="ContextMenu" Value="{StaticResource ContextMenu}"/>
-                        <Setter Property="MinHeight" Value="7"/>
                     </Style>
                 </TreeView.ItemContainerStyle>
             </TreeView>
@@ -123,6 +122,7 @@
             <KeyBinding Key="F2" Command="{Binding RenameCommand}"/>
             <KeyBinding Key="Delete" Command="{Binding DeleteCommand}"/>
             <KeyBinding Key="Down" Command="{Binding SelectNextCommand}"/>
+            <KeyBinding Key="Up" Command="{Binding SelectNextCommand}"/>
         </Grid.InputBindings>
         <!--#endregion-->
 

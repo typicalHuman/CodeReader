@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CodeReader.Scripts.Extensions;
 
 namespace CodeReader.Scripts.View
 {
@@ -139,7 +140,7 @@ namespace CodeReader.Scripts.View
         {
             if (selectedItem != null)
             {
-                TextBox nameTb = selectedItem.GetChildOfType<TextBox>();
+                TextBox nameTb = selectedItem.GetUIChildOfType<TextBox>();
                 nameTb.Focus();
                 nameTb.SelectAll();
             }
@@ -161,20 +162,14 @@ namespace CodeReader.Scripts.View
 
         private void SelectComponent(TreeViewItem item)
         {
-            Keyboard.Focus(item);
-            item.Focus();
-            item.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-            //OpenItem(item);
+            item.IsSelected = true;
+            OpenItem(item);
         }
         #endregion
 
         #region InitItemContainer
 
-        private void InitItemContainer(TreeViewItem parent)
-        {
-            parent.IsExpanded = true;
-            parent.UpdateLayout();
-        }
+    
 
         #endregion
 
@@ -184,7 +179,7 @@ namespace CodeReader.Scripts.View
         {
             ICodeComponent newComponent = GetDefaultComponent(codeTree.SelectedItem as ICodeComponent);
             (codeTree.SelectedItem as ICodeComponent).Children.Insert(0, newComponent);
-            InitItemContainer(selectedItem);
+            selectedItem.InitItemContainer();
             TreeViewItem newItem = selectedItem.ItemContainerGenerator.ContainerFromItem(newComponent) as TreeViewItem;
             SelectComponent(newItem);
         }
@@ -308,10 +303,11 @@ namespace CodeReader.Scripts.View
                 OpenItem(codeTree.SelectedItem);
                 childrenCount--;
                 //if it's last enter then update item expansion.
-                if (childrenCount == 0)
+                if (childrenCount <= 0)
                 {
                     var a = VisualUpwardSearch(selectedItem);
                     a.IsExpanded = !a.IsExpanded;
+                    childrenCount = 0;
                 }
             }
         }
@@ -351,7 +347,6 @@ namespace CodeReader.Scripts.View
 
         #region KeyCommands
 
-
         #region RenameCommand
         private RelayCommand renameCommand;
         public RelayCommand RenameCommand
@@ -382,19 +377,35 @@ namespace CodeReader.Scripts.View
         {
             get => selectNextCommand ?? (selectNextCommand = new RelayCommand(obj =>
             {
-                TreeViewItem parent = selectedItem.Parent as TreeViewItem;
-                if (parent == null)
+                TreeViewItem parent = selectedItem.GetRoot() as TreeViewItem;
+                int index;
+                if (selectedItem.Items.Count > 0)
                 {
-                    int index = CodeComponents.IndexOf(codeTree.SelectedItem as ICodeComponent);
-                    if (index == CodeComponents.Count - 1)
+                    List<TreeViewItem> stack = selectedItem.IterateTree();
+                    index = stack.IndexOf(selectedItem);
+                    if (index + 1 < stack.Count)
                     {
-                        SelectComponent(codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem);
-                    }
-                    else
-                    {
-                        SelectComponent(codeTree.ItemContainerGenerator.ContainerFromIndex(++index) as TreeViewItem);
+                        SelectComponent(stack[++index]);
+                        return;
                     }
                 }
+                else if (parent != null)
+                {
+                    List<TreeViewItem> stack = parent.IterateTree();
+                    index = stack.IndexOf(selectedItem);
+                    if (index + 1 < stack.Count)
+                    {
+                        SelectComponent(stack[++index]);
+                        return;
+                    }
+                }
+                index = CodeComponents.IndexOf(codeTree.ItemContainerGenerator.ItemFromContainer(parent) as ICodeComponent);
+                if (index == CodeComponents.Count - 1)
+                    SelectComponent(codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem);
+                else
+                    SelectComponent(codeTree.ItemContainerGenerator.ContainerFromIndex(++index) as TreeViewItem);
+
+
             }));
         }
         #endregion
@@ -407,33 +418,5 @@ namespace CodeReader.Scripts.View
 
 
     }
-
-    #region FindChildExtension
-    /// <summary>
-    /// Extension class for finding ui children of element.
-    /// </summary>
-    public static class FindChildExtension
-    {
-        /// <summary>
-        /// Get ui child of <paramref name="depObj"/> by child type.
-        /// </summary>
-        public static T GetChildOfType<T>(this DependencyObject depObj)
-             where T : DependencyObject
-        {
-            if (depObj == null) return null;
-
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-            {
-                var child = VisualTreeHelper.GetChild(depObj, i);
-
-                var result = (child as T) ?? GetChildOfType<T>(child);
-                if (result != null) return result;
-            }
-            return null;
-        }
-    }
-
-    #endregion
-
-
+  
 }
