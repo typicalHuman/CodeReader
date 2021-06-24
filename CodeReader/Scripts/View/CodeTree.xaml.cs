@@ -175,8 +175,6 @@ namespace CodeReader.Scripts.View
         private void SelectComponent(TreeViewItem item)
         {
             item.IsSelected = true;
-            Keyboard.Focus(item);
-            item.Focus();
             OpenItem(item);
         }
         #endregion
@@ -360,6 +358,7 @@ namespace CodeReader.Scripts.View
         private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
         {
             selectedItem = e.OriginalSource as TreeViewItem;
+            selectedItem.Focus();
         }
 
         #endregion
@@ -433,6 +432,7 @@ namespace CodeReader.Scripts.View
         #endregion
 
         #endregion
+
         #endregion
 
         #region KeyCommands
