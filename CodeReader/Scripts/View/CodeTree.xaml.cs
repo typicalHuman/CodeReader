@@ -210,7 +210,7 @@ namespace CodeReader.Scripts.View
                 SelectComponent(stack[index + (int)dir]);
                 return;
             }
-            SelectRootItem(dir, parent);
+            SelectRootItem(dir, parent, selectedItem != parent);
         }
         /// <summary>
         /// Gets boolean value: can you go deeper into items, or it's last item.
@@ -242,14 +242,16 @@ namespace CodeReader.Scripts.View
         /// (it needs when the range with child items is over).
         /// </summary>
         /// <param name="dir">Direction of moving.</param>
-        private void SelectRootItem(Direction dir, TreeViewItem parent)
+        private void SelectRootItem(Direction dir, TreeViewItem parent, bool isCurrentRoot = false)
         {
             int index = CodeComponents.IndexOf(
                 codeTree.ItemContainerGenerator.ItemFromContainer(parent)
                 as ICodeComponent);
             if ((index == CodeComponents.Count - 1 && dir == Direction.Down) ||
-                (index == 0 && dir == Direction.Up))
+                (index == 0 && dir == Direction.Up && !isCurrentRoot))
                 SelectComponent(GetRootItem(GetItemsBorder(dir)));
+            else if(isCurrentRoot && dir == Direction.Up)
+                SelectComponent(GetRootItem(index));
             else
                 SelectComponent(GetRootItem(index + (int)dir));
         }
