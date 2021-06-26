@@ -31,12 +31,18 @@ namespace CodeReader.Scripts.Extensions
             return null;
         }
 
+        /// <summary>
+        /// Initcontainer for searching items in <see cref="ItemContainerGenerator"/>.
+        /// </summary>
         public static void InitItemContainer(this TreeViewItem parent)
         {
             parent.IsExpanded = true;
             parent.UpdateLayout();
         }
 
+        /// <summary>
+        /// Get list with all children of parent.
+        /// </summary>
         public static List<TreeViewItem> IterateTree(this TreeViewItem parent)
         {
             List<TreeViewItem> list = new List<TreeViewItem>();
@@ -50,6 +56,9 @@ namespace CodeReader.Scripts.Extensions
             return list;
         }
 
+        /// <summary>
+        /// Get root of treeview by stepping from child to parent.
+        /// </summary>
         public static TreeViewItem GetRoot(this TreeViewItem child)
         {
             DependencyObject tempObj = VisualTreeHelper.GetParent(child as DependencyObject);
@@ -64,9 +73,6 @@ namespace CodeReader.Scripts.Extensions
             return null;
         }
     }
-
-
-
 
     #endregion
 }

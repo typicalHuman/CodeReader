@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CodeReader.Scripts.Extensions;
+using Notifications.Wpf;
 
 namespace CodeReader.Scripts.View
 {
@@ -81,6 +82,15 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Manager for showing notifications.
+        /// </summary>
+        private NotificationManager notificationManager { get; set; } = new NotificationManager();
+
+        #endregion
+
         #region PropertyChanged
         /// <summary>
         /// Event for updating value.
@@ -111,7 +121,6 @@ namespace CodeReader.Scripts.View
             return source as TreeViewItem;
         }
         #endregion
-
 
         #region DeleteItem
 
@@ -183,6 +192,11 @@ namespace CodeReader.Scripts.View
 
         private void AddChild(TreeViewItem parent)
         {
+            if (selectedItem == null)
+            {
+                ShowWarning();
+                return;
+            }
             ICodeComponent newComponent = GetDefaultComponent(codeTree.SelectedItem as ICodeComponent);
             (codeTree.SelectedItem as ICodeComponent).Children.Insert(0, newComponent);
             selectedItem.InitItemContainer();
@@ -190,7 +204,23 @@ namespace CodeReader.Scripts.View
             SelectComponent(newItem);
         }
 
+        /// <summary>
+        /// Show notification with warning.
+        /// </summary>
+        private void ShowWarning()
+        {
+            NotificationContent content = new NotificationContent()
+            {
+                Type = NotificationType.Warning,
+                Title = "Warning",
+                Message = "Select item at first!"
+            };
+            notificationManager.Show(content, "NotificationsArea");
+        }
+
         #endregion
+
+
 
         #region SelectionChangeMethods
 
@@ -310,7 +340,14 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
+        #region AddChild
 
+        private void AddChildMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            AddChild(selectedItem);
+        }
+
+        #endregion
 
         #endregion
 
@@ -501,10 +538,7 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
-        private void AddChildMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            AddChild(selectedItem);
-        }
+      
     }
   
 }

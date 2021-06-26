@@ -170,3 +170,4 @@ C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\Com
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\Fonts.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\Colors.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\TreeViewStyle.baml
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Notifications.Wpf.dll
