@@ -171,3 +171,6 @@ C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\Fon
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\Colors.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\TreeViewStyle.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Notifications.Wpf.dll
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GongSolutions.WPF.DragDrop.dll
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GongSolutions.WPF.DragDrop.pdb
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GongSolutions.WPF.DragDrop.xml

@@ -20,6 +20,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CodeReader.Scripts.Extensions;
 using Notifications.Wpf;
+using GongSolutions.Wpf.DragDrop;
 
 namespace CodeReader.Scripts.View
 {
@@ -534,11 +535,10 @@ namespace CodeReader.Scripts.View
                 AddChild(selectedItem);
             }));
         }
-        #endregion
 
         #endregion
 
-      
+        #endregion
     }
   
 }
