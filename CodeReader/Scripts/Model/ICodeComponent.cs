@@ -28,7 +28,15 @@ namespace CodeReader.Scripts.Model
         /// <summary>
         /// Children of component.
         /// </summary>
-        ObservableCollection<ICodeComponent> Children { get; }
+        CodeComponentsCollection Children { get; }
+        /// <summary>
+        /// References to this component.
+        /// </summary>
+        ObservableCollection<ICodeComponent> References { get; }
+        /// <summary>
+        /// Dependencies of that component.
+        /// </summary>
+        ObservableCollection<ICodeComponent> Dependencies { get; }
         /// <summary>
         /// Parent of component.
         /// </summary>

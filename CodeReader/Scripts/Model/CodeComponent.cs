@@ -1,23 +1,16 @@
 ﻿using CodeBox.Enums;
 using CodeReader.Scripts.ViewModel;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeReader.Scripts.Model
 {
-    
+
     /// <summary>
     /// Implementation of <see cref="ICodeComponent"/> inteface.
     /// </summary>
     public class CodeComponent: BaseViewModel, ICodeComponent
     {
         #region Constructor
-
-        
 
         /// <summary>
         /// Initialize control with children.
@@ -113,8 +106,12 @@ namespace CodeReader.Scripts.Model
 
         #endregion
 
-        public ObservableCollection<ICodeComponent> Children { get; set; } = new ObservableCollection<ICodeComponent>();
         public ICodeComponent Parent { get; set; }
+
+        public CodeComponentsCollection  Children { get; set; } = new CodeComponentsCollection();
+        public ObservableCollection<ICodeComponent> References { get; set; } = new ObservableCollection<ICodeComponent>();
+        public ObservableCollection<ICodeComponent> Dependencies { get; set; } = new ObservableCollection<ICodeComponent>();
+
 
         #endregion
 

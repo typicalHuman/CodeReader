@@ -21,6 +21,7 @@ using System.Windows.Shapes;
 using CodeReader.Scripts.Extensions;
 using Notifications.Wpf;
 using GongSolutions.Wpf.DragDrop;
+using System.Collections.ObjectModel;
 
 namespace CodeReader.Scripts.View
 {
@@ -42,7 +43,6 @@ namespace CodeReader.Scripts.View
         #endregion
 
         #region Ctor
-
         public CodeTree()
         {
             InitializeComponent();
@@ -221,8 +221,6 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
-
-
         #region SelectionChangeMethods
 
         /// <summary>
@@ -305,6 +303,7 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
+      
         #endregion
 
         #region Events
@@ -395,6 +394,7 @@ namespace CodeReader.Scripts.View
         /// </summary>
         private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
         {
+            var a = codeTree;
             selectedItem = e.OriginalSource as TreeViewItem;
             selectedItem.Focus();
         }
@@ -536,9 +536,17 @@ namespace CodeReader.Scripts.View
             }));
         }
 
+
         #endregion
 
         #endregion
+
+
+        private void CodeTree_DragLeave(object sender, DragEventArgs e)
+        {
+
+            var a = codeTree;
+           
+        }
     }
-  
 }

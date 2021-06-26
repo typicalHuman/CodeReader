@@ -96,7 +96,10 @@
             <TreeView Name="codeTree" Grid.Row="1" Panel.ZIndex="2"
                       Margin="0 10 0 0" BorderThickness="0" 
                    dd:DragDrop.IsDragSource="True"
-                      dd:DragDrop.IsDropTarget="True">
+                   dd:DragDrop.IsDropTarget="True"
+                      Drop="CodeTree_DragLeave"
+                      dd:DragDrop.DragHandler="{Binding targ}"
+                      AllowDrop="True" >
                 <TreeView.Resources>
                     <!--#region Data Template-->
                     <HierarchicalDataTemplate DataType="{x:Type model:CodeComponent}" ItemsSource="{Binding Children, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">

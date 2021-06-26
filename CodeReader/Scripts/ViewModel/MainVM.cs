@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using CodeReader.Scripts.Extensions;
 
 namespace CodeReader.Scripts.ViewModel
 {
@@ -25,11 +27,17 @@ namespace CodeReader.Scripts.ViewModel
             CodeComponents[1].Children[0].Children[0].Parent = CodeComponents[1].Children[0];
             CodeComponents[1].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
             CodeComponents[1].Children[1].Parent = CodeComponents[1];
+            CodeComponents.CollectionChanged += (sender, e) => CodeComponents.UpdateItems();
         }
-        public ObservableCollection<ICodeComponent> CodeComponents { get; set; } = new ObservableCollection<ICodeComponent>()
+        public CodeComponentsCollection CodeComponents { get; set; } = new CodeComponentsCollection()
         {
             new CodeComponent("Class", "public abstract class Avangard\n{\n}\n", "", CodeComponentType.AbstractClass),
         };
+
+        private void MyCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            CodeComponents.UpdateItems();
+        }
 
         #region Properties
 

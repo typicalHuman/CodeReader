@@ -124,8 +124,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Scripts\Converters\TypeToImageConverter.cs" />
+    <Compile Include="Scripts\Extensions\CodeTreeExtension.cs" />
     <Compile Include="Scripts\Extensions\FindChildExtension.cs" />
     <Compile Include="Scripts\Model\CodeComponent.cs" />
+    <Compile Include="Scripts\Model\CodeComponentsCollection.cs" />
     <Compile Include="Scripts\Model\CodeComponentType.cs" />
     <Compile Include="Scripts\Model\ICodeComponent.cs" />
     <Compile Include="Scripts\ViewModel\BaseViewModel.cs" />
