@@ -1,15 +1,14 @@
 ﻿using CodeReader.Scripts.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace CodeReader.Scripts.Extensions
 {
     public static class CodeTreeExtension
     {
+        /// <summary>
+        /// Update parent-children relationships.
+        /// </summary>
         public static void UpdateItems(this ObservableCollection<ICodeComponent> components)
         {
             UpdateHierarchicalRelationships(components);
@@ -36,6 +35,14 @@ namespace CodeReader.Scripts.Extensions
                 if (component.Children.Count > 0)
                     UpdateItem(component);
             }
+        }
+
+        public static ICodeComponent GetItemValue(this TreeViewItem item, ItemContainerGenerator mainGenerator)
+        {
+            if (item.Parent == null)
+                return mainGenerator.ItemFromContainer(item) as ICodeComponent;
+            else
+                return (item.Parent as TreeViewItem).ItemContainerGenerator.ItemFromContainer(item) as ICodeComponent;
         }
 
         #endregion

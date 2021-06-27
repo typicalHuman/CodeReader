@@ -72,6 +72,14 @@ namespace CodeReader.Scripts.Extensions
                   return (tempObj as TreeViewItem).GetRoot();
             return null;
         }
+
+        public static int GetDepth(this TreeViewItem item)
+        {
+            int count = 0;
+            while (item.Parent != null)
+                count++;
+            return count;
+        }
     }
 
     #endregion

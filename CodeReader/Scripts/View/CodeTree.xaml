@@ -51,6 +51,17 @@
                     </Grid>
                 </MenuItem.Header>
             </MenuItem>
+            <MenuItem  Click="CopyMenuItem_Click">
+                <MenuItem.Header>
+                    <Grid>
+                        <TextBlock Text="Copy" HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"/>
+                        <TextBlock Text="Ctrl+C" HorizontalAlignment="Right"
+                                   VerticalAlignment="Bottom" FontSize="11"
+                                   Foreground="{StaticResource MenuItemTip}"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
         </ContextMenu>
         <conv:TypeToImageConverter x:Key="TypeToSourceConverter"/>
     </UserControl.Resources>
@@ -97,8 +108,6 @@
                       Margin="0 10 0 0" BorderThickness="0" 
                    dd:DragDrop.IsDragSource="True"
                    dd:DragDrop.IsDropTarget="True"
-                      Drop="CodeTree_DragLeave"
-                      dd:DragDrop.DragHandler="{Binding targ}"
                       AllowDrop="True" >
                 <TreeView.Resources>
                     <!--#region Data Template-->
@@ -112,7 +121,7 @@
                                 </Image>
                                 <TextBox Text="{Binding Label}" FontFamily="{StaticResource RegularFont}"
                                    FontSize="15" VerticalAlignment="Center" Name="nameBox"
-                                         Style="{StaticResource TransparentTextBox}" PreviewMouseDoubleClick="NameBox_MouseDoubleClick"
+                                         Style="{StaticResource TransparentTextBox}"
                                          ui:TextBoxHelper.IsDeleteButtonVisible="False">
                                 </TextBox>
                             </StackPanel>
@@ -125,8 +134,7 @@
                           BasedOn="{StaticResource {x:Type TreeViewItem}}">
                         <EventSetter Event="PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
                         <EventSetter Event="Selected" Handler="TreeViewItem_Selected"/>
-                        <EventSetter Event="PreviewMouseDoubleClick" Handler="PrevTreeViewItem_MouseDoubleClick"/>
-                        <EventSetter Event="MouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick"/>
+                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeItemPreviewMouseLeftButtonDown"/>
                         <Setter Property="ContextMenu" Value="{StaticResource ContextMenu}"/>
                     </Style>
                 </TreeView.ItemContainerStyle>
@@ -141,6 +149,8 @@
             <KeyBinding Key="Down" Command="{Binding SelectNextCommand}"/>
             <KeyBinding Key="Up" Command="{Binding SelectPrevCommand}"/>
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="N" Command="{Binding AddChildCommand}"/>
+            <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="C" Command="{Binding CopyCommand}"/>
+            <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="V" Command="{Binding CopyCommand}"/>
         </Grid.InputBindings>
         <!--#endregion-->
 

@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfAnimatedGif;
 
 namespace CodeReader
 {
@@ -38,6 +39,10 @@ namespace CodeReader
                 codeReaderPanel.ColumnDefinitions[0].Width = new GridLength(newWidth);
         }
 
+        private void TitleGifImage_AnimationLoaded(object sender, RoutedEventArgs e)
+        {
+            App.mainVM.AnimationController = ImageBehavior.GetAnimationController(TitleGifImage);
+        }
     }
 
 }

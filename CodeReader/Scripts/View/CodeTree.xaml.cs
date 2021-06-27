@@ -90,6 +90,11 @@ namespace CodeReader.Scripts.View
         /// </summary>
         private NotificationManager notificationManager { get; set; } = new NotificationManager();
 
+        /// <summary>
+        /// Item which is storing after copy or cutting operation.
+        /// </summary>
+        private TreeViewItem BufferComponent { get; set; }
+
         #endregion
 
         #region PropertyChanged
@@ -199,9 +204,16 @@ namespace CodeReader.Scripts.View
                 return;
             }
             ICodeComponent newComponent = GetDefaultComponent(codeTree.SelectedItem as ICodeComponent);
-            (codeTree.SelectedItem as ICodeComponent).Children.Insert(0, newComponent);
+            AddChild(parent, newComponent);
+        }
+
+        private void AddChild(TreeViewItem parent, ICodeComponent child)
+        {
+            if (selectedItem == null)
+                return;
+            (codeTree.SelectedItem as ICodeComponent).Children.Insert(0, child);
             selectedItem.InitItemContainer();
-            TreeViewItem newItem = selectedItem.ItemContainerGenerator.ContainerFromItem(newComponent) as TreeViewItem;
+            TreeViewItem newItem = selectedItem.ItemContainerGenerator.ContainerFromItem(child) as TreeViewItem;
             SelectComponent(newItem);
         }
 
@@ -349,6 +361,16 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
+
+        #region Copy
+
+        private void CopyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            BufferComponent = selectedItem;
+        }
+
+        #endregion
+
         #endregion
 
         #region PreviewMouseRightButtonDown
@@ -409,43 +431,18 @@ namespace CodeReader.Scripts.View
         /// because we have functionality of hiding padding on double click 
         /// (by default padding updates after double click and I want to remove this function)
         /// </summary>
-        private int childrenCount { get; set; }
-        /// <summary>
-        /// Event for counting item depth.
-        /// </summary>
-        private void PrevTreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void TreeItemPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            childrenCount++;
-        }
-
-        private void TreeViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if(childrenCount < 0)
+            if (e.OriginalSource.GetType() == typeof(Border)//if we are clicking on area of treeviewitem
+                && (e.Source.GetType() == typeof(TreeViewItem) || e.Source.GetType() == typeof(Border))//and we are not clicking on treeviewitem ui children
+                && e.ClickCount > 1)//double mouse click check
             {
-                childrenCount = 0;
-                return;
+                e.Handled = true;
+                if (selectedItem != null)
+                  OpenItem(codeTree.SelectedItem);
             }
-            if (selectedItem != null)
-            {
-                OpenItem(codeTree.SelectedItem);
-                childrenCount--;
-                //if it's last enter then update item expansion.
-                if (childrenCount <= 0)
-                {
-                    TreeViewItem item = VisualUpwardSearch(selectedItem);
-                    item.IsExpanded = !item.IsExpanded;
-                    childrenCount = 0;
-                }
-            }
-        }
-        /// <summary>
-        /// Refresh (for excluding duplicates, because clicking on textbox is +1 to depth).
-        /// </summary>
-        private void NameBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            childrenCount = 0;
-        }
 
+        }
         #endregion
 
         #region ControlButtonsClick
@@ -535,18 +532,36 @@ namespace CodeReader.Scripts.View
                 AddChild(selectedItem);
             }));
         }
-
-
-        #endregion
-
         #endregion
 
 
-        private void CodeTree_DragLeave(object sender, DragEventArgs e)
+        #region CopyCommand
+        private RelayCommand copyCommand;
+        public RelayCommand CopyCommand
         {
-
-            var a = codeTree;
-           
+            get => copyCommand ?? (copyCommand = new RelayCommand(obj =>
+            {
+                BufferComponent = selectedItem;
+            }));
         }
+        #endregion
+
+        #region InsertCommand
+        private RelayCommand insertCommand;
+        public RelayCommand InsertCommand
+        {
+            get => insertCommand ?? (insertCommand = new RelayCommand(obj =>
+            {
+                ICodeComponent component;
+                if(BufferComponent.Parent == null)
+                    component = codeTree.ItemContainerGenerator.ItemFromContainer(BufferComponent) as ICodeComponent;
+                //else
+                //    component = selectedItem.
+                //AddChild(selectedItem, BufferComponent);
+            }));
+        }
+        #endregion
+
+        #endregion
     }
 }

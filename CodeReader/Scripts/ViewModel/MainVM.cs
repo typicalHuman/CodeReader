@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using CodeReader.Scripts.Extensions;
+using WpfAnimatedGif;
 
 namespace CodeReader.Scripts.ViewModel
 {
@@ -56,18 +57,47 @@ namespace CodeReader.Scripts.ViewModel
 
         #endregion
 
+
+
+        #region IsAnimationRunning
+        public ImageAnimationController AnimationController { get; set; }
+        private bool isAnimationRunning = true;
+        public bool IsAnimationRunning
+        {
+            get => isAnimationRunning;
+            set
+            {
+                isAnimationRunning = value;
+                OnPropertyChanged("IsAnimationRunning");
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Commands
 
 
-        #region ChangeThemeCommand
-        private RelayCommand changeThemeCommand;
-        public RelayCommand ChangeThemeCommand
+        #region TitleMouseEnterCommand
+        private RelayCommand titleMouseEnterCommand;
+        public RelayCommand TitleMouseEnterCommand
         {
-            get => changeThemeCommand ?? (changeThemeCommand = new RelayCommand(obj =>
+            get => titleMouseEnterCommand ?? (titleMouseEnterCommand = new RelayCommand(obj =>
             {
+                 AnimationController.Play();
+            }));
+        }
+        #endregion
 
+        #region TitleMouseLeaveCommand
+        private RelayCommand titleMouseLeaveCommand;
+        public RelayCommand TitleMouseLeaveCommand
+        {
+            get => titleMouseLeaveCommand ?? (titleMouseLeaveCommand = new RelayCommand(obj =>
+            {
+                AnimationController.Pause();
+                AnimationController.GotoFrame(0);
             }));
         }
         #endregion
