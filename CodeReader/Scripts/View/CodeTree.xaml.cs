@@ -9,14 +9,19 @@ using System.Windows.Input;
 using System.Windows.Media;
 using CodeReader.Scripts.Extensions;
 using Notifications.Wpf;
+using GongSolutions.Wpf.DragDrop.Utilities;
+using GongSolutions.Wpf.DragDrop;
 
 namespace CodeReader.Scripts.View
 {
     /// <summary>
     /// Interaction logic for CodeTree.xaml
     /// </summary>
-    public partial class CodeTree : UserControl, INotifyPropertyChanged
+    public partial class CodeTree : UserControl, INotifyPropertyChanged, IDropTarget
     {
+
+
+
         #region Enum
 
         /// <summary>
@@ -97,6 +102,21 @@ namespace CodeReader.Scripts.View
             {
                 isEditMenuOpen = value;
                 OnPropertyChanged("IsEditMenuOpen");
+            }
+        }
+
+        #endregion
+
+        #region IsSingleRootOpen
+
+        private bool isSingleRootOpen;
+        public bool IsSingleRootOpen
+        {
+            get => isSingleRootOpen;
+            set
+            {
+                isSingleRootOpen = value;
+                OnPropertyChanged("IsSingleRootOpen");
             }
         }
 
@@ -542,7 +562,45 @@ namespace CodeReader.Scripts.View
         }
         #endregion
 
+
+        #region OpenAsRootCommand
+        private RelayCommand openAsRootCommand;
+        public RelayCommand OpenAsRootCommand
+        {
+            get => openAsRootCommand ?? (openAsRootCommand = new RelayCommand(obj =>
+            {
+                ICodeComponent root = CodeComponent.Create(selectedItem.GetItemValue(codeTree.ItemContainerGenerator));
+                codeTree.ItemsSource = new List<ICodeComponent>() { root };
+                IsSingleRootOpen = true;
+            }));
+        }
         #endregion
 
+        #endregion
+
+        private void CodeTree_Drop(object sender, DragEventArgs e)
+        {
+            int foundIndex = CodeComponents.IndexOf(sender as ICodeComponent);
+            var a = e.GetPosition(codeTree);
+            var b = codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem;
+           var res = DragDropExtensions.DirectlyOverElement(a, b, this);
+            if (res)
+            {
+                e.Effects = DragDropEffects.None;
+                e.Handled = true;
+            }
+            //var c = VisualTreeHelper.HitTest(b, a);
+            //if (foundIndex == -1 && IsSingleRootOpen)
+            //e.Effects = DragDropEffects.None;
+            //e.Handled = true;
+        }
+
+        void IDropTarget.DragOver(IDropInfo dropInfo)
+        {
+        }
+
+        void IDropTarget.Drop(IDropInfo dropInfo)
+        {
+        }
     }
 }
