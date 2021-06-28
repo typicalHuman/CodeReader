@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:CodeReader"    
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"    
              xmlns:conv="clr-namespace:CodeReader.Scripts.Converters"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:model="clr-namespace:CodeReader.Scripts.Model"
@@ -12,62 +12,145 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              FontFamily="{StaticResource RegularFont}"
-             x:Name="CodeTreeControl" >
+             x:Name="CodeTreeControl">
+    <!--#region UserControl Resources-->
     <UserControl.Resources>
+        <!--#region CodeTree ContextMenu-->
         <ContextMenu FontFamily="{StaticResource RegularFont}"
                      x:Key="ContextMenu" MinWidth="150">
+            <!--#region ContextMenu Resources-->
+            <ContextMenu.Resources>
+                <!--#region Tip TextBlock Style-->
+                <!--Style for tips about key combinations-->
+                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"
+                       x:Key="TipTBStyle">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                    <Setter Property="FontSize" Value="11"/>
+                    <Setter Property="Foreground" Value="{StaticResource MenuItemTip}"/>
+                </Style>
+                <!--#endregion-->
+                <!--#region MainText TextBlock Style-->
+                <!--Style for main description text of MenuItem.-->
+                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"
+                       x:Key="MainTextStyle">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <!--#endregion-->
+                <!--#region Base MenuItem Style-->
+                <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                    <Setter Property="DataContext" Value="{Binding  Source={x:Reference mainGrid},
+                        Path=DataContext}"/>
+                </Style>
+                <!--#endregion-->
+            </ContextMenu.Resources>
+            <!--#endregion-->
+            <!--#region Open MenuItem-->
             <MenuItem Header="Open" Click="OpenMenuItem_Click"/>
-            <MenuItem Click="AddChildMenuItem_Click">
+            <!--#endregion-->
+            <!--#region AddChild MenuItem-->
+            <MenuItem>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding AddChildCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <MenuItem.Header>
                     <Grid>
-                        <TextBlock Text="Add child" HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"/>
-                        <TextBlock Text="Ctrl+N" HorizontalAlignment="Right"
-                                   VerticalAlignment="Bottom" FontSize="11"
-                                   Foreground="{StaticResource MenuItemTip}"/>
+                        <TextBlock Text="Add child" Style="{DynamicResource MainTextStyle}"/>
+                        <TextBlock Text="Ctrl+N" Style="{DynamicResource TipTBStyle}"/>
                     </Grid>
                 </MenuItem.Header>
             </MenuItem>
-            <MenuItem Click="RenameMenuItem_Click">
+            <!--#endregion-->
+            <!--#region Rename MenuItem-->
+            <MenuItem>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding RenameCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <MenuItem.Header>
                     <Grid>
-                        <TextBlock Text="Rename" HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"/>
-                        <TextBlock Text="F2" HorizontalAlignment="Right"
-                                   VerticalAlignment="Bottom" FontSize="11"
-                                   
-                                   Foreground="{StaticResource MenuItemTip}"/>
+                        <TextBlock Text="Rename" Style="{DynamicResource MainTextStyle}"/>
+                        <TextBlock Text="F2" Style="{DynamicResource TipTBStyle}"/>
                     </Grid>
                 </MenuItem.Header>
             </MenuItem>
-            <MenuItem  Click="DeleteMenuItem_Click">
+            <!--#endregion-->
+            <!--#region Delete MenuItem-->
+            <MenuItem>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding DeleteCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <MenuItem.Header>
                     <Grid>
-                        <TextBlock Text="Delete" HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"/>
-                        <TextBlock Text="Dlt" HorizontalAlignment="Right"
-                                   VerticalAlignment="Bottom" FontSize="11"
-                                   Foreground="{StaticResource MenuItemTip}"/>
+                        <TextBlock Text="Delete" Style="{DynamicResource MainTextStyle}"/>
+                        <TextBlock Text="Dlt" Style="{DynamicResource TipTBStyle}"/>
                     </Grid>
                 </MenuItem.Header>
             </MenuItem>
-            <MenuItem  Click="CopyMenuItem_Click">
+            <!--#endregion-->
+            <!--#region Cut MenuItem-->
+            <MenuItem>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding CutCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <MenuItem.Header>
                     <Grid>
-                        <TextBlock Text="Copy" HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"/>
-                        <TextBlock Text="Ctrl+C" HorizontalAlignment="Right"
-                                   VerticalAlignment="Bottom" FontSize="11"
-                                   Foreground="{StaticResource MenuItemTip}"/>
+                        <TextBlock Text="Cut" Style="{DynamicResource MainTextStyle}"/>
+                        <TextBlock Text="Ctrl+X" Style="{DynamicResource TipTBStyle}"/>
                     </Grid>
                 </MenuItem.Header>
             </MenuItem>
+            <!--#endregion-->
+            <!--#region Copy MenuItem-->
+            <MenuItem>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding CopyCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <MenuItem.Header>
+                    <Grid>
+                        <TextBlock Text="Copy" Style="{DynamicResource MainTextStyle}"/>
+                        <TextBlock Text="Ctrl+C" Style="{DynamicResource TipTBStyle
+}"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
+            <!--#endregion-->
+            <!--#region Paste MenuItem-->
+            <MenuItem>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding PasteCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <MenuItem.Header>
+                    <Grid>
+                        <TextBlock Text="Insert" Style="{DynamicResource MainTextStyle}"/>
+                        <TextBlock Text="Ctrl+V" Style="{DynamicResource TipTBStyle}"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
+            <!--#endregion-->
         </ContextMenu>
+        <!--#endregion-->
         <conv:TypeToImageConverter x:Key="TypeToSourceConverter"/>
     </UserControl.Resources>
-    <Grid Name="mainGrid">
-        <notifications:NotificationArea  Panel.ZIndex="2" x:Name="NotificationsArea" Position="BottomRight" MaxItems="1"/>
-
+    <!--#endregion-->
+    <Grid x:Name="mainGrid">
+        <!--#region NotificationsArea-->
+        <!--Area where notifications will appear-->
+        <notifications:NotificationArea  x:Name="NotificationsArea"  Panel.ZIndex="2" 
+                                         Position="BottomRight" MaxItems="1"/>
+        <!--#endregion-->
         <Grid>
             <!--#region Column Definitions-->
             <Grid.RowDefinitions>
@@ -75,7 +158,6 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <!--#endregion-->
-
             <!--#region Tree Manipulating Buttons-->
             <Grid HorizontalAlignment="Center" SizeChanged="Grid_SizeChanged"
                   Margin="10 0 0 0">
@@ -96,14 +178,18 @@
                 <Button Height="40" Width="Auto "  Content="Add child"
                         HorizontalAlignment="Stretch" 
                         FontFamily="{StaticResource RegularFont}"
-                        Grid.Column="2" Click="AddChild_Btn_Click">
-                <!--#endregion-->
+                        Grid.Column="2">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding AddChildCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <!--#endregion-->
                 </Button>
             </Grid>
             <!--#endregion-->
 
             <!--#region CodeTree-->
-
             <TreeView Name="codeTree" Grid.Row="1" Panel.ZIndex="2"
                       Margin="0 10 0 0" BorderThickness="0" 
                    dd:DragDrop.IsDragSource="True"
@@ -129,6 +215,7 @@
                     </HierarchicalDataTemplate>
                     <!--#endregion-->
                 </TreeView.Resources>
+                <!--#region TreeView ItemContainerStyle-->
                 <TreeView.ItemContainerStyle>
                     <Style TargetType="TreeViewItem"
                           BasedOn="{StaticResource {x:Type TreeViewItem}}">
@@ -138,6 +225,7 @@
                         <Setter Property="ContextMenu" Value="{StaticResource ContextMenu}"/>
                     </Style>
                 </TreeView.ItemContainerStyle>
+                <!--#endregion-->
             </TreeView>
             <!--#endregion-->
         </Grid>
@@ -150,7 +238,8 @@
             <KeyBinding Key="Up" Command="{Binding SelectPrevCommand}"/>
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="N" Command="{Binding AddChildCommand}"/>
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="C" Command="{Binding CopyCommand}"/>
-            <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="V" Command="{Binding CopyCommand}"/>
+            <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="V" Command="{Binding PasteCommand}"/>
+            <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="X" Command="{Binding CutCommand}"/>
         </Grid.InputBindings>
         <!--#endregion-->
 

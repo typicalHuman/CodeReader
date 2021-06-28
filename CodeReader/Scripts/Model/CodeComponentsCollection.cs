@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using CodeReader.Scripts.Extensions;
 
 namespace CodeReader.Scripts.Model
@@ -15,6 +16,12 @@ namespace CodeReader.Scripts.Model
                 if (App.mainVM != null)
                     App.mainVM.CodeComponents.UpdateItems();
             };
+        }
+
+        public void AddRange(IEnumerable<ICodeComponent> components)
+        {
+            foreach (ICodeComponent comp in components)
+                Add(comp);
         }
     }
 }

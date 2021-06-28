@@ -93,7 +93,12 @@ namespace CodeReader.Scripts.View
         /// <summary>
         /// Item which is storing after copy or cutting operation.
         /// </summary>
-        private TreeViewItem BufferComponent { get; set; }
+        private ICodeComponent BufferComponent { get; set; }
+
+        /// <summary>
+        /// This instance is needed for getting subroot children of treeview.
+        /// </summary>
+        private static TreeViewItem selectedItem { get; set; }
 
         #endregion
 
@@ -130,7 +135,7 @@ namespace CodeReader.Scripts.View
 
         #region DeleteItem
 
-        private void DeleteItem(CodeComponent cc)
+        private void DeleteItem(ICodeComponent cc)
         {
             if (cc.Parent == null)
             {
@@ -153,7 +158,9 @@ namespace CodeReader.Scripts.View
         #endregion
 
         #region OpenItem
-
+        /// <summary>
+        /// Open TreeViewItem value in Extended Panel.
+        /// </summary>
         private void OpenItem(object selectedItem)
         {
             App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
@@ -331,46 +338,6 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
-        #region Rename
-        /// <summary>
-        /// This instance is needed for getting subroot children of treeview.
-        /// </summary>
-        private static TreeViewItem selectedItem { get; set; }
-        private void RenameMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            RenameCurrentItem();
-        }
-
-        #endregion
-
-        #region Delete
-
-        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            DeleteItem(codeTree.SelectedItem as CodeComponent);
-        }
-
-        #endregion
-
-        #region AddChild
-
-        private void AddChildMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            AddChild(selectedItem);
-        }
-
-        #endregion
-
-
-        #region Copy
-
-        private void CopyMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            BufferComponent = selectedItem;
-        }
-
-        #endregion
-
         #endregion
 
         #region PreviewMouseRightButtonDown
@@ -457,15 +424,6 @@ namespace CodeReader.Scripts.View
         }
         #endregion
 
-        #region AddChild
-
-        private void AddChild_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            AddChild(selectedItem);
-        }
-
-        #endregion
-
         #endregion
 
         #endregion
@@ -541,23 +499,32 @@ namespace CodeReader.Scripts.View
         {
             get => copyCommand ?? (copyCommand = new RelayCommand(obj =>
             {
-                BufferComponent = selectedItem;
+                ICodeComponent selectedComponent = selectedItem.GetItemValue(codeTree.ItemContainerGenerator);
+                BufferComponent = CodeComponent.Create(selectedComponent);
             }));
         }
         #endregion
 
-        #region InsertCommand
-        private RelayCommand insertCommand;
-        public RelayCommand InsertCommand
+        #region CutCommand
+        private RelayCommand cutCommand;
+        public RelayCommand CutCommand
         {
-            get => insertCommand ?? (insertCommand = new RelayCommand(obj =>
+            get => cutCommand ?? (cutCommand = new RelayCommand(obj =>
             {
-                ICodeComponent component;
-                if(BufferComponent.Parent == null)
-                    component = codeTree.ItemContainerGenerator.ItemFromContainer(BufferComponent) as ICodeComponent;
-                //else
-                //    component = selectedItem.
-                //AddChild(selectedItem, BufferComponent);
+                ICodeComponent selectedComponent = selectedItem.GetItemValue(codeTree.ItemContainerGenerator);
+                DeleteItem(selectedComponent);
+                BufferComponent = CodeComponent.Create(selectedComponent);
+            }));
+        }
+        #endregion
+
+        #region PasteCommand
+        private RelayCommand pasteCommand;
+        public RelayCommand PasteCommand
+        {
+            get => pasteCommand ?? (pasteCommand = new RelayCommand(obj =>
+            {
+                AddChild(selectedItem, BufferComponent);
             }));
         }
         #endregion

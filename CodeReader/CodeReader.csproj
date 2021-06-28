@@ -142,6 +142,7 @@
     <Compile Include="Scripts\Model\CodeComponentsCollection.cs" />
     <Compile Include="Scripts\Model\CodeComponentType.cs" />
     <Compile Include="Scripts\Model\ICodeComponent.cs" />
+    <Compile Include="Scripts\Model\IDGenerator.cs" />
     <Compile Include="Scripts\ViewModel\BaseViewModel.cs" />
     <Compile Include="Scripts\ViewModel\ExtendedPanelVM.cs" />
     <Compile Include="Scripts\ViewModel\MainVM.cs" />

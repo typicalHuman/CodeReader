@@ -24,7 +24,6 @@ namespace CodeReader.Scripts.Extensions
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
             {
                 var child = VisualTreeHelper.GetChild(depObj, i);
-
                 var result = (child as T) ?? GetUIChildOfType<T>(child);
                 if (result != null) return result;
             }
@@ -61,16 +60,23 @@ namespace CodeReader.Scripts.Extensions
         /// </summary>
         public static TreeViewItem GetRoot(this TreeViewItem child)
         {
+            DependencyObject tempObj = GetParent(child);
+            if (tempObj == null)
+                return child;
+            else
+                return (tempObj as TreeViewItem).GetRoot();
+        }
+
+        public static TreeViewItem GetParent(this TreeViewItem child)
+        {
             DependencyObject tempObj = VisualTreeHelper.GetParent(child as DependencyObject);
             while ((tempObj as TreeViewItem) == null)
             {
                 tempObj = VisualTreeHelper.GetParent(tempObj);
-                if(tempObj == null)
-                     return child;
+                if (tempObj == null)
+                    return null;
             }
-            if(tempObj != null)
-                  return (tempObj as TreeViewItem).GetRoot();
-            return null;
+            return tempObj as TreeViewItem;
         }
 
         public static int GetDepth(this TreeViewItem item)

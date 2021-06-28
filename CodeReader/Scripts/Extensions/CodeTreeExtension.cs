@@ -39,10 +39,11 @@ namespace CodeReader.Scripts.Extensions
 
         public static ICodeComponent GetItemValue(this TreeViewItem item, ItemContainerGenerator mainGenerator)
         {
-            if (item.Parent == null)
+            TreeViewItem parent = item.GetParent();
+            if (parent == null)
                 return mainGenerator.ItemFromContainer(item) as ICodeComponent;
             else
-                return (item.Parent as TreeViewItem).ItemContainerGenerator.ItemFromContainer(item) as ICodeComponent;
+                return parent.ItemContainerGenerator.ItemFromContainer(item) as ICodeComponent;
         }
 
         #endregion

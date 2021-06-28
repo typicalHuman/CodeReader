@@ -1,5 +1,6 @@
 ﻿using CodeBox.Enums;
 using CodeReader.Scripts.ViewModel;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace CodeReader.Scripts.Model
@@ -26,6 +27,7 @@ namespace CodeReader.Scripts.Model
             Code = code;
             Description = description;
             ComponentType = type;
+            ID = IDGenerator.GenerateID();
         }
 
         #endregion
@@ -114,6 +116,48 @@ namespace CodeReader.Scripts.Model
 
 
         #endregion
+
+        #region Private
+
+        /// <summary>
+        /// Unique indexer.
+        /// </summary>
+        private string ID { get; set; } = string.Empty;
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Duplicate component without references.
+        /// </summary>
+        public static ICodeComponent Create(ICodeComponent component)
+        {
+            CodeComponent newComponent = new CodeComponent(component.Label, component.Code, 
+                                                           component.Description, component.ComponentType);
+            newComponent.Children = CopyChildren(component);
+            return newComponent;
+        }
+
+        private static CodeComponentsCollection CopyChildren(ICodeComponent component)
+        {
+            CodeComponentsCollection result = new CodeComponentsCollection();
+            foreach(ICodeComponent child in component.Children)
+            {
+                ICodeComponent copiedChild = CopyComponent(child);
+                foreach (ICodeComponent subChild in child.Children)
+                    copiedChild.Children.AddRange(CopyChildren(child));
+                result.Add(copiedChild);
+            }
+            return result;
+        }
+
+        private static ICodeComponent CopyComponent(ICodeComponent component)
+        {
+            return new CodeComponent(component.Label, component.Code,
+                                     component.Description, component.ComponentType);
+        }
 
         #endregion
 
