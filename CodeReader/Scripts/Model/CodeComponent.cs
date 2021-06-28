@@ -58,7 +58,7 @@ namespace CodeReader.Scripts.Model
             set
             {
                 label = value;
-                OnPropertyChanged("label");
+                OnPropertyChanged("Label");
             }
         }
 

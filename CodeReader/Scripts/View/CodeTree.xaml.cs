@@ -1,27 +1,14 @@
 ﻿using CodeReader.Scripts.Model;
 using CodeReader.Scripts.ViewModel;
-using ModernWpf.Controls.Primitives;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using CodeReader.Scripts.Extensions;
 using Notifications.Wpf;
-using GongSolutions.Wpf.DragDrop;
-using System.Collections.ObjectModel;
 
 namespace CodeReader.Scripts.View
 {
@@ -99,6 +86,21 @@ namespace CodeReader.Scripts.View
         /// This instance is needed for getting subroot children of treeview.
         /// </summary>
         private static TreeViewItem selectedItem { get; set; }
+
+        #region IsEditMenuOpen
+
+        private bool isEditMenuOpen;
+        public bool IsEditMenuOpen
+        {
+            get => isEditMenuOpen;
+            set
+            {
+                isEditMenuOpen = value;
+                OnPropertyChanged("IsEditMenuOpen");
+            }
+        }
+
+        #endregion
 
         #endregion
 
@@ -529,6 +531,18 @@ namespace CodeReader.Scripts.View
         }
         #endregion
 
+        #region ChangeEditMenuStateCommand
+        private RelayCommand changeEditMenuStateCommand;
+        public RelayCommand ChangeEditMenuStateCommand
+        {
+            get => changeEditMenuStateCommand ?? (changeEditMenuStateCommand = new RelayCommand(obj =>
+            {
+                IsEditMenuOpen = !IsEditMenuOpen;
+            }));
+        }
         #endregion
+
+        #endregion
+
     }
 }

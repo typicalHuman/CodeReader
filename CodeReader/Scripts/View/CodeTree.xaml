@@ -94,52 +94,70 @@
                 </MenuItem.Header>
             </MenuItem>
             <!--#endregion-->
-            <!--#region Cut MenuItem-->
-            <MenuItem>
+            <!--#region Delete MenuItem-->
+            <MenuItem IsSubmenuOpen="{Binding IsEditMenuOpen, UpdateSourceTrigger=PropertyChanged, 
+                Mode=TwoWay}">
                 <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding CutCommand}"/>
+                    <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                        <i:InvokeCommandAction Command="{Binding ChangeEditMenuStateCommand}"/>
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <i:InvokeCommandAction Command="{Binding ChangeEditMenuStateCommand}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                
                 <MenuItem.Header>
-                    <Grid>
-                        <TextBlock Text="Cut" Style="{DynamicResource MainTextStyle}"/>
-                        <TextBlock Text="Ctrl+X" Style="{DynamicResource TipTBStyle}"/>
-                    </Grid>
+                        <TextBlock Text="Edit" Style="{DynamicResource MainTextStyle}"/>
                 </MenuItem.Header>
-            </MenuItem>
-            <!--#endregion-->
-            <!--#region Copy MenuItem-->
-            <MenuItem>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding CopyCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <MenuItem.Header>
-                    <Grid>
-                        <TextBlock Text="Copy" Style="{DynamicResource MainTextStyle}"/>
-                        <TextBlock Text="Ctrl+C" Style="{DynamicResource TipTBStyle
+                <!--#region Cut MenuItem-->
+                <MenuItem>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding CutCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <MenuItem.Header>
+                        <Grid>
+                            <TextBlock Text="Cut" Style="{DynamicResource MainTextStyle}"/>
+                            <TextBlock Text="Ctrl+X" Style="{DynamicResource TipTBStyle}"/>
+                        </Grid>
+                    </MenuItem.Header>
+                </MenuItem>
+                <!--#endregion-->
+                <!--#region Copy MenuItem-->
+                <MenuItem>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding CopyCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <MenuItem.Header>
+                        <Grid>
+                            <TextBlock Text="Copy" Style="{DynamicResource MainTextStyle}"/>
+                            <TextBlock Text="Ctrl+C" Style="{DynamicResource TipTBStyle
 }"/>
-                    </Grid>
-                </MenuItem.Header>
+                        </Grid>
+                    </MenuItem.Header>
+                </MenuItem>
+                <!--#endregion-->
+                <!--#region Paste MenuItem-->
+                <MenuItem>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding PasteCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <MenuItem.Header>
+                        <Grid>
+                            <TextBlock Text="Insert" Style="{DynamicResource MainTextStyle}"/>
+                            <TextBlock Text="Ctrl+V" Style="{DynamicResource TipTBStyle}"/>
+                        </Grid>
+                    </MenuItem.Header>
+                </MenuItem>
+                <!--#endregion-->
             </MenuItem>
             <!--#endregion-->
-            <!--#region Paste MenuItem-->
-            <MenuItem>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding PasteCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <MenuItem.Header>
-                    <Grid>
-                        <TextBlock Text="Insert" Style="{DynamicResource MainTextStyle}"/>
-                        <TextBlock Text="Ctrl+V" Style="{DynamicResource TipTBStyle}"/>
-                    </Grid>
-                </MenuItem.Header>
-            </MenuItem>
-            <!--#endregion-->
+        
         </ContextMenu>
         <!--#endregion-->
         <conv:TypeToImageConverter x:Key="TypeToSourceConverter"/>
