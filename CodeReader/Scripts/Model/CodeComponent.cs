@@ -1,4 +1,5 @@
-﻿using CodeBox.Enums;
+﻿using CodeBox;
+using CodeBox.Enums;
 using CodeReader.Scripts.ViewModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -113,6 +114,7 @@ namespace CodeReader.Scripts.Model
         public CodeComponentsCollection  Children { get; set; } = new CodeComponentsCollection();
         public ObservableCollection<ICodeComponent> References { get; set; } = new ObservableCollection<ICodeComponent>();
         public ObservableCollection<ICodeComponent> Dependencies { get; set; } = new ObservableCollection<ICodeComponent>();
+        public UndoStack History { get; set; } = new UndoStack();
 
 
         #endregion

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using CodeBox;
 using System.Collections.ObjectModel;
 using CodeBox.Enums;
 
@@ -45,5 +45,9 @@ namespace CodeReader.Scripts.Model
         /// Programming language
         /// </summary>
         Languages Language { get; set; }
+        /// <summary>
+        /// History of file changes.
+        /// </summary>
+        UndoStack History { get; set; }
     }
 }

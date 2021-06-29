@@ -1,9 +1,4 @@
 ﻿using CodeReader.Scripts.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeReader.Scripts.ViewModel
 {
@@ -23,7 +18,8 @@ namespace CodeReader.Scripts.ViewModel
             set
             {
                 currentComponent = value;
-
+                if(currentComponent != null)
+                  currentComponent.History.UndoPop();//for removing value from last component
                 OnPropertyChanged("CurrentComponent");
             }
         }

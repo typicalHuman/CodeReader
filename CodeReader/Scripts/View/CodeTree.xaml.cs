@@ -271,6 +271,7 @@ namespace CodeReader.Scripts.View
             if (selectedItem == null)
                 return;
             (codeTree.SelectedItem as ICodeComponent).Children.Insert(0, child);
+            var a = CodeComponents;
             selectedItem.InitItemContainer();
             TreeViewItem newItem = selectedItem.ItemContainerGenerator.ContainerFromItem(child) as TreeViewItem;
             SelectComponent(newItem);
@@ -295,7 +296,7 @@ namespace CodeReader.Scripts.View
         private void MoveSelection(Direction dir)
         {
             TreeViewItem parent = selectedItem.GetRoot() as TreeViewItem;
-            List<TreeViewItem> stack = GenerateStack(parent);
+            List<TreeViewItem> stack = GenerateStack(parent, dir);
             int index = stack.IndexOf(selectedItem);
             if (CanMoveInSubRoot(dir, index, stack.Count))
             {
@@ -319,10 +320,10 @@ namespace CodeReader.Scripts.View
         /// <summary>
         /// Create stack based on parent (if it's not null) or on selected item.
         /// </summary>
-        private List<TreeViewItem> GenerateStack(TreeViewItem parent)
+        private List<TreeViewItem> GenerateStack(TreeViewItem parent, Direction dir)
         {
             List<TreeViewItem> stack = new List<TreeViewItem>();
-            if (selectedItem.Items.Count > 0)
+            if (selectedItem.Items.Count > 0 && dir == Direction.Down)
                 stack = selectedItem.IterateTree();
             else if (parent != null)
                 stack = parent.IterateTree();

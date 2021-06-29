@@ -123,7 +123,8 @@
                                 Grid.ColumnSpan="2"
                                 Name="cbc"
                                 ProgrammingLanguage="{Binding CurrentComponent.Language, UpdateSourceTrigger=PropertyChanged}"
-                                Margin="5 0 10 10" Text="{Binding CurrentComponent.Code, UpdateSourceTrigger=PropertyChanged}">
+                                Margin="5 0 10 10" Text="{Binding CurrentComponent.Code, UpdateSourceTrigger=PropertyChanged}"
+                                UndoOperations="{Binding CurrentComponent.History, UpdateSourceTrigger=PropertyChanged}">
             <codeBox:CodeBoxControl.Style>
                 <Style 
                        TargetType="codeBox:CodeBoxControl">
