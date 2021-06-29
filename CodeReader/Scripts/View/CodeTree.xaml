@@ -179,11 +179,8 @@
     </UserControl.Resources>
     <!--#endregion-->
     <Grid x:Name="mainGrid">
-        <!--#region NotificationsArea-->
-        <!--Area where notifications will appear-->
-        <notifications:NotificationArea  x:Name="NotificationsArea"  Panel.ZIndex="2" 
-                                         Position="BottomRight" MaxItems="1"/>
-        <!--#endregion-->
+       
+       
         <Grid>
             <!--#region Column Definitions-->
             <Grid.RowDefinitions>
@@ -192,12 +189,32 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <!--#endregion-->
-            
-            <Button Height="40" HorizontalAlignment="Stretch" Content="Back"
+            <!--#region BackButton-->
+                <Button Height="40" HorizontalAlignment="Stretch" 
+                        Content="Back"
                         FontFamily="{StaticResource RegularFont}"
-                        Grid.Row="0" Margin="10 10 0 10"
-                    Style="{StaticResource AccentButtonStyle}">
+                        Grid.Row="0" Margin="10 10 0 10">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding BackCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource AccentButtonStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsSingleRootOpen,
+                        UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsSingleRootOpen,
+                        UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
+            <!--#endregion-->
             <!--#region Tree Manipulating Buttons-->
             <Grid HorizontalAlignment="Stretch" SizeChanged="Grid_SizeChanged"
                   Margin="10 0 0 0" Grid.Row="1">
@@ -211,20 +228,47 @@
                 <!--#region Add child-->
                 <Button Height="40"   Content="Add child"
                         HorizontalAlignment="Stretch"
-                        FontFamily="{StaticResource RegularFont}"
-                        Grid.ColumnSpan="3">
+                        FontFamily="{StaticResource RegularFont}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding AddChildCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSingleRootOpen,
+                        UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                    <Setter Property="Grid.ColumnSpan" Value="3"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsSingleRootOpen,
+                        UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                    <Setter Property="Grid.ColumnSpan" Value="1"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                 </Button>
                 <!--#endregion-->
                 <!--#region Add Parent-->
                 <Button Height="40" Width="Auto"  HorizontalAlignment="Stretch" Content="Add parent"
-                        FontFamily="{StaticResource RegularFont}" Visibility="Collapsed"
+                        FontFamily="{StaticResource RegularFont}" 
                         Grid.Column="2"
-                    Style="{StaticResource AccentButtonStyle}" Click="AddParent_Btn_Click">
+                   Click="AddParent_Btn_Click">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource AccentButtonStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsSingleRootOpen,
+                        UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsSingleRootOpen,
+                        UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                 </Button>
                 <!--#endregion-->
              
@@ -276,6 +320,7 @@
         <!--#region InputBindings-->
         <Grid.InputBindings>
             <KeyBinding Key="F2" Command="{Binding RenameCommand}"/>
+            <KeyBinding Key="Esc" Command="{Binding BackCommand}"/>
             <KeyBinding Key="Delete" Command="{Binding DeleteCommand}"/>
             <KeyBinding Key="Down" Command="{Binding SelectNextCommand}"/>
             <KeyBinding Key="Up" Command="{Binding SelectPrevCommand}"/>

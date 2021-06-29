@@ -19,9 +19,6 @@ namespace CodeReader.Scripts.View
     /// </summary>
     public partial class CodeTree : UserControl, INotifyPropertyChanged, IDropTarget
     {
-
-
-
         #region Enum
 
         /// <summary>
@@ -39,6 +36,11 @@ namespace CodeReader.Scripts.View
         {
             InitializeComponent();
             mainGrid.DataContext = this;
+        }
+
+        static CodeTree()
+        {
+            defaultDropHandler = new DefaultDropHandler();
         }
 
         #endregion
@@ -91,6 +93,29 @@ namespace CodeReader.Scripts.View
         /// This instance is needed for getting subroot children of treeview.
         /// </summary>
         private static TreeViewItem selectedItem { get; set; }
+
+        /// <summary>
+        /// For executing default drag and drop functionality.
+        /// </summary>
+        private static DefaultDropHandler defaultDropHandler { get; set; }
+
+        #region Notifications
+
+        private static NotificationContent EmptyParentWarning { get; set; } = new NotificationContent()
+        {
+            Type = NotificationType.Warning,
+            Title = "Warning",
+            Message = "Select item at first!"
+        };
+
+        private static NotificationContent RootDeletionWarning { get; set; } = new NotificationContent()
+        {
+            Type = NotificationType.Warning,
+            Title = "Warning",
+            Message = "You can't delete main root."
+        };
+
+        #endregion
 
         #region IsEditMenuOpen
 
@@ -161,6 +186,11 @@ namespace CodeReader.Scripts.View
         {
             if (cc.Parent == null)
             {
+                if(IsSingleRootOpen)
+                {
+                    ShowWarning(RootDeletionWarning);
+                    return;
+                }
                 CodeComponents.Remove(cc);
                 UpdateExtendedPanel();
                 return;
@@ -229,7 +259,7 @@ namespace CodeReader.Scripts.View
         {
             if (selectedItem == null)
             {
-                ShowWarning();
+                ShowWarning(EmptyParentWarning);
                 return;
             }
             ICodeComponent newComponent = GetDefaultComponent(codeTree.SelectedItem as ICodeComponent);
@@ -249,14 +279,8 @@ namespace CodeReader.Scripts.View
         /// <summary>
         /// Show notification with warning.
         /// </summary>
-        private void ShowWarning()
+        private void ShowWarning(NotificationContent content)
         {
-            NotificationContent content = new NotificationContent()
-            {
-                Type = NotificationType.Warning,
-                Title = "Warning",
-                Message = "Select item at first!"
-            };
             notificationManager.Show(content, "NotificationsArea");
         }
 
@@ -448,6 +472,25 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
+        #region IDropTarget Implementation
+
+        void IDropTarget.DragOver(IDropInfo dropInfo)
+        {
+            ICodeComponent sourceItem = dropInfo.Data as ICodeComponent;
+            ICodeComponent targetItem = dropInfo.TargetItem as ICodeComponent;
+            if (targetItem != null && targetItem != sourceItem &&
+                ((IsSingleRootOpen && targetItem.Parent != null) ||//is target item is root or not
+                !IsSingleRootOpen))
+                defaultDropHandler.DragOver(dropInfo);
+        }
+
+        void IDropTarget.Drop(IDropInfo dropInfo)
+        {
+            defaultDropHandler.Drop(dropInfo);
+        }
+
+        #endregion
+
         #endregion
 
         #region KeyCommands
@@ -569,38 +612,28 @@ namespace CodeReader.Scripts.View
         {
             get => openAsRootCommand ?? (openAsRootCommand = new RelayCommand(obj =>
             {
-                ICodeComponent root = CodeComponent.Create(selectedItem.GetItemValue(codeTree.ItemContainerGenerator));
+                ICodeComponent root = selectedItem.GetItemValue(codeTree.ItemContainerGenerator);
                 codeTree.ItemsSource = new List<ICodeComponent>() { root };
                 IsSingleRootOpen = true;
+                OpenItem(selectedItem);
             }));
         }
-        #endregion
 
         #endregion
 
-        private void CodeTree_Drop(object sender, DragEventArgs e)
+        #region BackCommand
+        private RelayCommand backCommand;
+        public RelayCommand BackCommand
         {
-            int foundIndex = CodeComponents.IndexOf(sender as ICodeComponent);
-            var a = e.GetPosition(codeTree);
-            var b = codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem;
-           var res = DragDropExtensions.DirectlyOverElement(a, b, this);
-            if (res)
+            get => backCommand ?? (backCommand = new RelayCommand(obj =>
             {
-                e.Effects = DragDropEffects.None;
-                e.Handled = true;
-            }
-            //var c = VisualTreeHelper.HitTest(b, a);
-            //if (foundIndex == -1 && IsSingleRootOpen)
-            //e.Effects = DragDropEffects.None;
-            //e.Handled = true;
+                IsSingleRootOpen = false;
+                codeTree.ItemsSource = App.mainVM.CodeComponents;
+            }));
         }
 
-        void IDropTarget.DragOver(IDropInfo dropInfo)
-        {
-        }
+        #endregion
 
-        void IDropTarget.Drop(IDropInfo dropInfo)
-        {
-        }
+        #endregion
     }
 }

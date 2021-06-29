@@ -140,14 +140,15 @@ namespace CodeReader.Scripts.Model
             return newComponent;
         }
 
-        private static CodeComponentsCollection CopyChildren(ICodeComponent component)
+        private static CodeComponentsCollection CopyChildren(ICodeComponent parent)
         {
             CodeComponentsCollection result = new CodeComponentsCollection();
-            foreach(ICodeComponent child in component.Children)
+            foreach(ICodeComponent child in parent.Children)
             {
                 ICodeComponent copiedChild = CopyComponent(child);
                 foreach (ICodeComponent subChild in child.Children)
                     copiedChild.Children.AddRange(CopyChildren(child));
+                copiedChild.Parent = parent;
                 result.Add(copiedChild);
             }
             return result;

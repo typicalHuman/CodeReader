@@ -15,6 +15,7 @@
         DataContext="{x:Static local:App.mainVM}"    ui:WindowHelper.UseModernWindowStyle="True" 
         ui:ThemeManager.IsThemeAware="True" ui:TitleBar.ExtendViewIntoTitleBar="True"
        Height="450" Width="800" 
+                    xmlns:notifications="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
         ResizeMode="CanResizeWithGrip"
         gif:ImageBehavior.AnimateInDesignMode="True">
 
@@ -36,6 +37,12 @@
             <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <!--#region NotificationsArea-->
+        <!--Area where notifications will appear-->
+        <notifications:NotificationArea  x:Name="NotificationsArea"   Panel.ZIndex="4" 
+                                         Position="BottomRight" MaxItems="1" Grid.Row="1"/>
+        <!--#endregion-->
+
         <DockPanel Background="Transparent">
             <StackPanel Orientation="Horizontal" Background="Transparent">
                 <ui:TitleBarButton Height="35" Width="60" 

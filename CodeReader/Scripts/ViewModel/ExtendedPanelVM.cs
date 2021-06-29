@@ -23,6 +23,7 @@ namespace CodeReader.Scripts.ViewModel
             set
             {
                 currentComponent = value;
+
                 OnPropertyChanged("CurrentComponent");
             }
         }
