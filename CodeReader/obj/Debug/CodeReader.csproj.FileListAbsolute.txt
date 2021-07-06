@@ -181,3 +181,4 @@ C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Microsoft.Expressi
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\System.Windows.Interactivity.xml
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\WpfAnimatedGif.pdb
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\WpfAnimatedGif.xml
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\TextBlockStyle.baml

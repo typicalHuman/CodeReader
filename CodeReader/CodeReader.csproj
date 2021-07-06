@@ -111,6 +111,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Scripts\Styles\TextBlockStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Scripts\Styles\TextBoxStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -146,6 +150,7 @@
     <Compile Include="Scripts\ViewModel\BaseViewModel.cs" />
     <Compile Include="Scripts\ViewModel\ExtendedPanelVM.cs" />
     <Compile Include="Scripts\ViewModel\MainVM.cs" />
+    <Compile Include="Scripts\ViewModel\NotificationsManager.cs" />
     <Compile Include="Scripts\ViewModel\RelayCommand.cs" />
     <Compile Include="Scripts\View\CodeTree.xaml.cs">
       <DependentUpon>CodeTree.xaml</DependentUpon>
