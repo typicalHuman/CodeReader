@@ -24,11 +24,12 @@ namespace CodeReader.Scripts.Model
         public CodeComponent(string label = "code", string code = "", string description = "",
             CodeComponentType type = CodeComponentType.Code)
         {
-            Label = label;
-            Code = code;
-            Description = description;
-            ComponentType = type;
-            ID = IDGenerator.GenerateID();
+            DefaultInit(label, code, description, type);
+        }
+
+        public CodeComponent()
+        {
+            DefaultInit();
         }
 
         #endregion
@@ -109,7 +110,24 @@ namespace CodeReader.Scripts.Model
 
         #endregion
 
-        public ICodeComponent Parent { get; set; }
+        #region Parent
+
+        private ICodeComponent parent;
+        public ICodeComponent Parent
+        {
+            get => parent;
+            set
+            {
+                parent = value;
+                if(parent != null)
+                {
+                    Language = parent.Language;
+                }
+                OnPropertyChanged("Parent");
+            }
+        }
+
+        #endregion
 
         public CodeComponentsCollection  Children { get; set; } = new CodeComponentsCollection();
         public ObservableCollection<ICodeComponent> References { get; set; } = new ObservableCollection<ICodeComponent>();
@@ -131,6 +149,17 @@ namespace CodeReader.Scripts.Model
         #endregion
 
         #region Methods
+
+        private void DefaultInit(string label = "code", string code = "", string description = "",
+            CodeComponentType type = CodeComponentType.Code)
+        {
+            Label = label;
+            Code = code;
+            Description = description;
+            ComponentType = type;
+            ID = IDGenerator.GenerateID();
+        }
+
         /// <summary>
         /// Duplicate component without references.
         /// </summary>
