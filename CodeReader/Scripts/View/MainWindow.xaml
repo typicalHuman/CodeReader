@@ -92,7 +92,9 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <view:CodeTree CodeComponents="{Binding CodeComponents, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="0 10 0 10"/>
+            <view:CodeTree CodeComponents="{Binding CodeComponents, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="0 10 0 10"
+                           TargetComponent="{Binding ElementName=extendedPanel, Path=DataContext.CurrentComponent, UpdateSourceTrigger=PropertyChanged,
+                Mode=OneWay}"/>
                 <GridSplitter Grid.Column ="1" Width="4" 
                               Background="{StaticResource GridSplitterGray}"
                       ShowsPreview="True" Grid.Row="1" Margin="10" Name="Splitter"
@@ -110,7 +112,7 @@
                     </ControlTemplate>
                 </GridSplitter.Template>
             </GridSplitter>
-            <view:ExtendedPanel Grid.Column="2"/>
+            <view:ExtendedPanel Grid.Column="2" x:Name="extendedPanel"/>
         </Grid>
     </Grid>
 </Window>

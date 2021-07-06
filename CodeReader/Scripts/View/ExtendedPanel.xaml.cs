@@ -26,6 +26,7 @@ namespace CodeReader.Scripts.View
         public ExtendedPanel()
         {
             InitializeComponent();
+            App.extendedPanelVM.Document = cbc.Document;
         }
 
         private void ComboBoxItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)

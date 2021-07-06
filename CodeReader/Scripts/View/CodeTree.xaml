@@ -8,7 +8,8 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:model="clr-namespace:CodeReader.Scripts.Model"
             xmlns:notifications="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
-              xmlns:dd="urn:gong-wpf-dragdrop"
+           xmlns:local="clr-namespace:CodeReader"
+             xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              FontFamily="{StaticResource RegularFont}"
@@ -17,27 +18,9 @@
     <UserControl.Resources>
         <!--#region CodeTree ContextMenu-->
         <ContextMenu FontFamily="{StaticResource RegularFont}"
-                     x:Key="ContextMenu" MinWidth="150">
+                     x:Key="TreeItemContextMenu" MinWidth="150">
             <!--#region ContextMenu Resources-->
             <ContextMenu.Resources>
-                <!--#region Tip TextBlock Style-->
-                <!--Style for tips about key combinations-->
-                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"
-                       x:Key="TipTBStyle">
-                    <Setter Property="HorizontalAlignment" Value="Right"/>
-                    <Setter Property="VerticalAlignment" Value="Bottom"/>
-                    <Setter Property="FontSize" Value="11"/>
-                    <Setter Property="Foreground" Value="{StaticResource MenuItemTip}"/>
-                </Style>
-                <!--#endregion-->
-                <!--#region MainText TextBlock Style-->
-                <!--Style for main description text of MenuItem.-->
-                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"
-                       x:Key="MainTextStyle">
-                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                    <Setter Property="VerticalAlignment" Value="Center"/>
-                </Style>
-                <!--#endregion-->
                 <!--#region Base MenuItem Style-->
                 <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
                     <Setter Property="DataContext" Value="{Binding  Source={x:Reference mainGrid},
@@ -193,7 +176,7 @@
                 <Button Height="40" HorizontalAlignment="Stretch" 
                         Content="Back"
                         FontFamily="{StaticResource RegularFont}"
-                        Grid.Row="0" Margin="10 10 0 10">
+                        Grid.Row="0" Margin="10 10 0 10" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction Command="{Binding BackCommand}"/>
@@ -281,7 +264,8 @@
                    dd:DragDrop.IsDragSource="True"
                    dd:DragDrop.IsDropTarget="True"
                       dd:DragDrop.DropHandler="{Binding ElementName=mainGrid, Path=DataContext}"
-                      AllowDrop="True">
+                      AllowDrop="True"
+                      DataContext="{Binding Source={x:Static local:App.mainVM}}">
                 <TreeView.Resources>
                     <!--#region Data Template-->
                     <HierarchicalDataTemplate DataType="{x:Type model:CodeComponent}" ItemsSource="{Binding Children, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
@@ -309,7 +293,8 @@
                         <EventSetter Event="PreviewMouseRightButtonDown" Handler="TreeViewItem_PreviewMouseRightButtonDown"/>
                         <EventSetter Event="Selected" Handler="TreeViewItem_Selected"/>
                         <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeItemPreviewMouseLeftButtonDown"/>
-                        <Setter Property="ContextMenu" Value="{StaticResource ContextMenu}"/>
+                        <Setter Property="ContextMenu" Value="{DynamicResource TreeItemContextMenu}"/>
+                        <Setter Property="IsSelected" Value="{Binding IsOpened, UpdateSourceTrigger=PropertyChanged}"/>
                     </Style>
                 </TreeView.ItemContainerStyle>
                 <!--#endregion-->

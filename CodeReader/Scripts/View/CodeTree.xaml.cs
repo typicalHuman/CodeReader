@@ -11,6 +11,7 @@ using CodeReader.Scripts.Extensions;
 using Notifications.Wpf;
 using GongSolutions.Wpf.DragDrop.Utilities;
 using GongSolutions.Wpf.DragDrop;
+using System.Windows.Data;
 
 namespace CodeReader.Scripts.View
 {
@@ -75,14 +76,50 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
+        #region TargetComponent
+        public static readonly DependencyProperty TargetComponentProperty =
+      DependencyProperty.Register("TargetComponent", typeof(ICodeComponent), typeof(CodeTree),
+          new FrameworkPropertyMetadata
+          {
+              DefaultValue = default(ICodeComponent),
+              BindsTwoWayByDefault = true,
+              PropertyChangedCallback = OnTargetComponentChanged
+
+          });
+
+        public ICodeComponent TargetComponent
+        {
+            get => (ICodeComponent)GetValue(TargetComponentProperty);
+            set
+            {
+                SetValue(TargetComponentProperty, value);
+                OnPropertyChanged("TargetComponent");
+            }
+        }
+
+        private static void OnTargetComponentChanged(DependencyObject d,
+           DependencyPropertyChangedEventArgs e)
+        {
+            CodeTree UserControl1Control = d as CodeTree;
+            UserControl1Control.OnTargetComponentChanged(e);
+        }
+
+        private void OnTargetComponentChanged(DependencyPropertyChangedEventArgs e)
+        {
+                ICodeComponent newValue = e.NewValue as ICodeComponent;
+                if (e.NewValue != codeTree.SelectedItem)
+                {
+                    openedItem.InitItemContainer();
+                    (openedItem.ItemContainerGenerator.ContainerFromItem(newValue) as TreeViewItem).IsSelected = true;
+                    OpenSelectedItem();
+                }
+        }
+
+        #endregion
+
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Manager for showing notifications.
-        /// </summary>
-        private NotificationManager notificationManager { get; set; } = new NotificationManager();
 
         /// <summary>
         /// Item which is storing after copy or cutting operation.
@@ -93,6 +130,12 @@ namespace CodeReader.Scripts.View
         /// This instance is needed for getting subroot children of treeview.
         /// </summary>
         private static TreeViewItem selectedItem { get; set; }
+
+
+        /// <summary>
+        /// Open which is opened in extended panel.
+        /// </summary>
+        private static TreeViewItem openedItem { get; set; }
 
         /// <summary>
         /// For executing default drag and drop functionality.
@@ -166,6 +209,7 @@ namespace CodeReader.Scripts.View
 
         #region Methods
 
+
         #region VisualUpwardSearch
         /// <summary>
         /// Get child in subroot of treeview.
@@ -188,7 +232,7 @@ namespace CodeReader.Scripts.View
             {
                 if(IsSingleRootOpen)
                 {
-                    ShowWarning(RootDeletionWarning);
+                    NotificationsManager.ShowWarning(RootDeletionWarning);
                     return;
                 }
                 CodeComponents.Remove(cc);
@@ -209,12 +253,13 @@ namespace CodeReader.Scripts.View
         }
         #endregion
 
-        #region OpenItem
+        #region OpenSelectedItem
         /// <summary>
         /// Open TreeViewItem value in Extended Panel.
         /// </summary>
-        private void OpenItem(object selectedItem)
+        private void OpenSelectedItem()
         {
+            openedItem = selectedItem;
             App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
         }
 
@@ -249,7 +294,7 @@ namespace CodeReader.Scripts.View
         private void SelectComponent(TreeViewItem item)
         {
             item.IsSelected = true;
-            OpenItem(item);
+            OpenSelectedItem();
         }
         #endregion
 
@@ -259,31 +304,24 @@ namespace CodeReader.Scripts.View
         {
             if (selectedItem == null)
             {
-                ShowWarning(EmptyParentWarning);
+                NotificationsManager.ShowWarning(EmptyParentWarning);
                 return;
             }
             ICodeComponent newComponent = GetDefaultComponent(codeTree.SelectedItem as ICodeComponent);
-            AddChild(parent, newComponent);
+            AddChildToSelectedItem(newComponent);
         }
 
-        private void AddChild(TreeViewItem parent, ICodeComponent child)
+        private void AddChildToSelectedItem(ICodeComponent child)
         {
             if (selectedItem == null)
                 return;
             (codeTree.SelectedItem as ICodeComponent).Children.Insert(0, child);
-            var a = CodeComponents;
             selectedItem.InitItemContainer();
             TreeViewItem newItem = selectedItem.ItemContainerGenerator.ContainerFromItem(child) as TreeViewItem;
             SelectComponent(newItem);
         }
 
-        /// <summary>
-        /// Show notification with warning.
-        /// </summary>
-        private void ShowWarning(NotificationContent content)
-        {
-            notificationManager.Show(content, "NotificationsArea");
-        }
+     
 
         #endregion
 
@@ -380,7 +418,7 @@ namespace CodeReader.Scripts.View
 
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            OpenItem(codeTree.SelectedItem);
+            OpenSelectedItem();
         }
 
         #endregion
@@ -430,7 +468,6 @@ namespace CodeReader.Scripts.View
         /// </summary>
         private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
         {
-            var a = codeTree;
             selectedItem = e.OriginalSource as TreeViewItem;
             selectedItem.Focus();
         }
@@ -453,7 +490,7 @@ namespace CodeReader.Scripts.View
             {
                 e.Handled = true;
                 if (selectedItem != null)
-                  OpenItem(codeTree.SelectedItem);
+                  OpenSelectedItem();
             }
 
         }
@@ -590,7 +627,7 @@ namespace CodeReader.Scripts.View
         {
             get => pasteCommand ?? (pasteCommand = new RelayCommand(obj =>
             {
-                AddChild(selectedItem, BufferComponent);
+                AddChildToSelectedItem(BufferComponent);
             }));
         }
         #endregion
@@ -616,7 +653,7 @@ namespace CodeReader.Scripts.View
                 ICodeComponent root = selectedItem.GetItemValue(codeTree.ItemContainerGenerator);
                 codeTree.ItemsSource = new List<ICodeComponent>() { root };
                 IsSingleRootOpen = true;
-                OpenItem(selectedItem);
+                OpenSelectedItem();
             }));
         }
 
