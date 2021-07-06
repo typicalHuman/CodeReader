@@ -26,7 +26,6 @@ namespace CodeReader
         public MainWindow()
         {
             InitializeComponent();
-            Splitter.DragDelta += SplitterDragDelta;
         }
 
         /// <summary>
@@ -37,11 +36,6 @@ namespace CodeReader
             double newWidth = codeReaderPanel.ColumnDefinitions[0].ActualWidth + e.HorizontalChange;
             if(newWidth >= 0)
                 codeReaderPanel.ColumnDefinitions[0].Width = new GridLength(newWidth);
-        }
-
-        private void TitleGifImage_AnimationLoaded(object sender, RoutedEventArgs e)
-        {
-            App.mainVM.AnimationController = ImageBehavior.GetAnimationController(TitleGifImage);
         }
     }
 

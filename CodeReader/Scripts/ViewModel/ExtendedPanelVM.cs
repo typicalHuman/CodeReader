@@ -98,6 +98,17 @@ namespace CodeReader.Scripts.ViewModel
         }
         #endregion
 
+        #region BeautifyCommand
+        private RelayCommand beautifyCommand;
+        public RelayCommand BeautifyCommand
+        {
+            get => beautifyCommand ?? (beautifyCommand = new RelayCommand(obj =>
+            {
+                UpdateIndentation();
+            }));
+        }
+        #endregion
+
         #endregion
 
 

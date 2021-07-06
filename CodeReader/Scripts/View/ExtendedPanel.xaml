@@ -32,7 +32,8 @@
                 </Style>
                 <!--#endregion-->
             </ContextMenu.Resources>
-            <!--#region To new child MenuItem-->
+            <!--#region Menu Items-->
+            <!--#region Create Child-->
             <MenuItem>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
@@ -48,6 +49,24 @@
                     </Grid>
                 </MenuItem.Header>
             </MenuItem>
+            <!--#endregion-->
+
+            <!--#region Beautify Code-->
+            <MenuItem>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding BeautifyCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <MenuItem.Header>
+                    <Grid>
+                        <TextBlock Text="Beautify" Style="{DynamicResource MainTextStyle}"/>
+                        <TextBlock Text="Ctrl+B" Style="{DynamicResource TipTBStyle}"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
+            <!--#endregion-->
+
             <!--#endregion-->
         </ContextMenu>
 
@@ -153,7 +172,7 @@
                 </ControlTemplate>
             </GridSplitter.Template>
         </GridSplitter>
-        <!-- Code Editor-->
+        <!--#region Code Editor-->
         <codeBox:CodeBoxControl Grid.Row="3"
                                 Grid.ColumnSpan="2"
                                 Name="cbc"
@@ -162,6 +181,7 @@
                                 UndoOperations="{Binding CurrentComponent.History, UpdateSourceTrigger=PropertyChanged}"
                                 ContextMenu="{DynamicResource EditorContextMenu}"
                                 IndentationStrategy="{Binding IndentStrategy, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}">
+            <!--#region Style-->
             <codeBox:CodeBoxControl.Style>
                 <Style 
                        TargetType="codeBox:CodeBoxControl">
@@ -177,10 +197,16 @@
                     </Style.Triggers>
                 </Style>
             </codeBox:CodeBoxControl.Style>
+            <!--#endregion-->
+            <!--#region Key Bindings-->
             <codeBox:CodeBoxControl.InputBindings>
                 <KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding CreateNewChildCommand}" CommandParameter="{Binding ElementName=cbc, Path=SelectedText}"/>
+                <KeyBinding Modifiers="Ctrl" Key="B" Command="{Binding BeautifyCommand}"
+                            CommandTarget="{Binding ElementName=cbc}"/>
             </codeBox:CodeBoxControl.InputBindings>
+            <!--#endregion-->
         </codeBox:CodeBoxControl>
+        <!--#endregion-->
     </Grid>
     <!--#region UserControl style-->
     <UserControl.Style>

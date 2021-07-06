@@ -59,48 +59,14 @@ namespace CodeReader.Scripts.ViewModel
 
 
 
-        #region IsAnimationRunning
-        public ImageAnimationController AnimationController { get; set; }
-        private bool isAnimationRunning = true;
-        public bool IsAnimationRunning
-        {
-            get => isAnimationRunning;
-            set
-            {
-                isAnimationRunning = value;
-                OnPropertyChanged("IsAnimationRunning");
-            }
-        }
-
-        #endregion
+    
 
         #endregion
 
         #region Commands
 
 
-        #region TitleMouseEnterCommand
-        private RelayCommand titleMouseEnterCommand;
-        public RelayCommand TitleMouseEnterCommand
-        {
-            get => titleMouseEnterCommand ?? (titleMouseEnterCommand = new RelayCommand(obj =>
-            {
-                 AnimationController.Play();
-            }));
-        }
-        #endregion
-
-        #region TitleMouseLeaveCommand
-        private RelayCommand titleMouseLeaveCommand;
-        public RelayCommand TitleMouseLeaveCommand
-        {
-            get => titleMouseLeaveCommand ?? (titleMouseLeaveCommand = new RelayCommand(obj =>
-            {
-                AnimationController.Pause();
-                AnimationController.GotoFrame(0);
-            }));
-        }
-        #endregion
+       
         #endregion
     }
 }
