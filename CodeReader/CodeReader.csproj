@@ -144,9 +144,12 @@
     <Compile Include="Scripts\Extensions\FindChildExtension.cs" />
     <Compile Include="Scripts\Model\CodeComponent.cs" />
     <Compile Include="Scripts\Model\CodeComponentsCollection.cs" />
-    <Compile Include="Scripts\Model\CodeComponentType.cs" />
-    <Compile Include="Scripts\Model\ICodeComponent.cs" />
+    <Compile Include="Scripts\Model\Enums\CodeComponentType.cs" />
+    <Compile Include="Scripts\Model\Interfaces\ICodeComponent.cs" />
     <Compile Include="Scripts\Model\IDGenerator.cs" />
+    <Compile Include="Scripts\Model\Interfaces\IRelationship.cs" />
+    <Compile Include="Scripts\Model\Relationship.cs" />
+    <Compile Include="Scripts\Model\Enums\RelationshipType.cs" />
     <Compile Include="Scripts\ViewModel\BaseViewModel.cs" />
     <Compile Include="Scripts\ViewModel\ExtendedPanelVM.cs" />
     <Compile Include="Scripts\ViewModel\MainVM.cs" />

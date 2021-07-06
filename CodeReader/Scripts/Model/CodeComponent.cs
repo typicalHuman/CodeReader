@@ -130,8 +130,7 @@ namespace CodeReader.Scripts.Model
         #endregion
 
         public CodeComponentsCollection  Children { get; set; } = new CodeComponentsCollection();
-        public ObservableCollection<ICodeComponent> References { get; set; } = new ObservableCollection<ICodeComponent>();
-        public ObservableCollection<ICodeComponent> Dependencies { get; set; } = new ObservableCollection<ICodeComponent>();
+        public ObservableCollection<IRelationship> Relationships { get; set; } = new ObservableCollection<IRelationship>();
         public UndoStack History { get; set; } = new UndoStack();
 
 
