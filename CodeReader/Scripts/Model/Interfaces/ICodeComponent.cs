@@ -1,8 +1,9 @@
 ﻿using CodeBox;
 using System.Collections.ObjectModel;
 using CodeBox.Enums;
+using CodeReader.Scripts.Enums;
 
-namespace CodeReader.Scripts.Model
+namespace CodeReader.Scripts.Interfaces
 {
     /// <summary>
     /// Interface for implementation core tree component logic.

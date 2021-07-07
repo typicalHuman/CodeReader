@@ -1,6 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CodeReader.Scripts.Styles">
+    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource MenuItemTip}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <!--Style for menu items with submenu. -->
     <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}"
                        x:Key="MenuItemWithSubmenu">
@@ -13,4 +21,6 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+
 </ResourceDictionary>

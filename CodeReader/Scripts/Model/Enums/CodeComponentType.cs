@@ -1,4 +1,4 @@
-﻿namespace CodeReader.Scripts.Model
+﻿namespace CodeReader.Scripts.Enums
 {
     /// <summary>
     /// Enum for defining type of tree's component.

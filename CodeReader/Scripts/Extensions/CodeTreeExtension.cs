@@ -1,4 +1,4 @@
-﻿using CodeReader.Scripts.Model;
+﻿using CodeReader.Scripts.Interfaces;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 

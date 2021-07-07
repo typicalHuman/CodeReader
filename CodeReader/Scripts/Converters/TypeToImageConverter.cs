@@ -1,4 +1,4 @@
-﻿using CodeReader.Scripts.Model;
+﻿using CodeReader.Scripts.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

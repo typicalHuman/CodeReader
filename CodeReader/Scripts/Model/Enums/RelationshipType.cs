@@ -1,4 +1,4 @@
-﻿namespace CodeReader.Scripts.Model
+﻿namespace CodeReader.Scripts.Enums
 {
     /// <summary>
     /// Enum for different types of code objects relations.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CodeReader.Scripts.Model
+namespace CodeReader.Scripts
 {
     public static class IDGenerator
     {

@@ -6,7 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"    
              xmlns:conv="clr-namespace:CodeReader.Scripts.Converters"
              xmlns:ui="http://schemas.modernwpf.com/2019"
-             xmlns:model="clr-namespace:CodeReader.Scripts.Model"
+             xmlns:model="clr-namespace:CodeReader.Scripts"
             xmlns:notifications="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
            xmlns:local="clr-namespace:CodeReader"
              xmlns:dd="urn:gong-wpf-dragdrop"
@@ -26,15 +26,18 @@
             <!--#region ContextMenu Resources-->
             <ContextMenu.Resources>
                 <!--#region Base MenuItem Style-->
-                <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                <Style TargetType="MenuItem" 
+                       BasedOn="{StaticResource {x:Type MenuItem}}">
                     <Setter Property="DataContext" Value="{Binding  Source={x:Reference mainGrid},
                         Path=DataContext}"/>
+                    <Setter Property="IsEnabled" Value="{Binding IsDefaultState,UpdateSourceTrigger=PropertyChanged}"/>
                 </Style>
                 <!--#endregion-->
             </ContextMenu.Resources>
             <!--#endregion-->
             <!--#region Open MenuItem-->
-            <MenuItem Header="Open" Click="OpenMenuItem_Click"/>
+            <MenuItem Header="Open" Click="OpenMenuItem_Click"
+                      IsEnabled="True"/>
             <!--#endregion-->
             <!--#region Open as Root MenuItem-->
             <MenuItem>
@@ -105,7 +108,18 @@
                 </i:Interaction.Triggers>
                 <MenuItem.Header>
                     <Grid>
-                        <TextBlock Text="Delete" Style="{DynamicResource MainTextStyle}"/>
+                        <TextBlock Text="Delete">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource MainTextStyle}">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Foreground" Value="{StaticResource MenuItemTip}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                         <TextBlock Text="Dlt" Style="{DynamicResource TipTBStyle}"/>
                     </Grid>
                 </MenuItem.Header>
@@ -206,6 +220,7 @@
         </ContextMenu>
         <!--#endregion-->
         <conv:TypeToImageConverter x:Key="TypeToSourceConverter"/>
+        <conv:InverseBoolConverter x:Key="BoolInverse"/>
     </UserControl.Resources>
     <!--#endregion-->
     <Grid x:Name="mainGrid">
@@ -223,7 +238,7 @@
                 <Button Height="40" HorizontalAlignment="Stretch" 
                         Content="Back"
                         FontFamily="{StaticResource RegularFont}"
-                        Grid.Row="0" Margin="10 10 0 10" >
+                        Grid.Row="0" Margin="10 10 0 10">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
                         <i:InvokeCommandAction Command="{Binding BackCommand}"/>
@@ -256,9 +271,11 @@
                 </Grid.ColumnDefinitions>
                 <!--#endregion-->
                 <!--#region Add child-->
-                <Button Height="40"   Content="Add child"
+                <Button Height="40"   
+                        Content="Add child"
                         HorizontalAlignment="Stretch"
-                        FontFamily="{StaticResource RegularFont}">
+                        FontFamily="{StaticResource RegularFont}"
+                        IsEnabled="{Binding IsDefaultState, UpdateSourceTrigger=PropertyChanged}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding AddChildCommand}"/>
@@ -281,10 +298,14 @@
                 </Button>
                 <!--#endregion-->
                 <!--#region Add Parent-->
-                <Button Height="40" Width="Auto"  HorizontalAlignment="Stretch" Content="Add parent"
+                <Button Height="40" 
+                        Width="Auto"  
+                        HorizontalAlignment="Stretch"
+                        Content="Add parent"
                         FontFamily="{StaticResource RegularFont}" 
                         Grid.Column="2"
-                   Click="AddParent_Btn_Click">
+                        Click="AddParent_Btn_Click"
+                        IsEnabled="{Binding IsDefaultState, UpdateSourceTrigger=PropertyChanged}">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource AccentButtonStyle}">
                             <Style.Triggers>
@@ -326,7 +347,10 @@
                                 <TextBox Text="{Binding Label}" FontFamily="{StaticResource RegularFont}"
                                    FontSize="15" VerticalAlignment="Center" Name="nameBox"
                                          Style="{StaticResource TransparentTextBox}"
-                                         ui:TextBoxHelper.IsDeleteButtonVisible="False">
+                                         ui:TextBoxHelper.IsDeleteButtonVisible="False"
+                                         IsReadOnly="{Binding Source={x:Reference Name=mainGrid},
+                                    Path=DataContext.IsDefaultState, 
+                                    Converter={StaticResource BoolInverse}}">
                                 </TextBox>
                             </StackPanel>
                         </Grid>
@@ -361,6 +385,7 @@
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="V" Command="{Binding PasteCommand}"/>
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="X" Command="{Binding CutCommand}"/>
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="O" Command="{Binding OpenAsRootCommand}"/>
+            <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="R" Command="{Binding CreateRelationshipCommand}"/>
         </Grid.InputBindings>
         <!--#endregion-->
     </Grid>

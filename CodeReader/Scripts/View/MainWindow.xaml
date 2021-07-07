@@ -13,24 +13,12 @@
          BorderBrush="#007acb"
         BorderThickness="1.2"
         Title="CodeReader" MinHeight="450" MinWidth="850"
-        DataContext="{x:Static local:App.mainVM}"    ui:WindowHelper.UseModernWindowStyle="True" 
+        DataContext="{x:Static local:App.mainVM}"   
+        ui:WindowHelper.UseModernWindowStyle="True" 
         ui:ThemeManager.IsThemeAware="True" ui:TitleBar.ExtendViewIntoTitleBar="True"
        Height="450" Width="800" 
-                    
-        ResizeMode="CanResizeWithGrip">
-
-    <Window.Style>
-        <Style TargetType="{x:Type Window}" BasedOn="{StaticResource {x:Type Window}}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsDarkModeEnabled}" Value="True">
-                    <Setter Property="ui:ThemeManager.RequestedTheme" Value="Dark"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding IsDarkModeEnabled}" Value="False">
-                    <Setter Property="ui:ThemeManager.RequestedTheme" Value="Light"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Style>
+        ResizeMode="CanResizeWithGrip"
+        Style="{StaticResource WindowWithThemes}">
     <Grid>
        
         <Grid.RowDefinitions>
@@ -43,6 +31,7 @@
                                          Position="BottomRight" MaxItems="1" Grid.Row="1"/>
         <!--#endregion-->
 
+        <!--#region TitleBar-->
         <DockPanel Background="Transparent">
             <StackPanel Orientation="Horizontal" Background="Transparent">
                 <ui:TitleBarButton Height="38" Width="60" 
@@ -66,6 +55,7 @@
             </ui:ToggleSwitch>
             <!--#endregion-->
         </DockPanel>
+        <!--#endregion-->
 
         <Grid Grid.Row="1" Name="codeReaderPanel">
             <Grid.ColumnDefinitions>

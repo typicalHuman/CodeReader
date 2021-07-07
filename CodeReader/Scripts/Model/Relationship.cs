@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodeReader.Scripts.Model
+﻿using CodeReader.Scripts.Enums;
+using CodeReader.Scripts.Interfaces;
+using System;
+namespace CodeReader.Scripts
 {
     /// <summary>
     /// Class designed for management Code Components and creating new associated relationships.  

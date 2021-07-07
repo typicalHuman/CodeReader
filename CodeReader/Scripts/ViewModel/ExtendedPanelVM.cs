@@ -1,4 +1,4 @@
-﻿using CodeReader.Scripts.Model;
+﻿using CodeReader.Scripts.Interfaces;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Indentation;
 using System.Linq;

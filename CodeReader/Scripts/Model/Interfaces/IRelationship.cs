@@ -1,6 +1,7 @@
-﻿using System;
+﻿using CodeReader.Scripts.Enums;
+using System;
 
-namespace CodeReader.Scripts.Model
+namespace CodeReader.Scripts.Interfaces
 {
     /// <summary>
     /// Interface for realization of abstraction - Relationship.

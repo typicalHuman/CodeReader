@@ -28,6 +28,7 @@
                 <ui:XamlControlsResources />
                 <ResourceDictionary Source="Scripts/Styles/Fonts.xaml"/>
                 <ResourceDictionary Source="Scripts/Styles/Colors.xaml"/>
+                <ResourceDictionary Source="Scripts/Styles/WindowStyle.xaml"/>
                 <ResourceDictionary Source="Scripts/Styles/TextBoxStyle.xaml"/>
                 <ResourceDictionary Source="Scripts/Styles/TextBlockStyle.xaml"/>
                 <ResourceDictionary Source="Scripts/Styles/ComboBoxStyle.xaml"/>

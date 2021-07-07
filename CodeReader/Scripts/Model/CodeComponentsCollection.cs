@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CodeReader.Scripts.Extensions;
+using CodeReader.Scripts.Interfaces;
 
-namespace CodeReader.Scripts.Model
+namespace CodeReader.Scripts
 {
     /// <summary>
     /// Class for auto realizing CollectionChanged event.

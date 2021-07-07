@@ -1,5 +1,4 @@
-﻿using CodeReader.Scripts.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -8,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using CodeReader.Scripts.Extensions;
+using CodeReader.Scripts.Enums;
 
 namespace CodeReader.Scripts.ViewModel
 {

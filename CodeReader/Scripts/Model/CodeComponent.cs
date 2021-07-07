@@ -1,10 +1,12 @@
 ﻿using CodeBox;
 using CodeBox.Enums;
+using CodeReader.Scripts.Enums;
+using CodeReader.Scripts.Interfaces;
 using CodeReader.Scripts.ViewModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace CodeReader.Scripts.Model
+namespace CodeReader.Scripts
 {
 
     /// <summary>

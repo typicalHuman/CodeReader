@@ -1,4 +1,4 @@
-﻿using CodeReader.Scripts.Model;
+﻿using CodeReader.Scripts.Interfaces;
 using CodeReader.Scripts.ViewModel;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,9 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using CodeReader.Scripts.Extensions;
 using Notifications.Wpf;
-using GongSolutions.Wpf.DragDrop.Utilities;
 using GongSolutions.Wpf.DragDrop;
-using System.Windows.Data;
 
 namespace CodeReader.Scripts.View
 {
@@ -32,7 +30,7 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
-        #region Ctor
+        #region Ctors
         public CodeTree()
         {
             InitializeComponent();
@@ -107,7 +105,7 @@ namespace CodeReader.Scripts.View
         private void OnTargetComponentChanged(DependencyPropertyChangedEventArgs e)
         {
                 ICodeComponent newValue = e.NewValue as ICodeComponent;
-                if (e.NewValue != codeTree.SelectedItem)
+                if (e.NewValue != codeTree.SelectedItem && e.NewValue != null)
                 {
                     openedItem.InitItemContainer();
                     (openedItem.ItemContainerGenerator.ContainerFromItem(newValue) as TreeViewItem).IsSelected = true;
@@ -167,9 +165,17 @@ namespace CodeReader.Scripts.View
         };
         #endregion
 
+        /// <summary>
+        /// Window for setting relationship type.
+        /// </summary>
+        private static ConfirmingWindow confirmWindow { get; set; } = new ConfirmingWindow();
+
         #region IsSingleRootOpen
 
         private bool isSingleRootOpen;
+        /// <summary>
+        /// Checks is single root opened or it's tree with all items.
+        /// </summary>
         public bool IsSingleRootOpen
         {
             get => isSingleRootOpen;
@@ -181,6 +187,27 @@ namespace CodeReader.Scripts.View
         }
 
         #endregion
+
+
+        #region IsDefaultState
+
+        private bool isDefaultState = true;
+        /// <summary>
+        /// Default state - view with opprotunity to edit items.
+        /// Another state is when you are choosing an item for creating new relationship.
+        /// </summary>
+        public bool IsDefaultState
+        {
+            get => isDefaultState;
+            set
+            {
+                isDefaultState = value;
+                OnPropertyChanged("IsDefaultState");
+            }
+        }
+
+        #endregion
+
 
         #endregion
 
@@ -251,8 +278,15 @@ namespace CodeReader.Scripts.View
         /// </summary>
         private void OpenSelectedItem()
         {
-            openedItem = selectedItem;
-            App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
+            if (IsDefaultState)
+            {
+                openedItem = selectedItem;
+                App.extendedPanelVM.CurrentComponent = codeTree.SelectedItem as CodeComponent;
+            }
+            else
+            {
+                confirmWindow.ShowDialog();
+            }
         }
 
         #endregion
@@ -542,9 +576,12 @@ namespace CodeReader.Scripts.View
         {
             get => deleteCommand ?? (deleteCommand = new RelayCommand(obj =>
             {
-                CodeComponent selectedComponent = codeTree.SelectedItem as CodeComponent;
-                if(selectedComponent != null)
-                     DeleteItem(codeTree.SelectedItem as CodeComponent);
+                if (IsDefaultState)
+                {
+                    CodeComponent selectedComponent = codeTree.SelectedItem as CodeComponent;
+                    if (selectedComponent != null)
+                        DeleteItem(codeTree.SelectedItem as CodeComponent);
+                }
             }));
         }
         #endregion
@@ -582,7 +619,10 @@ namespace CodeReader.Scripts.View
         {
             get => addChildCommand ?? (addChildCommand = new RelayCommand(obj =>
             {
-                AddChild(selectedItem);
+                if (IsDefaultState)
+                {
+                    AddChild(selectedItem);
+                }
             }));
         }
         #endregion
@@ -594,8 +634,11 @@ namespace CodeReader.Scripts.View
         {
             get => copyCommand ?? (copyCommand = new RelayCommand(obj =>
             {
-                ICodeComponent selectedComponent = selectedItem.GetItemValue(codeTree.ItemContainerGenerator);
-                BufferComponent = CodeComponent.Create(selectedComponent);
+                if (IsDefaultState)
+                {
+                    ICodeComponent selectedComponent = selectedItem.GetItemValue(codeTree.ItemContainerGenerator);
+                    BufferComponent = CodeComponent.Create(selectedComponent);
+                }
             }));
         }
         #endregion
@@ -606,9 +649,12 @@ namespace CodeReader.Scripts.View
         {
             get => cutCommand ?? (cutCommand = new RelayCommand(obj =>
             {
-                ICodeComponent selectedComponent = selectedItem.GetItemValue(codeTree.ItemContainerGenerator);
-                DeleteItem(selectedComponent);
-                BufferComponent = CodeComponent.Create(selectedComponent);
+                if (IsDefaultState)
+                {
+                    ICodeComponent selectedComponent = selectedItem.GetItemValue(codeTree.ItemContainerGenerator);
+                    DeleteItem(selectedComponent);
+                    BufferComponent = CodeComponent.Create(selectedComponent);
+                }
             }));
         }
         #endregion
@@ -619,7 +665,10 @@ namespace CodeReader.Scripts.View
         {
             get => pasteCommand ?? (pasteCommand = new RelayCommand(obj =>
             {
-                AddChildToSelectedItem(BufferComponent);
+                if (IsDefaultState)
+                {
+                    AddChildToSelectedItem(BufferComponent);
+                }
             }));
         }
         #endregion
@@ -630,10 +679,13 @@ namespace CodeReader.Scripts.View
         {
             get => openAsRootCommand ?? (openAsRootCommand = new RelayCommand(obj =>
             {
-                ICodeComponent root = selectedItem.GetItemValue(codeTree.ItemContainerGenerator);
-                codeTree.ItemsSource = new List<ICodeComponent>() { root };
-                IsSingleRootOpen = true;
-                OpenSelectedItem();
+                if (IsDefaultState)
+                {
+                    ICodeComponent root = selectedItem.GetItemValue(codeTree.ItemContainerGenerator);
+                    codeTree.ItemsSource = new List<ICodeComponent>() { root };
+                    IsSingleRootOpen = true;
+                    OpenSelectedItem();
+                }
             }));
         }
 
@@ -660,6 +712,8 @@ namespace CodeReader.Scripts.View
             get => createRelationshipCommand ?? (createRelationshipCommand = new RelayCommand(obj =>
             {
                 NotificationsManager.ShowNotificaton(OnRelationshipCreating);
+                IsDefaultState = false;
+                App.extendedPanelVM.CurrentComponent = null;
             }));
         }
 

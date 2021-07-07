@@ -2,18 +2,25 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CodeReader.Scripts.Resources"
                     xmlns:cbEnums="clr-namespace:CodeBox.Enums;assembly=CodeBox"
-                    xmlns:model="clr-namespace:CodeReader.Scripts.Model"
+                    xmlns:enums="clr-namespace:CodeReader.Scripts.Enums"
+                    xmlns:model="clr-namespace:CodeReader.Scripts"
                     xmlns:System="clr-namespace:System;assembly=mscorlib">
     <ObjectDataProvider x:Key="typesEnum" MethodName="GetValues"
                             ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="model:CodeComponentType"/>
+            <x:Type TypeName="enums:CodeComponentType"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
     <ObjectDataProvider x:Key="langsEnum" MethodName="GetValues"
                             ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
             <x:Type TypeName="cbEnums:Languages"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <ObjectDataProvider x:Key="relationsEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="enums:RelationshipType"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 </ResourceDictionary>
