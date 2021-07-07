@@ -158,21 +158,13 @@ namespace CodeReader.Scripts.View
             Message = "You can't delete main root."
         };
 
-        #endregion
 
-        #region IsEditMenuOpen
-
-        private bool isEditMenuOpen;
-        public bool IsEditMenuOpen
+        private static NotificationContent OnRelationshipCreating { get; set;  } = new NotificationContent()
         {
-            get => isEditMenuOpen;
-            set
-            {
-                isEditMenuOpen = value;
-                OnPropertyChanged("IsEditMenuOpen");
-            }
-        }
-
+            Type = NotificationType.Information,
+            Message = "Open component in the tree for creating relationship or press ESC to cancel.",
+            Title = "Information"
+        };
         #endregion
 
         #region IsSingleRootOpen
@@ -232,7 +224,7 @@ namespace CodeReader.Scripts.View
             {
                 if(IsSingleRootOpen)
                 {
-                    NotificationsManager.ShowWarning(RootDeletionWarning);
+                    NotificationsManager.ShowNotificaton(RootDeletionWarning);
                     return;
                 }
                 CodeComponents.Remove(cc);
@@ -304,7 +296,7 @@ namespace CodeReader.Scripts.View
         {
             if (selectedItem == null)
             {
-                NotificationsManager.ShowWarning(EmptyParentWarning);
+                NotificationsManager.ShowNotificaton(EmptyParentWarning);
                 return;
             }
             ICodeComponent newComponent = GetDefaultComponent(codeTree.SelectedItem as ICodeComponent);
@@ -632,18 +624,6 @@ namespace CodeReader.Scripts.View
         }
         #endregion
 
-        #region ChangeEditMenuStateCommand
-        private RelayCommand changeEditMenuStateCommand;
-        public RelayCommand ChangeEditMenuStateCommand
-        {
-            get => changeEditMenuStateCommand ?? (changeEditMenuStateCommand = new RelayCommand(obj =>
-            {
-                IsEditMenuOpen = !IsEditMenuOpen;
-            }));
-        }
-        #endregion
-
-
         #region OpenAsRootCommand
         private RelayCommand openAsRootCommand;
         public RelayCommand OpenAsRootCommand
@@ -667,6 +647,19 @@ namespace CodeReader.Scripts.View
             {
                 IsSingleRootOpen = false;
                 codeTree.ItemsSource = App.mainVM.CodeComponents;
+            }));
+        }
+
+        #endregion
+
+
+        #region CreateRelationshipCommand
+        private RelayCommand createRelationshipCommand;
+        public RelayCommand CreateRelationshipCommand
+        {
+            get => createRelationshipCommand ?? (createRelationshipCommand = new RelayCommand(obj =>
+            {
+                NotificationsManager.ShowNotificaton(OnRelationshipCreating);
             }));
         }
 

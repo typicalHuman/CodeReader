@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using CodeReader.Scripts.Extensions;
-using WpfAnimatedGif;
 
 namespace CodeReader.Scripts.ViewModel
 {

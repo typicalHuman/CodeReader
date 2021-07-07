@@ -10,9 +10,9 @@ namespace CodeReader.Scripts.ViewModel
         private static NotificationManager notificationManager { get; set; } = new NotificationManager();
 
         /// <summary>
-        /// Show notification with warning.
+        /// Show notification by content.
         /// </summary>
-        internal static void ShowWarning(NotificationContent content)
+        internal static void ShowNotificaton(NotificationContent content)
         {
             notificationManager.Show(content, "NotificationsArea");
         }

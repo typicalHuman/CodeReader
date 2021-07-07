@@ -176,9 +176,7 @@ C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GongSolutions.WPF.
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GongSolutions.WPF.DragDrop.xml
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Microsoft.Expression.Interactions.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\System.Windows.Interactivity.dll
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\WpfAnimatedGif.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Microsoft.Expression.Interactions.xml
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\System.Windows.Interactivity.xml
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\WpfAnimatedGif.pdb
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\WpfAnimatedGif.xml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\TextBlockStyle.baml
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\MenuItemStyle.baml

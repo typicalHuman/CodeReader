@@ -16,9 +16,13 @@
              x:Name="CodeTreeControl">
     <!--#region UserControl Resources-->
     <UserControl.Resources>
+        <!--#region MenuItem Headers-->
+        
+        <!--#endregion-->
+        
         <!--#region CodeTree ContextMenu-->
         <ContextMenu FontFamily="{StaticResource RegularFont}"
-                     x:Key="TreeItemContextMenu" MinWidth="150">
+                     x:Key="TreeItemContextMenu" MinWidth="170">
             <!--#region ContextMenu Resources-->
             <ContextMenu.Resources>
                 <!--#region Base MenuItem Style-->
@@ -62,6 +66,21 @@
                 </MenuItem.Header>
             </MenuItem>
             <!--#endregion-->
+            <!--#region Create Relationship MenuItem-->
+            <MenuItem>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding CreateRelationshipCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <MenuItem.Header>
+                    <Grid>
+                        <TextBlock Text="New relationship" Style="{DynamicResource MainTextStyle}"/>
+                        <TextBlock Text="Ctrl+R" Style="{DynamicResource TipTBStyle}"/>
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
+            <!--#endregion-->
             <!--#region Rename MenuItem-->
             <MenuItem>
                 <i:Interaction.Triggers>
@@ -92,18 +111,8 @@
                 </MenuItem.Header>
             </MenuItem>
             <!--#endregion-->
-            <!--#region Delete MenuItem-->
-            <MenuItem IsSubmenuOpen="{Binding IsEditMenuOpen, UpdateSourceTrigger=PropertyChanged, 
-                Mode=TwoWay}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                        <i:InvokeCommandAction Command="{Binding ChangeEditMenuStateCommand}"/>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeave">
-                        <i:InvokeCommandAction Command="{Binding ChangeEditMenuStateCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                
+            <!--#region Edit MenuItem-->
+            <MenuItem Style="{StaticResource MenuItemWithSubmenu}">
                 <MenuItem.Header>
                         <TextBlock Text="Edit" Style="{DynamicResource MainTextStyle}"/>
                 </MenuItem.Header>
@@ -147,7 +156,7 @@
                     </i:Interaction.Triggers>
                     <MenuItem.Header>
                         <Grid>
-                            <TextBlock Text="Insert" Style="{DynamicResource MainTextStyle}"/>
+                            <TextBlock Text="Paste" Style="{DynamicResource MainTextStyle}"/>
                             <TextBlock Text="Ctrl+V" Style="{DynamicResource TipTBStyle}"/>
                         </Grid>
                     </MenuItem.Header>
@@ -155,7 +164,45 @@
                 <!--#endregion-->
             </MenuItem>
             <!--#endregion-->
-        
+
+            <!--#region Global MenuItem-->
+            <MenuItem Style="{StaticResource MenuItemWithSubmenu}">
+                <MenuItem.Header>
+                    <TextBlock Text="Global" Style="{DynamicResource MainTextStyle}"/>
+                </MenuItem.Header>
+                <!--#region Undo MenuItem-->
+                <MenuItem>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding UndoCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <MenuItem.Header>
+                        <Grid>
+                            <TextBlock Text="Undo" Style="{DynamicResource MainTextStyle}"/>
+                            <TextBlock Text="Ctrl+Z" Style="{DynamicResource TipTBStyle}"/>
+                        </Grid>
+                    </MenuItem.Header>
+                </MenuItem>
+                <!--#endregion-->
+                <!--#region Redo MenuItem-->
+                <MenuItem>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding RedoCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <MenuItem.Header>
+                        <Grid>
+                            <TextBlock Text="Redo" Style="{DynamicResource MainTextStyle}"/>
+                            <TextBlock Text="Ctrl+Y" Style="{DynamicResource TipTBStyle}"/>
+                        </Grid>
+                    </MenuItem.Header>
+                </MenuItem>
+                <!--#endregion-->
+            </MenuItem>
+            <!--#endregion-->
+
         </ContextMenu>
         <!--#endregion-->
         <conv:TypeToImageConverter x:Key="TypeToSourceConverter"/>
@@ -261,8 +308,8 @@
             <!--#region CodeTree-->
             <TreeView Name="codeTree" Grid.Row="2" Panel.ZIndex="2"
                       Margin="0 10 0 0" BorderThickness="0" 
-                   dd:DragDrop.IsDragSource="True"
-                   dd:DragDrop.IsDropTarget="True"
+                      dd:DragDrop.IsDragSource="True"
+                      dd:DragDrop.IsDropTarget="True"
                       dd:DragDrop.DropHandler="{Binding ElementName=mainGrid, Path=DataContext}"
                       AllowDrop="True"
                       DataContext="{Binding Source={x:Static local:App.mainVM}}">

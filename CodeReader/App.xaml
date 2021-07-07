@@ -32,6 +32,7 @@
                 <ResourceDictionary Source="Scripts/Styles/TextBlockStyle.xaml"/>
                 <ResourceDictionary Source="Scripts/Styles/ComboBoxStyle.xaml"/>
                 <ResourceDictionary Source="Scripts/Styles/TreeViewStyle.xaml"/>
+                <ResourceDictionary Source="Scripts/Styles/MenuItemStyle.xaml"/>
                 <ResourceDictionary Source="Scripts/Resources/EnumItemsSource.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
