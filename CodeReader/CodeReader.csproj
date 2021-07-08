@@ -167,6 +167,7 @@
     <Compile Include="Scripts\Model\Relationship.cs" />
     <Compile Include="Scripts\Model\Enums\RelationshipType.cs" />
     <Compile Include="Scripts\ViewModel\BaseViewModel.cs" />
+    <Compile Include="Scripts\ViewModel\ConfirmingWindowVM.cs" />
     <Compile Include="Scripts\ViewModel\ExtendedPanelVM.cs" />
     <Compile Include="Scripts\ViewModel\MainVM.cs" />
     <Compile Include="Scripts\ViewModel\NotificationsManager.cs" />

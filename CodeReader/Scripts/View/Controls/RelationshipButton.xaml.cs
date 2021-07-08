@@ -1,4 +1,5 @@
 ﻿using CodeReader.Scripts.Enums;
+using CodeReader.Scripts.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +27,7 @@ namespace CodeReader.Scripts.View.Controls
         public RelationshipButton()
         {
             InitializeComponent();
-            DataContext = this;
+            var a = DataContext;
         }
 
         #region PropertyChanged
@@ -81,6 +82,89 @@ namespace CodeReader.Scripts.View.Controls
 
         #endregion
 
+        #region MyText
+        public static readonly DependencyProperty MyTextProperty =
+      DependencyProperty.Register("MyText", typeof(RelayCommand), typeof(RelationshipButton),
+           new PropertyMetadata(null, OnMyTextChanged));
+
+        public RelayCommand MyText
+        {
+            get => (RelayCommand)GetValue(MyTextProperty);
+            set
+            {
+                SetValue(MyTextProperty, value);
+                OnPropertyChanged("MyText");
+            }
+        }
+
+        private static void OnMyTextChanged(DependencyObject d,
+           DependencyPropertyChangedEventArgs e)
+        {
+            RelationshipButton UserControl1Control = d as RelationshipButton;
+            UserControl1Control.OnMyTextChanged(e);
+        }
+
+        private void OnMyTextChanged(DependencyPropertyChangedEventArgs e)
+        {
+            MyText = (RelayCommand)e.NewValue;
+        }
+
         #endregion
+
+
+
+        public static readonly DependencyProperty TestProperty =
+    DependencyProperty.Register(
+        nameof(Test),
+        typeof(string),
+        typeof(RelationshipButton),
+        new PropertyMetadata("DEFAULT", OnMyTextChanged));
+
+        public string Test
+        {
+            get { return (string)GetValue(TestProperty); }
+            set { SetValue(TestProperty, value); }
+        }
+
+
+        //  #region CommandParameter
+        //  public static readonly DependencyProperty CommandParameterProperty =
+        //DependencyProperty.Register("CommandParameter", typeof(object), typeof(RelationshipButton),
+        //    new FrameworkPropertyMetadata
+        //    {
+        //        DefaultValue = default(object),
+        //        BindsTwoWayByDefault = true,
+        //        PropertyChangedCallback = OnCommandParameterChanged
+
+        //    });
+
+        //  public object CommandParameter
+        //  {
+        //      get => (object)GetValue(CommandParameterProperty);
+        //      set
+        //      {
+        //          SetValue(CommandParameterProperty, value);
+        //          OnPropertyChanged("CommandParameter");
+        //      }
+        //  }
+
+        //  private static void OnCommandParameterChanged(DependencyObject d,
+        //     DependencyPropertyChangedEventArgs e)
+        //  {
+        //      RelationshipButton UserControl1Control = d as RelationshipButton;
+        //      UserControl1Control.OnCommandParameterChanged(e);
+        //  }
+
+        //  private void OnCommandParameterChanged(DependencyPropertyChangedEventArgs e)
+        //  {
+        //      CommandParameter = e.NewValue;
+        //  }
+
+        //  #endregion
+
+
+        #endregion
+
+
     }
 }

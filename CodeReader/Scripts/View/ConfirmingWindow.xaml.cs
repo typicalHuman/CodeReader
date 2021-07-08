@@ -24,7 +24,7 @@ namespace CodeReader.Scripts.View
         public ConfirmingWindow()
         {
             InitializeComponent();
-            confirmWindGrid.DataContext = this;
+            var a = firstButton.DataContext;
         }
 
         public new RelationshipType ShowDialog()
@@ -32,20 +32,5 @@ namespace CodeReader.Scripts.View
             base.ShowDialog();
             return RelationshipType.Aggregation;
         }
-
-        #region Commands
-
-        #region SelectTypeCommand
-        private RelayCommand selectTypeCommand;
-        public RelayCommand SelectTypeCommand
-        {
-            get => selectTypeCommand ?? (selectTypeCommand = new RelayCommand(obj =>
-            {
-                RelationshipType btnCaption =(RelationshipType) obj;
-            }));
-        }
-        #endregion
-        #endregion
-
     }
 }

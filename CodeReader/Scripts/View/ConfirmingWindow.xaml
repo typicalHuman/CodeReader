@@ -4,18 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodeReader"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
         mc:Ignorable="d"
         xmlns:controls="clr-namespace:CodeReader.Scripts.View.Controls"
         ui:ThemeManager.IsThemeAware="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
-        DataContext="{x:Static local:App.mainVM}"
         Style="{StaticResource WindowWithThemes}"
+        DataContext="{x:Static local:App.mainVM}"
         Title="ConfirmingWindow" Height="180" Width="400"
         ResizeMode="NoResize"
         WindowStartupLocation="Manual">
-    <Grid Name="confirmWindGrid">
+    <Grid   x:Name="confWind" DataContext="{x:Static local:App.confirmingWindowVM}">
         <!--#region Row Definitions-->
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -51,7 +52,10 @@
             <!--#endregion-->
             <!--#region First Row-->
             <StackPanel>
-                <controls:RelationshipButton RelationshipType="Dependency"/>
+                <controls:RelationshipButton RelationshipType="Dependency"
+                                             x:Name="firstButton"
+                                             MyText="{Binding SelectTypeCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+                </controls:RelationshipButton>
                 <controls:RelationshipButton RelationshipType="Association"/>
             </StackPanel>
             <!--#endregion-->
