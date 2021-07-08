@@ -128,11 +128,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Scripts\View\CodeTree.xaml">
+    <Page Include="Scripts\View\Controls\CodeTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Scripts\View\ConfirmingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Scripts\View\Controls\RelationshipButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -149,8 +153,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Scripts\Converters\InverseBoolConverter.cs" />
+    <Compile Include="Scripts\Converters\RelationshipTypeToImage.cs" />
     <Compile Include="Scripts\Converters\TypeToImageConverter.cs" />
     <Compile Include="Scripts\Extensions\CodeTreeExtension.cs" />
+    <Compile Include="Scripts\Extensions\ConverterExtension.cs" />
     <Compile Include="Scripts\Extensions\FindChildExtension.cs" />
     <Compile Include="Scripts\Model\CodeComponent.cs" />
     <Compile Include="Scripts\Model\CodeComponentsCollection.cs" />
@@ -165,11 +171,14 @@
     <Compile Include="Scripts\ViewModel\MainVM.cs" />
     <Compile Include="Scripts\ViewModel\NotificationsManager.cs" />
     <Compile Include="Scripts\ViewModel\RelayCommand.cs" />
-    <Compile Include="Scripts\View\CodeTree.xaml.cs">
+    <Compile Include="Scripts\View\Controls\CodeTree.xaml.cs">
       <DependentUpon>CodeTree.xaml</DependentUpon>
     </Compile>
     <Compile Include="Scripts\View\ConfirmingWindow.xaml.cs">
       <DependentUpon>ConfirmingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Scripts\View\Controls\RelationshipButton.xaml.cs">
+      <DependentUpon>RelationshipButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Scripts\View\ExtendedPanel.xaml.cs">
       <DependentUpon>ExtendedPanel.xaml</DependentUpon>

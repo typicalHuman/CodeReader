@@ -1,5 +1,4 @@
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\CodeReader.csprojAssemblyReference.cache
-C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\CodeTree.g.cs
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\MainWindow.g.cs
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\App.g.cs
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\GeneratedInternalTypeHelper.g.cs
@@ -155,7 +154,6 @@ C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\zh-TW\ModernWpf.Co
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\ExtendedPanel.g.cs
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\App.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\TextBoxStyle.baml
-C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\CodeTree.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\ExtendedPanel.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\MainWindow.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\CodeReader.g.resources
@@ -183,3 +181,7 @@ C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\Men
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\ConfirmingWindow.g.cs
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\ConfirmingWindow.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\WindowStyle.baml
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Controls\CodeTree.g.cs
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Controls\RelationshipButton.g.cs
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Controls\CodeTree.baml
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Controls\RelationshipButton.baml

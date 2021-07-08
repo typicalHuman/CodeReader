@@ -1,7 +1,7 @@
 ﻿using CodeReader.Scripts.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using CodeReader.Scripts.Extensions;
 using System.Windows.Data;
 
 namespace CodeReader.Scripts.Converters
@@ -28,21 +28,12 @@ namespace CodeReader.Scripts.Converters
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (string.IsNullOrWhiteSpace(value.ToString()))
-                return null;
-            CodeComponentType type = (CodeComponentType)value;
-               return ComponentTypes.FirstOrDefault(t => t.Key == type).Value;
+            return this.GetSourceByEnumValue(value, ComponentTypes);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string path = value.ToString();
-            foreach (KeyValuePair<CodeComponentType, string> type in ComponentTypes)
-            {
-                if (type.Value == path)
-                    return type.Key;
-            }
-            return null;
+            return this.GetEnumValueBySource(value, ComponentTypes);
         }
     }
 }

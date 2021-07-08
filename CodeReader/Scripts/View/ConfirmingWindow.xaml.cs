@@ -1,4 +1,5 @@
 ﻿using CodeReader.Scripts.Enums;
+using CodeReader.Scripts.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +24,28 @@ namespace CodeReader.Scripts.View
         public ConfirmingWindow()
         {
             InitializeComponent();
+            confirmWindGrid.DataContext = this;
         }
 
         public new RelationshipType ShowDialog()
         {
+            base.ShowDialog();
             return RelationshipType.Aggregation;
         }
 
-        
+        #region Commands
+
+        #region SelectTypeCommand
+        private RelayCommand selectTypeCommand;
+        public RelayCommand SelectTypeCommand
+        {
+            get => selectTypeCommand ?? (selectTypeCommand = new RelayCommand(obj =>
+            {
+                RelationshipType btnCaption =(RelationshipType) obj;
+            }));
+        }
+        #endregion
+        #endregion
+
     }
 }

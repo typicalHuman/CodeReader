@@ -7,16 +7,15 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
         mc:Ignorable="d"
+        xmlns:controls="clr-namespace:CodeReader.Scripts.View.Controls"
         ui:ThemeManager.IsThemeAware="True"
         ui:TitleBar.ExtendViewIntoTitleBar="True"
         DataContext="{x:Static local:App.mainVM}"
         Style="{StaticResource WindowWithThemes}"
         Title="ConfirmingWindow" Height="180" Width="400"
         ResizeMode="NoResize"
-        WindowStartupLocation="Manual"
-        SnapsToDevicePixels="True"
-        >
-    <Grid>
+        WindowStartupLocation="Manual">
+    <Grid Name="confirmWindGrid">
         <!--#region Row Definitions-->
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -42,26 +41,6 @@
             <!--#endregion-->
             <!--#region Grid Resources-->
             <Grid.Resources>
-                <!--#region TextBlock Style-->
-                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-                    <Setter Property="Margin" Value="5 0 0 0"/>
-                    <Setter Property="FontSize" Value="19"/>
-                    <Setter Property="FontFamily" Value="{StaticResource TitleFont}"/>
-                    <Setter Property="VerticalAlignment" Value="Center"/>
-                </Style>
-                <!--#endregion-->
-                <!--#region Image Style-->
-                <Style TargetType="Image">
-                    <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
-                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                </Style>
-                <!--#endregion-->
-                <!--#region Button Style-->
-                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                    <Setter Property="Height" Value="50"/>
-                    <Setter Property="Background" Value="Transparent"/>
-                </Style>
-                <!--#endregion-->
                 <!--#region StackPanel Style-->
                 <Style TargetType="StackPanel">
                     <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -71,40 +50,15 @@
             </Grid.Resources>
             <!--#endregion-->
             <!--#region First Row-->
-                <StackPanel>
-                <Button>
-                    <StackPanel>
-                        <Image Source="pack://application:,,,/Images/dependency.png"/>
-                        <TextBlock Text="Dependency" />
-                    </StackPanel>
-                </Button>
-                <Button>
-                    <StackPanel>
-                        <Image Source="pack://application:,,,/Images/association.png"/>
-                        <TextBlock Text="Association"/>
-                    </StackPanel>
-                </Button>
+            <StackPanel>
+                <controls:RelationshipButton RelationshipType="Dependency"/>
+                <controls:RelationshipButton RelationshipType="Association"/>
             </StackPanel>
             <!--#endregion-->
             <StackPanel Grid.Row="1">
-                <Button>
-                    <StackPanel>
-                        <Image Source="pack://application:,,,/Images/aggregation.png"/>
-                        <TextBlock Text="Aggregation"/>
-                    </StackPanel>
-                </Button>
-                <Button>
-                    <StackPanel>
-                        <Image Source="pack://application:,,,/Images/composition.png"/>
-                        <TextBlock Text="Composition"/>
-                    </StackPanel>
-                </Button>
-                <Button>
-                    <StackPanel>
-                        <Image Source="pack://application:,,,/Images/inheritance.png"/>
-                        <TextBlock Text="Inheritance"/>
-                    </StackPanel>
-                </Button>
+                <controls:RelationshipButton RelationshipType="Aggregation"/>
+                <controls:RelationshipButton RelationshipType="Composition"/>
+                <controls:RelationshipButton RelationshipType="Inheritance"/>
             </StackPanel>
         </Grid>
         <!--#endregion-->

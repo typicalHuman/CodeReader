@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="CodeReader.Scripts.View.Controls.RelationshipButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:conv="clr-namespace:CodeReader.Scripts.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <!--#region UserControl Resources-->
+    <UserControl.Resources>
+        <!--#region TextBlock Style-->
+        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+            <Setter Property="Margin" Value="5 0 0 0"/>
+            <Setter Property="FontSize" Value="19"/>
+            <Setter Property="FontFamily" Value="{StaticResource TitleFont}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <!--#endregion-->
+        <!--#region Image Style-->
+        <Style TargetType="Image">
+            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <!--#endregion-->
+        <!--#region Button Style-->
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <!--#endregion-->
+        <!--#region StackPanel Style-->
+        <Style TargetType="StackPanel">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+        <!--#endregion-->
+        <conv:RelationshipTypeToImage x:Key="RelationshipTypeToSource"/>
+    </UserControl.Resources>
+    <!--#endregion-->
+    <Grid>
+        <Button>
+            <StackPanel>
+                <Image 
+                    Source="{Binding RelationshipType, Converter={StaticResource RelationshipTypeToSource}, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock Text="{Binding RelationshipType, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </Button>
+    </Grid>
+</UserControl>
