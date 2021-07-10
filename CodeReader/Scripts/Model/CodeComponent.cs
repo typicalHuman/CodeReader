@@ -3,7 +3,6 @@ using CodeBox.Enums;
 using CodeReader.Scripts.Enums;
 using CodeReader.Scripts.Interfaces;
 using CodeReader.Scripts.ViewModel;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace CodeReader.Scripts
@@ -38,7 +37,6 @@ namespace CodeReader.Scripts
 
         #region Properties
 
-        #region Public
         #region ComponentType
         private CodeComponentType componentType;
         public CodeComponentType ComponentType
@@ -133,21 +131,15 @@ namespace CodeReader.Scripts
 
         public CodeComponentsCollection  Children { get; set; } = new CodeComponentsCollection();
         public ObservableCollection<IRelationship> Relationships { get; set; } = new ObservableCollection<IRelationship>();
+        public string ID { get; private set; } = string.Empty;
         public UndoStack History { get; set; } = new UndoStack();
 
-
         #endregion
 
-        #region Private
 
-        /// <summary>
-        /// Unique indexer.
-        /// </summary>
-        private string ID { get; set; } = string.Empty;
 
-        #endregion
 
-        #endregion
+
 
         #region Methods
 

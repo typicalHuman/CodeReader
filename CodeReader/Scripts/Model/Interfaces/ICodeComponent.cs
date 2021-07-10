@@ -43,6 +43,10 @@ namespace CodeReader.Scripts.Interfaces
         /// </summary>
         Languages Language { get; set; }
         /// <summary>
+        /// Unique indexer.
+        /// </summary>
+        string ID { get; }
+        /// <summary>
         /// History of file changes.
         /// </summary>
         UndoStack History { get; set; }

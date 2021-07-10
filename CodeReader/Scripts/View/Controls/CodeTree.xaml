@@ -411,6 +411,8 @@
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="X" Command="{Binding CutCommand}"/>
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="O" Command="{Binding OpenAsRootCommand}"/>
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="R" Command="{Binding UpdateRelationshipCommand}"/>
+            <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="Z" Command="{Binding UndoCommand}"/>
+            <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="Y" Command="{Binding RedoCommand}"/>
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Key="Esc" Command="{Binding CancelRelationshipModeCommand}"/>
         </Grid.InputBindings>
         <!--#endregion-->

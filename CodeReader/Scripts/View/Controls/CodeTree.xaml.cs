@@ -50,12 +50,12 @@ namespace CodeReader.Scripts.View
         #region CodeComponents
 
         public static readonly DependencyProperty ItemsSourceProperty =
-   DependencyProperty.Register("CodeComponents", typeof(IList<ICodeComponent>), typeof(CodeTree), new
-      PropertyMetadata(new List<ICodeComponent>(), new PropertyChangedCallback(OnItemsSourceChanged)));
+   DependencyProperty.Register("CodeComponents", typeof(CodeComponentsCollection), typeof(CodeTree), new
+      PropertyMetadata(new CodeComponentsCollection(), new PropertyChangedCallback(OnItemsSourceChanged)));
 
-        public IList<ICodeComponent> CodeComponents
+        public CodeComponentsCollection CodeComponents
         {
-            get { return (IList<ICodeComponent>)GetValue(ItemsSourceProperty); }
+            get { return (CodeComponentsCollection)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
@@ -218,8 +218,7 @@ namespace CodeReader.Scripts.View
         }
 
         #endregion
-
-
+       
         #region IsDefaultState
 
         private bool isDefaultState = true;
@@ -239,6 +238,7 @@ namespace CodeReader.Scripts.View
 
         #endregion
 
+        private HistoryStack History { get; set; } = new HistoryStack();
 
         #endregion
 
@@ -285,11 +285,13 @@ namespace CodeReader.Scripts.View
                     NotificationsManager.ShowNotificaton(RootDeletionWarning);
                     return;
                 }
+                History.Push(new Operation(OperationType.Delete, cc, CodeComponents));
                 CodeComponents.Remove(cc);
                 UpdateExtendedPanel();
                 return;
             }
             var parent = cc.Parent;
+            History.Push(new Operation(OperationType.Delete, cc, parent.Children));
             parent.Children.Remove(cc);
             UpdateExtendedPanel();
         }
@@ -391,6 +393,7 @@ namespace CodeReader.Scripts.View
             selectedItem.InitItemContainer();
             TreeViewItem newItem = selectedItem.ItemContainerGenerator.ContainerFromItem(child) as TreeViewItem;
             SelectComponent(newItem);
+            History.Push(new Operation(OperationType.Add, child, child.Parent.Children));
         }
 
      
@@ -575,6 +578,7 @@ namespace CodeReader.Scripts.View
         {
             ICodeComponent newComponent = GetDefaultComponent(null);
             CodeComponents.Insert(0, newComponent);
+            History.Push(new Operation(OperationType.Add, newComponent, CodeComponents));
             TreeViewItem newItem = codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem;
             SelectComponent(newItem);
         }
@@ -711,10 +715,8 @@ namespace CodeReader.Scripts.View
         {
             get => pasteCommand ?? (pasteCommand = new RelayCommand(obj =>
             {
-                if (IsDefaultState)
-                {
+                if (IsDefaultState && BufferComponent != null)
                     AddChildToSelectedItem(BufferComponent);
-                }
             }));
         }
         #endregion
@@ -781,6 +783,41 @@ namespace CodeReader.Scripts.View
                 NotificationsManager.ShowNotificaton(OnRelationshipCancel);
             }));
         }
+
+        #endregion
+
+        #region Global Operations
+
+        #region Undo
+
+        private RelayCommand undoCommand;
+        public RelayCommand UndoCommand
+        {
+            get => undoCommand ?? (undoCommand = new RelayCommand(obj =>
+            {
+                History.Undo();
+            }));
+        }
+
+        #endregion
+
+
+        #region Redo
+
+        private RelayCommand redoCommand;
+        public RelayCommand RedoCommand
+        {
+            get => redoCommand ?? (redoCommand = new RelayCommand(obj =>
+            {
+                History.Redo();
+            }));
+        }
+
+        #endregion
+
+
+
+
 
         #endregion
 
