@@ -14,48 +14,61 @@ namespace CodeReader.Scripts
         private Stack<Operation> UndoStack { get; set; } = new Stack<Operation>();
         private Stack<Operation> RedoStack { get; set; } = new Stack<Operation>();
 
+        delegate void ExecOperation(Operation op, int index, ICodeComponent comp);
+
         private int UndoCount { get => UndoStack.Count; }
         private int RedoCount { get => RedoStack.Count; }
 
         public void Undo()
         {
-            if (UndoCount > 0)
-            {
-                Operation op = UndoStack.Pop();
-                ICodeComponent changedItem = op.ChangedItem;
-                ICodeComponent foundComponent = op.Neighbors.FirstOrDefault(cc =>
-                                                cc.ID == changedItem.ID);
-                if (op.Type == OperationType.Add)
-                    op.Neighbors.Remove(foundComponent);
-                else if (op.Type == OperationType.Delete)
-                    op.Neighbors.Insert(op.Index, changedItem);
-                else
-                    foundComponent = changedItem;
-                RedoStack.Push(op);
-            }
-            
+            ExecuteOperation(UndoStack, RedoStack, AddAction, DeleteAction);
+        }
+
+        private void AddAction(Operation op, int index, ICodeComponent comp)
+        {
+            op.Neighbors.Remove(comp);
+        }
+
+        private void DeleteAction(Operation op, int index, ICodeComponent comp)
+        {
+            op.Neighbors.Insert(index, comp);
         }
 
         public void Redo()
         {
-            if (RedoCount > 0)
+            ExecuteOperation(RedoStack, UndoStack, DeleteAction, AddAction);
+        }
+
+        private static void ExecuteOperation(Stack<Operation> fromStack, Stack<Operation> toStack,
+            ExecOperation addAction, ExecOperation deleteAction)
+        {
+            if (fromStack.Count > 0)
             {
-                Operation op = RedoStack.Pop();
+                Operation op = fromStack.Pop();
                 ICodeComponent changedItem = op.ChangedItem;
                 ICodeComponent foundComponent = op.Neighbors.FirstOrDefault(cc =>
                                                 cc.ID == changedItem.ID);
                 if (op.Type == OperationType.Add)
-                    op.Neighbors.Insert(op.Index, changedItem);
+                    addAction(op, op.Index, changedItem);
                 else if (op.Type == OperationType.Delete)
-                    op.Neighbors.Remove(foundComponent);
+                    deleteAction(op, op.Index, changedItem);
                 else
-                    foundComponent = changedItem;
-                UndoStack.Push(op);
+                {
+                    op.Neighbors.RemoveAt(op.Neighbors.IndexOf(changedItem));
+                    changedItem.Parent.Children.Insert(op.Index, changedItem);
+                }
+                toStack.Push(op);
             }
         }
 
         public void Push(Operation op)
         {
+            UndoStack.Push(op);
+        }
+
+        public void Push(OperationType type, ICodeComponent changedComponent, CodeComponentsCollection neighbors)
+        {
+            Operation op = new Operation(type, changedComponent, neighbors);
             UndoStack.Push(op);
         }
     }

@@ -285,13 +285,13 @@ namespace CodeReader.Scripts.View
                     NotificationsManager.ShowNotificaton(RootDeletionWarning);
                     return;
                 }
-                History.Push(new Operation(OperationType.Delete, cc, CodeComponents));
+                History.Push(OperationType.Delete, cc, CodeComponents);
                 CodeComponents.Remove(cc);
                 UpdateExtendedPanel();
                 return;
             }
             var parent = cc.Parent;
-            History.Push(new Operation(OperationType.Delete, cc, parent.Children));
+            History.Push(OperationType.Delete, cc, parent.Children);
             parent.Children.Remove(cc);
             UpdateExtendedPanel();
         }
@@ -393,7 +393,7 @@ namespace CodeReader.Scripts.View
             selectedItem.InitItemContainer();
             TreeViewItem newItem = selectedItem.ItemContainerGenerator.ContainerFromItem(child) as TreeViewItem;
             SelectComponent(newItem);
-            History.Push(new Operation(OperationType.Add, child, child.Parent.Children));
+            History.Push(OperationType.Add, child, child.Parent.Children);
         }
 
      
@@ -578,7 +578,7 @@ namespace CodeReader.Scripts.View
         {
             ICodeComponent newComponent = GetDefaultComponent(null);
             CodeComponents.Insert(0, newComponent);
-            History.Push(new Operation(OperationType.Add, newComponent, CodeComponents));
+            History.Push(OperationType.Add, newComponent, CodeComponents);
             TreeViewItem newItem = codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem;
             SelectComponent(newItem);
         }
@@ -600,6 +600,16 @@ namespace CodeReader.Scripts.View
 
         void IDropTarget.Drop(IDropInfo dropInfo)
         {
+            ICodeComponent sourceItem = dropInfo.Data as ICodeComponent;
+            ICodeComponent targetItem = dropInfo.TargetItem as ICodeComponent;
+            CodeComponentsCollection neighbors  = targetItem.Children;
+            if (targetItem.Parent == null && dropInfo.InsertPosition != RelativeInsertPosition.TargetItemCenter)
+                 neighbors = CodeComponents;
+            int index = CodeComponents.IndexOf(sourceItem);
+            if (sourceItem.Parent != null)
+                index = sourceItem.Parent.Children.IndexOf(sourceItem);
+            Operation op = new Operation(OperationType.Drag, (sourceItem as CodeComponent).GetCopy(), neighbors, index);
+            History.Push(op);
             defaultDropHandler.Drop(dropInfo);
         }
 

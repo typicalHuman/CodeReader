@@ -184,6 +184,15 @@ namespace CodeReader.Scripts
                                      component.Description, component.ComponentType);
         }
 
+        public ICodeComponent GetCopy()
+        {
+            ICodeComponent thisComp = this;
+            CodeComponent copiedComp = Create(thisComp) as CodeComponent;
+            copiedComp.Parent = Parent;
+            copiedComp.ID = ID;
+            return copiedComp;
+        }
+
         #endregion
 
     }

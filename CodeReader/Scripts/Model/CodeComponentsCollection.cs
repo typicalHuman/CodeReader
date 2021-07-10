@@ -24,5 +24,15 @@ namespace CodeReader.Scripts
             foreach (ICodeComponent comp in components)
                 Add(comp);
         }
+
+        public new int IndexOf(ICodeComponent value)
+        {
+            for(int i = 0; i < Count; i++)
+            {
+                if (this[i].ID == value.ID)
+                    return i;
+            }
+            return -1;
+        }
     }
 }

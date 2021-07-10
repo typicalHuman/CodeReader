@@ -11,11 +11,25 @@ namespace CodeReader.Scripts
         #region Ctor
         public Operation(OperationType type, ICodeComponent changedItem, CodeComponentsCollection neighborComponents)
         {
+            Init(type, changedItem, neighborComponents, neighborComponents.IndexOf(changedItem));
+        }
+
+        public Operation(OperationType type, ICodeComponent changedItem, CodeComponentsCollection neighborComponents, int index)
+        {
+            Init(type, changedItem, neighborComponents, index);
+        }
+        #endregion
+
+        #region Methods
+
+        private void Init(OperationType type, ICodeComponent changedItem, CodeComponentsCollection neighborComponents, int index)
+        {
             Type = type;
             ChangedItem = changedItem;
             Neighbors = neighborComponents;
-            Index = neighborComponents.IndexOf(changedItem);
+            Index = index;
         }
+
         #endregion
 
         #region Properties
