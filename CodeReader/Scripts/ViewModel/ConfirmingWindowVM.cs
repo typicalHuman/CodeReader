@@ -1,20 +1,36 @@
 ﻿using CodeReader.Scripts.Enums;
+using System;
 
 namespace CodeReader.Scripts.ViewModel
 {
     public class ConfirmingWindowVM: BaseViewModel
     {
+        #region Properties
 
-        private string text;
-        public string Text
+        /// <summary>
+        /// Action that will be executed after relationship type selection.
+        /// </summary>
+        public Action WindowCloseAction { get; set; }
+
+        #region Relationship Type
+
+        private RelationshipType relationshipType;
+        /// <summary>
+        /// For setting relationship type by confirming window buttons.
+        /// </summary>
+        public RelationshipType RelationshipType
         {
-            get => text;
+            get => relationshipType;
             set
             {
-                text = value;
-                OnPropertyChanged("Text");
+                relationshipType = value;
+                OnPropertyChanged("RelationshipType");
             }
         }
+
+        #endregion
+
+        #endregion
 
         #region Commands
 
@@ -24,13 +40,9 @@ namespace CodeReader.Scripts.ViewModel
         {
             get => selectTypeCommand ?? (selectTypeCommand = new RelayCommand(obj =>
             {
-                RelationshipType btnCaption = (RelationshipType)obj;
+                RelationshipType = (RelationshipType)obj;
+                WindowCloseAction?.Invoke();
             }));
-            set
-            {
-                selectTypeCommand = value;
-                OnPropertyChanged("SelectTypeCommand");
-            }
         }
         #endregion
         #endregion

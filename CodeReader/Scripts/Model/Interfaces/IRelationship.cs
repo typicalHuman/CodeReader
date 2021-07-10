@@ -1,5 +1,4 @@
 ﻿using CodeReader.Scripts.Enums;
-using System;
 
 namespace CodeReader.Scripts.Interfaces
 {
@@ -8,10 +7,14 @@ namespace CodeReader.Scripts.Interfaces
     /// </summary>
     public interface IRelationship
     {
-        /// <summary>
-        /// Two participants of relationship.
+        //// <summary>
+        /// Main participant of relationships.
         /// </summary>
-        Tuple<ICodeComponent, ICodeComponent> Objects { get; }
+        ICodeComponent MainParticipant { get; }
+        /// <summary>
+        /// Second participant of relationships.
+        /// </summary>
+        ICodeComponent DependentParticipant { get; }
         /// <summary>
         /// Type of <see cref="Objects"/> relationship.
         /// </summary>

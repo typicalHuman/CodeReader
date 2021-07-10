@@ -70,18 +70,43 @@
             </MenuItem>
             <!--#endregion-->
             <!--#region Create Relationship MenuItem-->
-            <MenuItem>
+            <MenuItem IsEnabled="True">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding CreateRelationshipCommand}"/>
+                        <i:InvokeCommandAction Command="{Binding UpdateRelationshipCommand}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <MenuItem.Header>
-                    <Grid>
-                        <TextBlock Text="New relationship" Style="{DynamicResource MainTextStyle}"/>
-                        <TextBlock Text="Ctrl+R" Style="{DynamicResource TipTBStyle}"/>
-                    </Grid>
-                </MenuItem.Header>
+                <!--#region MenuItem Style-->
+                <MenuItem.Style>
+                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsDefaultState, UpdateSourceTrigger=PropertyChanged}"
+                                         Value="True">
+                                <Setter Property="Header">
+                                    <Setter.Value>
+                                        <Grid>
+                                            <TextBlock Text="New relationship" Style="{DynamicResource MainTextStyle}"/>
+                                            <TextBlock Text="Ctrl+R" Style="{DynamicResource TipTBStyle}"/>
+                                        </Grid>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsDefaultState, UpdateSourceTrigger=PropertyChanged}"
+                                         Value="False">
+                                <Setter Property="Header">
+                                    <Setter.Value>
+                                        <Grid>
+                                            <TextBlock Text="Cancel operation" Style="{DynamicResource MainTextStyle}"
+                                                       Foreground="Red"/>
+                                            <TextBlock Text="Esc" Style="{DynamicResource TipTBStyle}"/>
+                                        </Grid>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </MenuItem.Style>
+                <!--#endregion-->
             </MenuItem>
             <!--#endregion-->
             <!--#region Rename MenuItem-->
@@ -385,7 +410,8 @@
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="V" Command="{Binding PasteCommand}"/>
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="X" Command="{Binding CutCommand}"/>
             <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="O" Command="{Binding OpenAsRootCommand}"/>
-            <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="R" Command="{Binding CreateRelationshipCommand}"/>
+            <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Modifiers="Ctrl" Key="R" Command="{Binding UpdateRelationshipCommand}"/>
+            <KeyBinding CommandTarget="{Binding ElementName=CodeTreeControl}" Key="Esc" Command="{Binding CancelRelationshipModeCommand}"/>
         </Grid.InputBindings>
         <!--#endregion-->
     </Grid>

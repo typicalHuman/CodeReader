@@ -35,7 +35,8 @@
         <DockPanel Background="Transparent">
             <StackPanel Orientation="Horizontal" Background="Transparent">
                 <ui:TitleBarButton Height="38" Width="60" 
-                               VerticalAlignment="Bottom" Margin="2 0">
+                               VerticalAlignment="Bottom" Margin="2 0"
+                                   ToolTip="Home">
                     <Image 
                            RenderOptions.BitmapScalingMode="HighQuality" 
                            Source="pack://application:,,,/Images/house.png"

@@ -10,6 +10,7 @@ using System.Windows.Media;
 using CodeReader.Scripts.Extensions;
 using Notifications.Wpf;
 using GongSolutions.Wpf.DragDrop;
+using CodeReader.Scripts.Enums;
 
 namespace CodeReader.Scripts.View
 {
@@ -140,35 +141,65 @@ namespace CodeReader.Scripts.View
         /// </summary>
         private static DefaultDropHandler defaultDropHandler { get; set; }
 
+        /// <summary>
+        /// Main participant of relationships.
+        /// </summary>
+        private static ICodeComponent MainParticipant { get; set; }
+
+        /// <summary>
+        /// Second participant of relationships.
+        /// </summary>
+        private static ICodeComponent DependentParticipant { get; set; }
+
         #region Notifications
 
         private static NotificationContent EmptyParentWarning { get; set; } = new NotificationContent()
         {
             Type = NotificationType.Warning,
             Title = "Warning",
-            Message = "Select item at first!"
+            Message = "Select an item at first!"
         };
 
         private static NotificationContent RootDeletionWarning { get; set; } = new NotificationContent()
         {
             Type = NotificationType.Warning,
             Title = "Warning",
-            Message = "You can't delete main root."
+            Message = "You can't delete the main root."
         };
 
+        private static NotificationContent SameRelationshipElementsError { get; set; } = new NotificationContent()
+        {
+            Type = NotificationType.Error,
+            Title = "Error",
+            Message = "You can't select the same element."
+        };
 
         private static NotificationContent OnRelationshipCreating { get; set;  } = new NotificationContent()
         {
             Type = NotificationType.Information,
-            Message = "Open component in the tree for creating relationship or press ESC to cancel.",
+            Message = "Open component in the tree for creating a relationship or press ESC to cancel.",
             Title = "Information"
+        };
+
+        private static NotificationContent OnRelationshipCancel { get; set; } = new NotificationContent()
+        {
+            Type = NotificationType.Warning,
+            Message = "Creation was canceled.",
+            Title = "Information"
+        };
+
+        private static NotificationContent OnRelationshipCreated { get; set; } = new NotificationContent()
+        {
+            Type = NotificationType.Success,
+            Message = "Relationship was created.",
+            Title = "Success"
         };
         #endregion
 
         /// <summary>
         /// Window for setting relationship type.
         /// </summary>
-        private static ConfirmingWindow confirmWindow { get; set; } = new ConfirmingWindow();
+        private static ConfirmingWindow confirmWindow { get; set; }
 
         #region IsSingleRootOpen
 
@@ -285,8 +316,23 @@ namespace CodeReader.Scripts.View
             }
             else
             {
-                confirmWindow.ShowDialog();
+                if (codeTree.SelectedItem == MainParticipant)
+                    NotificationsManager.ShowNotificaton(SameRelationshipElementsError);
+                else
+                {
+                    SelectDependentParticipant();
+                    IsDefaultState = true;
+                    NotificationsManager.ShowNotificaton(OnRelationshipCreated);
+                }
             }
+        }
+
+        private void SelectDependentParticipant()
+        {
+            DependentParticipant = codeTree.SelectedItem as ICodeComponent;
+            confirmWindow = new ConfirmingWindow();
+            RelationshipType type = confirmWindow.ShowDialog();
+            Relationship.CreateRelationship(MainParticipant, DependentParticipant, type);
         }
 
         #endregion
@@ -705,15 +751,34 @@ namespace CodeReader.Scripts.View
         #endregion
 
 
-        #region CreateRelationshipCommand
-        private RelayCommand createRelationshipCommand;
-        public RelayCommand CreateRelationshipCommand
+        #region UpdateRelationshipCommand
+        private RelayCommand updateRelationshipCommand;
+        public RelayCommand UpdateRelationshipCommand
         {
-            get => createRelationshipCommand ?? (createRelationshipCommand = new RelayCommand(obj =>
+            get => updateRelationshipCommand ?? (updateRelationshipCommand = new RelayCommand(obj =>
             {
-                NotificationsManager.ShowNotificaton(OnRelationshipCreating);
-                IsDefaultState = false;
-                App.extendedPanelVM.CurrentComponent = null;
+                if (IsDefaultState)
+                {
+                    NotificationsManager.ShowNotificaton(OnRelationshipCreating);
+                    MainParticipant = codeTree.SelectedItem as ICodeComponent;
+                    IsDefaultState = false;
+                    App.extendedPanelVM.CurrentComponent = null;
+                }
+                else
+                    CancelRelationshipModeCommand.Execute(null);
+            }));
+        }
+
+        #endregion
+
+        #region CancelRelationshipModeCommand
+        private RelayCommand cancelRelationshipModeCommand;
+        public RelayCommand CancelRelationshipModeCommand
+        {
+            get => cancelRelationshipModeCommand ?? (cancelRelationshipModeCommand = new RelayCommand(obj =>
+            {
+                IsDefaultState = true;
+                NotificationsManager.ShowNotificaton(OnRelationshipCancel);
             }));
         }
 

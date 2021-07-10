@@ -1,18 +1,7 @@
 ﻿using CodeReader.Scripts.Enums;
-using CodeReader.Scripts.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CodeReader.Scripts.View
 {
@@ -24,13 +13,41 @@ namespace CodeReader.Scripts.View
         public ConfirmingWindow()
         {
             InitializeComponent();
-            var a = firstButton.DataContext;
+            App.confirmingWindowVM.WindowCloseAction = Close;
         }
 
         public new RelationshipType ShowDialog()
         {
+            SetCoordinatesToMouse();
             base.ShowDialog();
-            return RelationshipType.Aggregation;
+            return App.confirmingWindowVM.RelationshipType;
         }
+
+        private void SetCoordinatesToMouse()
+        {
+            Left = GetMousePosition().X;
+            Top = GetMousePosition().Y;
+        }
+
+        #region GetMousePosition
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetCursorPos(ref Win32Point pt);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct Win32Point
+        {
+            public Int32 X;
+            public Int32 Y;
+        };
+        public static Point GetMousePosition()
+        {
+            var w32Mouse = new Win32Point();
+            GetCursorPos(ref w32Mouse);
+
+            return new Point(w32Mouse.X, w32Mouse.Y);
+        }
+        #endregion
     }
+  
 }

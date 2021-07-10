@@ -15,6 +15,7 @@
         DataContext="{x:Static local:App.mainVM}"
         Title="ConfirmingWindow" Height="180" Width="400"
         ResizeMode="NoResize"
+        WindowStyle="None"
         WindowStartupLocation="Manual">
     <Grid   x:Name="confWind" DataContext="{x:Static local:App.confirmingWindowVM}">
         <!--#region Row Definitions-->
@@ -48,14 +49,18 @@
                     <Setter Property="Orientation" Value="Horizontal"/>
                 </Style>
                 <!--#endregion-->
+
+                <!--#region RelationshipButton Style-->
+                <Style TargetType="controls:RelationshipButton">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="ClickCommand" Value="{Binding SelectTypeCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Style>
+                <!--#endregion-->
             </Grid.Resources>
             <!--#endregion-->
             <!--#region First Row-->
             <StackPanel>
-                <controls:RelationshipButton RelationshipType="Dependency"
-                                             x:Name="firstButton"
-                                             MyText="{Binding SelectTypeCommand, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-                </controls:RelationshipButton>
+                <controls:RelationshipButton RelationshipType="Dependency"/>
                 <controls:RelationshipButton RelationshipType="Association"/>
             </StackPanel>
             <!--#endregion-->
