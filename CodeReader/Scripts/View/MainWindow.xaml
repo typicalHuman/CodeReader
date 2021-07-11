@@ -23,8 +23,35 @@
        
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+
+        <Menu Grid.Row="1" Margin="5 0">
+            <Menu.Resources>
+                <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                    <Setter Property="FontSize" Value="11"/>
+                </Style>
+            </Menu.Resources>
+            <MenuItem Header="_File" >
+                <MenuItem Header="_New" />
+                <MenuItem Header="_Open" />
+                <MenuItem Header="_Save" />
+                <MenuItem Header="_Save as" />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Undo" />
+                <MenuItem Header="Redo" />
+            </MenuItem>
+            <MenuItem Header="Code" >
+                <MenuItem Header="Import code"/>
+                <MenuItem Header="Change default language" />
+                <MenuItem Header="Beautify all code" />
+            </MenuItem>
+        </Menu>
+        
         <!--#region NotificationsArea-->
         <!--Area where notifications will appear-->
         <notifications:NotificationArea  x:Name="NotificationsArea"   Panel.ZIndex="4" 
@@ -58,7 +85,7 @@
         </DockPanel>
         <!--#endregion-->
 
-        <Grid Grid.Row="1" Name="codeReaderPanel">
+        <Grid Grid.Row="2" Name="codeReaderPanel">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="Auto"/>
@@ -70,7 +97,7 @@
                 <GridSplitter Grid.Column ="1" Width="4" 
                               DragDelta="SplitterDragDelta"
                               Background="{StaticResource GridSplitterGray}"
-                      ShowsPreview="True" Grid.Row="1" Margin="10" Name="Splitter"
+                      ShowsPreview="True" Grid.Row="2" Margin="10" Name="Splitter"
                 HorizontalAlignment="Center" VerticalAlignment="Stretch">
                 <GridSplitter.Template>
                     <ControlTemplate TargetType="GridSplitter">
