@@ -7,8 +7,8 @@
              xmlns:conv="clr-namespace:CodeReader.Scripts.Converters"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:model="clr-namespace:CodeReader.Scripts"
-            xmlns:notifications="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
-           xmlns:local="clr-namespace:CodeReader"
+             xmlns:behav="clr-namespace:CodeReader.Scripts.Behaviors"
+             xmlns:local="clr-namespace:CodeReader"
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
@@ -248,9 +248,7 @@
         <conv:InverseBoolConverter x:Key="BoolInverse"/>
     </UserControl.Resources>
     <!--#endregion-->
-    <Grid x:Name="mainGrid">
-       
-       
+    <Grid x:Name="mainGrid" behav:InputBindingBehavior.PropagateInputBindingsToWindow="True">
         <Grid>
             <!--#region Column Definitions-->
             <Grid.RowDefinitions>

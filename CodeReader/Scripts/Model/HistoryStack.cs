@@ -1,11 +1,10 @@
 ﻿using CodeBox;
 using CodeReader.Scripts.Interfaces;
 using CodeReader.Scripts.Enums;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GongSolutions.Wpf.DragDrop;
+using System.Threading;
 
 namespace CodeReader.Scripts
 {
@@ -39,7 +38,7 @@ namespace CodeReader.Scripts
             ExecuteOperation(RedoStack, UndoStack, DeleteAction, AddAction);
         }
 
-        private static void ExecuteOperation(Stack<Operation> fromStack, Stack<Operation> toStack,
+        private void ExecuteOperation(Stack<Operation> fromStack, Stack<Operation> toStack,
             ExecOperation addAction, ExecOperation deleteAction)
         {
             if (fromStack.Count > 0)
@@ -53,11 +52,9 @@ namespace CodeReader.Scripts
                 else if (op.Type == OperationType.Delete)
                     deleteAction(op, op.Index, changedItem);
                 else
-                {
-                    op.Neighbors.RemoveAt(op.Neighbors.IndexOf(changedItem));
-                    changedItem.Parent.Children.Insert(op.Index, changedItem);
-                }
+                    op = ExecuteDropOperation(op);
                 toStack.Push(op);
+                RemoveDuplicates(toStack);
             }
         }
 
@@ -70,6 +67,64 @@ namespace CodeReader.Scripts
         {
             Operation op = new Operation(type, changedComponent, neighbors);
             UndoStack.Push(op);
+        }
+
+        public void PushDropOp(IDropInfo dropInfo, ICodeComponent beforeDropItem, int index)
+        {
+            ICodeComponent targetItem = dropInfo.TargetItem as ICodeComponent;
+            ICodeComponent sourceItem = dropInfo.Data as ICodeComponent;
+            CodeComponentsCollection neighbors = GetNeighbors(beforeDropItem);
+            Operation op = new Operation(OperationType.Drop, sourceItem, neighbors, index);
+            Push(op);
+        }
+
+        private CodeComponentsCollection GetNeighbors(ICodeComponent comp)
+        {
+            if (comp.Parent == null)
+                return App.mainVM.CodeComponents;
+            return comp.Parent.Children;
+        }
+
+        public int CalculateDropIndex(ICodeComponent beforeDropItem)
+        {
+            int index = App.mainVM.CodeComponents.IndexOf(beforeDropItem);
+            if (beforeDropItem.Parent != null)
+                index = beforeDropItem.Parent.Children.IndexOf(beforeDropItem);
+            return index;
+        }
+
+        private Operation ExecuteDropOperation(Operation op)
+        {
+            ICodeComponent changedItem = op.ChangedItem;
+
+            CodeComponentsCollection dropNeighbors = GetNeighbors(changedItem);
+            int index = CalculateDropIndex(changedItem);//calculate index in pre-drop position of item
+
+            int foundIndex = dropNeighbors.IndexOf(changedItem);
+            dropNeighbors.RemoveAt(foundIndex);//remove from last drop position
+
+            ICodeComponent srcItem = (changedItem as CodeComponent).GetCopy();//you need to copy item before drop and parent changing
+
+            op.Neighbors.Insert(op.Index, changedItem);//insert item to position from which it was dropped.
+
+            dropNeighbors = GetNeighbors(srcItem);//init neighbors from dropped position
+
+            return new Operation(OperationType.Drop, changedItem, dropNeighbors, index);    //reinit operation for redo or undo.
+        }
+
+        private void RemoveDuplicates(Stack<Operation> stack)
+        {
+            List<Operation> operations = stack.ToList();
+            for(int i = 1; i < operations.Count; i++)
+            {
+                if (operations[i].ChangedItem.ID == operations[i-1].ChangedItem.ID &&
+                    operations[i].Type == operations[i - 1].Type)
+                {
+                    operations.RemoveAt(i);
+                    i--;
+                }
+            }
+            stack = new Stack<Operation>(operations);
         }
     }
 }

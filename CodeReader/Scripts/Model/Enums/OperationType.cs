@@ -2,6 +2,6 @@
 {
     public enum OperationType
     {
-        Add, Delete, Rename, Drag
+        Add, Delete, Drop
     }
 }

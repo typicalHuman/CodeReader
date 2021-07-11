@@ -152,6 +152,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Scripts\Behaviors\InputBindingBehavior.cs" />
     <Compile Include="Scripts\Converters\InverseBoolConverter.cs" />
     <Compile Include="Scripts\Converters\RelationshipTypeToImage.cs" />
     <Compile Include="Scripts\Converters\TypeToImageConverter.cs" />

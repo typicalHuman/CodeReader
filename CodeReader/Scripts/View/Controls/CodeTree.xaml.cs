@@ -285,7 +285,7 @@ namespace CodeReader.Scripts.View
                     NotificationsManager.ShowNotificaton(RootDeletionWarning);
                     return;
                 }
-                History.Push(OperationType.Delete, cc, CodeComponents);
+                    History.Push(OperationType.Delete, cc, CodeComponents);
                 CodeComponents.Remove(cc);
                 UpdateExtendedPanel();
                 return;
@@ -376,7 +376,7 @@ namespace CodeReader.Scripts.View
 
         private void AddChild(TreeViewItem parent)
         {
-            if (selectedItem == null)
+            if (selectedItem == null || codeTree.SelectedItem as ICodeComponent == null)
             {
                 NotificationsManager.ShowNotificaton(EmptyParentWarning);
                 return;
@@ -601,16 +601,10 @@ namespace CodeReader.Scripts.View
         void IDropTarget.Drop(IDropInfo dropInfo)
         {
             ICodeComponent sourceItem = dropInfo.Data as ICodeComponent;
-            ICodeComponent targetItem = dropInfo.TargetItem as ICodeComponent;
-            CodeComponentsCollection neighbors  = targetItem.Children;
-            if (targetItem.Parent == null && dropInfo.InsertPosition != RelativeInsertPosition.TargetItemCenter)
-                 neighbors = CodeComponents;
-            int index = CodeComponents.IndexOf(sourceItem);
-            if (sourceItem.Parent != null)
-                index = sourceItem.Parent.Children.IndexOf(sourceItem);
-            Operation op = new Operation(OperationType.Drag, (sourceItem as CodeComponent).GetCopy(), neighbors, index);
-            History.Push(op);
+            ICodeComponent copiedItem = (sourceItem as CodeComponent).GetCopy();
+            int index = History.CalculateDropIndex(sourceItem);
             defaultDropHandler.Drop(dropInfo);
+            History.PushDropOp(dropInfo, copiedItem, index);
         }
 
         #endregion
@@ -654,7 +648,8 @@ namespace CodeReader.Scripts.View
         {
             get => selectNextCommand ?? (selectNextCommand = new RelayCommand(obj =>
             {
-                MoveSelection(Direction.Down);
+                if(codeTree.SelectedItem != null)
+                     MoveSelection(Direction.Down);
             }));
         }
         #endregion
@@ -665,8 +660,8 @@ namespace CodeReader.Scripts.View
         {
             get => selectPrevCommand ?? (selectPrevCommand = new RelayCommand(obj =>
             {
-                MoveSelection(Direction.Up);
-
+                if (codeTree.SelectedItem != null)
+                    MoveSelection(Direction.Up);
             }));
         }
         #endregion
@@ -806,6 +801,7 @@ namespace CodeReader.Scripts.View
             get => undoCommand ?? (undoCommand = new RelayCommand(obj =>
             {
                 History.Undo();
+                OpenSelectedItem();
             }));
         }
 
@@ -820,14 +816,11 @@ namespace CodeReader.Scripts.View
             get => redoCommand ?? (redoCommand = new RelayCommand(obj =>
             {
                 History.Redo();
+                OpenSelectedItem();
             }));
         }
 
         #endregion
-
-
-
-
 
         #endregion
 
