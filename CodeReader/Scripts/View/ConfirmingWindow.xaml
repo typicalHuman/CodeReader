@@ -60,7 +60,8 @@
             <!--#endregion-->
             <!--#region First Row-->
             <StackPanel>
-                <controls:RelationshipButton RelationshipType="Dependency"/>
+                <controls:RelationshipButton RelationshipType="Dependency"
+                                             x:Name="nam"/>
                 <controls:RelationshipButton RelationshipType="Association"/>
             </StackPanel>
             <!--#endregion-->

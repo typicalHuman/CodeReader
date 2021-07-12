@@ -58,14 +58,23 @@ namespace CodeReader.Scripts.ViewModel
 
 
 
-    
+
 
         #endregion
 
         #region Commands
 
+        #region SelectNextCommand
+        private RelayCommand selectNextCommand;
+        public RelayCommand SelectNextCommand
+        {
+            get => selectNextCommand ?? (selectNextCommand = new RelayCommand(obj =>
+            {
+                
+            }));
+        }
+        #endregion
 
-       
         #endregion
     }
 }

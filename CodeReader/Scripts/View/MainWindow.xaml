@@ -6,7 +6,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:CodeReader"
         xmlns:notifications="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
-        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:controls="clr-namespace:CodeReader.Scripts.View.Controls"
         xmlns:view="clr-namespace:CodeReader.Scripts.View"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
@@ -27,14 +27,17 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Menu Grid.Row="1" Margin="5 0">
+        <Separator Grid.Row="1" VerticalAlignment="Bottom" Margin="5"/>
+        <Menu Grid.Row="1" Margin="5 0" Height="35" VerticalAlignment="Top">
             <Menu.Resources>
                 <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
                     <Setter Property="FontSize" Value="11"/>
                 </Style>
             </Menu.Resources>
-            <MenuItem Header="_File" >
-                <MenuItem Header="_New" />
+            <MenuItem Header="_File">
+                <controls:KeyBindedMenuItem MainText=" New" 
+                                            TipText="Ctrl+Shift+N"
+                                            ClickCommand="{Binding SelectNextCommand}"/>
                 <MenuItem Header="_Open" />
                 <MenuItem Header="_Save" />
                 <MenuItem Header="_Save as" />
@@ -55,7 +58,7 @@
         <!--#region NotificationsArea-->
         <!--Area where notifications will appear-->
         <notifications:NotificationArea  x:Name="NotificationsArea"   Panel.ZIndex="4" 
-                                         Position="BottomRight" MaxItems="1" Grid.Row="1"/>
+                                         Position="BottomRight" MaxItems="1" Grid.Row="2"/>
         <!--#endregion-->
 
         <!--#region TitleBar-->

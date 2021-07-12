@@ -1,40 +1,21 @@
 ﻿using CodeReader.Scripts.Enums;
 using CodeReader.Scripts.ViewModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace CodeReader.Scripts.View.Controls
 {
     /// <summary>
     /// Interaction logic for RelationshipButton.xaml
     /// </summary>
-    public partial class RelationshipButton : UserControl, INotifyPropertyChanged
+    public partial class RelationshipButton : BaseUserControl
     {
         #region Ctor
 
         public RelationshipButton()
         {
             InitializeComponent();
-            var a = DataContext;
         }
 
-        #endregion
-
-        #region PropertyChanged
-        /// <summary>
-        /// Event for updating value.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-        /// <summary>
-        /// Method to update bound value.
-        /// </summary>
-        /// <param name="prop">The name of property that has changed.</param>
-        public virtual void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
         #endregion
 
         #region Dependency Properties

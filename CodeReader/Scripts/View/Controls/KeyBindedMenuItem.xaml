@@ -1,0 +1,24 @@
+﻿<MenuItem x:Class="CodeReader.Scripts.View.Controls.KeyBindedMenuItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d"
+             x:Name="menuItem"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             Height="30">
+        <MenuItem.Header>
+        <Grid Margin="7 0 7 0"
+              DataContext="{Binding RelativeSource={RelativeSource AncestorType=MenuItem}}">
+            <TextBlock Text="{Binding MainText}" 
+                           Style="{StaticResource MainTextStyle}"/>
+                <TextBlock Text="{Binding TipText}" 
+                           Style="{DynamicResource TipTBStyle}"/>
+            </Grid>
+        </MenuItem.Header>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Click">
+            <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=MenuItem}, Path=ClickCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+</MenuItem>

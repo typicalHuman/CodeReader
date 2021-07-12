@@ -136,6 +136,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Scripts\View\Controls\KeyBindedMenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Scripts\View\Controls\RelationshipButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -176,11 +180,15 @@
     <Compile Include="Scripts\ViewModel\MainVM.cs" />
     <Compile Include="Scripts\ViewModel\NotificationsManager.cs" />
     <Compile Include="Scripts\ViewModel\RelayCommand.cs" />
+    <Compile Include="Scripts\View\Controls\BaseUserControl.cs" />
     <Compile Include="Scripts\View\Controls\CodeTree.xaml.cs">
       <DependentUpon>CodeTree.xaml</DependentUpon>
     </Compile>
     <Compile Include="Scripts\View\ConfirmingWindow.xaml.cs">
       <DependentUpon>ConfirmingWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Scripts\View\Controls\KeyBindedMenuItem.xaml.cs">
+      <DependentUpon>KeyBindedMenuItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="Scripts\View\Controls\RelationshipButton.xaml.cs">
       <DependentUpon>RelationshipButton.xaml</DependentUpon>
