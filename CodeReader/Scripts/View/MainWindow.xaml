@@ -16,7 +16,7 @@
         DataContext="{x:Static local:App.mainVM}"   
         ui:WindowHelper.UseModernWindowStyle="True" 
         ui:ThemeManager.IsThemeAware="True" ui:TitleBar.ExtendViewIntoTitleBar="True"
-       Height="450" Width="800" 
+        Height="450" Width="800" 
         ResizeMode="CanResizeWithGrip"
         Style="{StaticResource WindowWithThemes}">
     <Grid>
@@ -35,7 +35,7 @@
                 </Style>
             </Menu.Resources>
             <MenuItem Header="_File">
-                <controls:KeyBindedMenuItem MainText=" New" 
+                <controls:KeyBindedMenuItem MainText="New" 
                                             TipText="Ctrl+Shift+N"
                                             ClickCommand="{Binding SelectNextCommand}"/>
                 <MenuItem Header="_Open" />
@@ -94,7 +94,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <view:CodeTree CodeComponents="{Binding CodeComponents, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="0 10 0 10"
+            <controls:CodeTree CodeComponents="{Binding CodeComponents, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Margin="0 10 0 10"
                            TargetComponent="{Binding ElementName=extendedPanel, Path=DataContext.CurrentComponent, UpdateSourceTrigger=PropertyChanged,
                 Mode=OneWay}"/>
                 <GridSplitter Grid.Column ="1" Width="4" 

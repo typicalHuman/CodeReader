@@ -4,21 +4,45 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
+             xmlns:conv="clr-namespace:CodeReader.Scripts.Converters"
              x:Name="menuItem"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              Height="30">
         <MenuItem.Header>
-        <Grid Margin="7 0 7 0"
-              DataContext="{Binding RelativeSource={RelativeSource AncestorType=MenuItem}}">
-            <TextBlock Text="{Binding MainText}" 
-                           Style="{StaticResource MainTextStyle}"/>
-                <TextBlock Text="{Binding TipText}" 
-                           Style="{DynamicResource TipTBStyle}"/>
+        <Grid Margin="{Binding ContentMargin,UpdateSourceTrigger=PropertyChanged}"
+              DataContext="{Binding RelativeSource={RelativeSource AncestorType=MenuItem}}"
+              x:Name="menuItemContent">
+            <Grid.Resources>
+                <conv:IsNullConverter x:Key="IsNull"/>
+            </Grid.Resources>
+            <TextBlock x:Name="helpTb" Visibility="Collapsed"/>
+            <TextBlock Text="{Binding MainText, UpdateSourceTrigger=PropertyChanged}" 
+                       x:Name="mainText">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource MainTextStyle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding MainForeground}"
+                                         Value="{x:Null}">
+                                <Setter Property="Foreground" Value="{Binding ElementName=helpTb, Path=Foreground}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding MainForeground, Converter={StaticResource IsNull}}"
+                                         Value="False">
+                                <Setter Property="Foreground" Value="{Binding MainForeground}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <TextBlock Text="{Binding TipText, UpdateSourceTrigger=PropertyChanged}" 
+                       Style="{DynamicResource TipTBStyle}"
+                       x:Name="tipText"/>
             </Grid>
         </MenuItem.Header>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Click">
-            <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=MenuItem}, Path=ClickCommand}"/>
+            <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=MenuItem}, 
+                Path=ClickCommand,
+                UpdateSourceTrigger=PropertyChanged}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 </MenuItem>

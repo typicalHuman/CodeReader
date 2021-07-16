@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CodeReader.Scripts.View.CodeTree"
+﻿<controls:BaseUserControl x:Class="CodeReader.Scripts.View.Controls.CodeTree"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,6 +9,7 @@
              xmlns:model="clr-namespace:CodeReader.Scripts"
              xmlns:behav="clr-namespace:CodeReader.Scripts.Behaviors"
              xmlns:local="clr-namespace:CodeReader"
+             xmlns:controls="clr-namespace:CodeReader.Scripts.View.Controls"
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
@@ -26,88 +27,58 @@
             <!--#region ContextMenu Resources-->
             <ContextMenu.Resources>
                 <!--#region Base MenuItem Style-->
-                <Style TargetType="MenuItem" 
+                <Style TargetType="controls:KeyBindedMenuItem" 
                        BasedOn="{StaticResource {x:Type MenuItem}}">
                     <Setter Property="DataContext" Value="{Binding  Source={x:Reference mainGrid},
                         Path=DataContext}"/>
                     <Setter Property="IsEnabled" Value="{Binding IsDefaultState,UpdateSourceTrigger=PropertyChanged}"/>
+                    <Setter Property="Width" Value="200"/>
                 </Style>
                 <!--#endregion-->
             </ContextMenu.Resources>
             <!--#endregion-->
             <!--#region Open MenuItem-->
-            <MenuItem Header="Open" Click="OpenMenuItem_Click"
-                      IsEnabled="True"/>
+            <controls:KeyBindedMenuItem Click="OpenMenuItem_Click"
+                                        MainText="Open" IsEnabled="True"/>
             <!--#endregion-->
             <!--#region Open as Root MenuItem-->
-            <MenuItem>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding OpenAsRootCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <MenuItem.Header>
-                    <Grid>
-                        <TextBlock Text="Open as root" Style="{DynamicResource MainTextStyle}"/>
-                        <TextBlock Text="Ctrl+O" Style="{DynamicResource TipTBStyle}"/>
-                    </Grid>
-                </MenuItem.Header>
-            </MenuItem>
+            <controls:KeyBindedMenuItem ClickCommand="{Binding OpenAsRootCommand}"
+                                        MainText="Open as root"
+                                        TipText="Ctrl+O"/>
             <!--#endregion-->
             <!--#region AddChild MenuItem-->
-            <MenuItem>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding AddChildCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <MenuItem.Header>
-                    <Grid>
-                        <TextBlock Text="Add child" Style="{DynamicResource MainTextStyle}"/>
-                        <TextBlock Text="Ctrl+N" Style="{DynamicResource TipTBStyle}"/>
-                    </Grid>
-                </MenuItem.Header>
-            </MenuItem>
+            <controls:KeyBindedMenuItem ClickCommand="{Binding AddChildCommand}"
+                                        MainText="Add child"
+                                        TipText="Ctrl+N"/>
             <!--#endregion-->
             <!--#region Create Relationship MenuItem-->
-            <MenuItem IsEnabled="True">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding UpdateRelationshipCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+            <controls:KeyBindedMenuItem IsEnabled="True" 
+                                        DataContext="{Binding Source={x:Reference mainGrid},
+                        Path=DataContext, UpdateSourceTrigger=PropertyChanged}"
+                                        ClickCommand="{Binding UpdateRelationshipCommand}">
                 <!--#region MenuItem Style-->
-                <MenuItem.Style>
-                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                <controls:KeyBindedMenuItem.Style>
+                    <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="DataContext" Value="{Binding  Source={x:Reference mainGrid},
+                        Path=DataContext, UpdateSourceTrigger=PropertyChanged}"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsDefaultState, UpdateSourceTrigger=PropertyChanged}"
+                            <DataTrigger Binding="{Binding IsDefaultState}"
                                          Value="True">
-                                <Setter Property="Header">
-                                    <Setter.Value>
-                                        <Grid>
-                                            <TextBlock Text="New relationship" Style="{DynamicResource MainTextStyle}"/>
-                                            <TextBlock Text="Ctrl+R" Style="{DynamicResource TipTBStyle}"/>
-                                        </Grid>
-                                    </Setter.Value>
-                                </Setter>
+                                <Setter Property="MainForeground" Value="White"/>
+                                <Setter Property="MainText" Value="New relationship"/>
+                                <Setter Property="TipText" Value="Ctrl+R"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding IsDefaultState, UpdateSourceTrigger=PropertyChanged}"
+                            <DataTrigger Binding="{Binding IsDefaultState}"
                                          Value="False">
-                                <Setter Property="Header">
-                                    <Setter.Value>
-                                        <Grid>
-                                            <TextBlock Text="Cancel operation" Style="{DynamicResource MainTextStyle}"
-                                                       Foreground="Red"/>
-                                            <TextBlock Text="Esc" Style="{DynamicResource TipTBStyle}"/>
-                                        </Grid>
-                                    </Setter.Value>
-                                </Setter>
+                                <Setter Property="MainText" Value="Cancel operation"/>
+                                <Setter Property="TipText" Value="Esc"/>
+                                <Setter Property="MainForeground" Value="Red"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </MenuItem.Style>
+                </controls:KeyBindedMenuItem.Style>
                 <!--#endregion-->
-            </MenuItem>
+            </controls:KeyBindedMenuItem>
             <!--#endregion-->
             <!--#region Rename MenuItem-->
             <MenuItem>
@@ -415,4 +386,4 @@
         </Grid.InputBindings>
         <!--#endregion-->
     </Grid>
-</UserControl>
+</controls:BaseUserControl>

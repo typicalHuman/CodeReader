@@ -81,7 +81,7 @@
         <!--#region Grid definitions-->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MaxHeight="40"/>
-            <RowDefinition Height="60*"/>
+            <RowDefinition Height="70*"/>
             <RowDefinition Height="10"/>
             <RowDefinition Height="341*"/>
         </Grid.RowDefinitions>
@@ -145,16 +145,19 @@
             <!--#region Grid definitions-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <!--#endregion-->
-                <TextBlock Text="Description" Margin="5 0 0 1" VerticalAlignment="Bottom"
+            <TextBlock Text="Description" Margin="5 0 0 1" VerticalAlignment="Bottom"
                        Grid.Row="0"
                            FontSize="17" />
             <TextBox Text="{Binding  CurrentComponent.Description, UpdateSourceTrigger=PropertyChanged}"
-                         Background="Transparent" FontSize="17" Grid.Row="1"
-                       Name="tbDesc"
-                        FontFamily="{StaticResource RegularFont}" Margin="5 0" TextWrapping="Wrap"/>
+                     Background="Transparent" 
+                     FontSize="17" Grid.Row="1"
+                     Name="tbDesc"
+                     FontFamily="{StaticResource RegularFont}" 
+                     Margin="5 0" 
+                     TextWrapping="Wrap"/>
         </Grid>
         <!--#endregion-->
 

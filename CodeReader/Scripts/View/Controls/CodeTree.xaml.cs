@@ -1,8 +1,6 @@
 ﻿using CodeReader.Scripts.Interfaces;
 using CodeReader.Scripts.ViewModel;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,12 +10,12 @@ using Notifications.Wpf;
 using GongSolutions.Wpf.DragDrop;
 using CodeReader.Scripts.Enums;
 
-namespace CodeReader.Scripts.View
+namespace CodeReader.Scripts.View.Controls
 {
     /// <summary>
     /// Interaction logic for CodeTree.xaml
     /// </summary>
-    public partial class CodeTree : UserControl, INotifyPropertyChanged, IDropTarget
+    public partial class CodeTree : BaseUserControl, IDropTarget
     {
         #region Enum
 
@@ -240,21 +238,6 @@ namespace CodeReader.Scripts.View
 
         private HistoryStack History { get; set; } = new HistoryStack();
 
-        #endregion
-
-        #region PropertyChanged
-        /// <summary>
-        /// Event for updating value.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-        /// <summary>
-        /// Method to update bound value.
-        /// </summary>
-        /// <param name="prop">The name of property that has changed.</param>
-        public virtual void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
         #endregion
 
         #region Methods
