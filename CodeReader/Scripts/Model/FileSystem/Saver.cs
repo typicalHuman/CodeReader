@@ -1,5 +1,4 @@
 ﻿using Associations;
-using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -8,20 +7,40 @@ namespace CodeReader.Scripts.FileSystem
 {
     internal static class Saver
     {
-       
-        internal static void associate()
-        {
-            // Initializes a new AF_FileAssociator to associate the .ABC file extension.
-            AF_FileAssociator assoc = new AF_FileAssociator(".cdrd");
+        #region Constants
 
-            // Creates a new file association for the .ABC file extension. 
-            // Data is overwritten if it already exists.
-            assoc.Create("My_App",
-                "My application's file association",
-                new ProgramIcon(@"C:\Users\HP\Desktop\bn.ico"),
-                new ExecApplication(@"C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\CodeReader.exe"),
-                new OpenWithList(new string[] { "My_App" }));
-            SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
+        private const string PROG_ID = "CodeReader";
+
+        private const string ASSOCIATION_DESCRIPTION = "Association cb files with special program which will read data " +
+            "and convert it to info about code components.";
+
+        private const string ICON_FILE_PATH = "bookIcon.ico";
+
+        #endregion
+
+        /// <summary>
+        /// The instance for creating file associations.
+        /// </summary>
+        private static AF_FileAssociator _associator { get; set; } = new AF_FileAssociator(App.FILE_EXTENSION);
+
+        internal static bool TryAssociate()
+        {
+            try
+            {
+                string applicationPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                string iconPath = Path.GetFullPath(ICON_FILE_PATH);
+                _associator.Create(PROG_ID,
+                    ASSOCIATION_DESCRIPTION,
+                    new ProgramIcon(iconPath),
+                    new ExecApplication(applicationPath),
+                    new OpenWithList(new string[] { PROG_ID }));
+                SHChangeNotify(0x08000000, 0x0000, IntPtr.Zero, IntPtr.Zero);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         [DllImport("shell32.dll", CharSet = CharSet.Auto, SetLastError = true)]

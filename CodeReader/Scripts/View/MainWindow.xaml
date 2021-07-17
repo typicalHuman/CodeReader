@@ -71,6 +71,10 @@
                 <controls:KeyBindedMenuItem MainText="Beautify all code" 
                                             ClickCommand="{Binding BeautifyAllCodeCommand}"/>
             </controls:KeyBindedMenuItem>
+            <controls:KeyBindedMenuItem MainText="Windows">
+                <controls:KeyBindedMenuItem MainText="Set file association" 
+                                            ClickCommand="{Binding SetFileAssociationCommand}"/>
+            </controls:KeyBindedMenuItem>
         </Menu>
         
         <!--#region NotificationsArea-->

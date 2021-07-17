@@ -18,6 +18,12 @@ namespace CodeReader.Scripts
         private int UndoCount { get => UndoStack.Count; }
         private int RedoCount { get => RedoStack.Count; }
 
+        public void Clear()
+        {
+            UndoStack.Clear();
+            RedoStack.Clear();
+        }
+
         public void Undo()
         {
             ExecuteOperation(UndoStack, RedoStack, AddAction, DeleteAction);

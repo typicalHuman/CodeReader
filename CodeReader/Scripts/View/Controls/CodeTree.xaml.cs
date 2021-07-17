@@ -49,7 +49,11 @@ namespace CodeReader.Scripts.View.Controls
 
         public static readonly DependencyProperty ItemsSourceProperty =
    DependencyProperty.Register("CodeComponents", typeof(CodeComponentsCollection), typeof(CodeTree), new
-      PropertyMetadata(new CodeComponentsCollection(), new PropertyChangedCallback(OnItemsSourceChanged)));
+      FrameworkPropertyMetadata(new CodeComponentsCollection(), new PropertyChangedCallback(OnItemsSourceChanged))
+      {
+           BindsTwoWayByDefault = true,
+           DefaultUpdateSourceTrigger = System.Windows.Data.UpdateSourceTrigger.PropertyChanged
+      });
 
         public CodeComponentsCollection CodeComponents
         {
@@ -236,7 +240,7 @@ namespace CodeReader.Scripts.View.Controls
 
         #endregion
 
-        private HistoryStack History { get; set; } = new HistoryStack();
+        
 
         #endregion
 
@@ -268,13 +272,13 @@ namespace CodeReader.Scripts.View.Controls
                     NotificationsManager.ShowNotificaton(RootDeletionWarning);
                     return;
                 }
-                    History.Push(OperationType.Delete, cc, CodeComponents);
+                    App.mainVM.History.Push(OperationType.Delete, cc, CodeComponents);
                 CodeComponents.Remove(cc);
                 UpdateExtendedPanel();
                 return;
             }
             var parent = cc.Parent;
-            History.Push(OperationType.Delete, cc, parent.Children);
+            App.mainVM.History.Push(OperationType.Delete, cc, parent.Children);
             parent.Children.Remove(cc);
             UpdateExtendedPanel();
         }
@@ -376,7 +380,7 @@ namespace CodeReader.Scripts.View.Controls
             selectedItem.InitItemContainer();
             TreeViewItem newItem = selectedItem.ItemContainerGenerator.ContainerFromItem(child) as TreeViewItem;
             SelectComponent(newItem);
-            History.Push(OperationType.Add, child, child.Parent.Children);
+            App.mainVM.History.Push(OperationType.Add, child, child.Parent.Children);
         }
 
      
@@ -561,7 +565,7 @@ namespace CodeReader.Scripts.View.Controls
         {
             ICodeComponent newComponent = GetDefaultComponent(null);
             CodeComponents.Insert(0, newComponent);
-            History.Push(OperationType.Add, newComponent, CodeComponents);
+            App.mainVM.History.Push(OperationType.Add, newComponent, CodeComponents);
             TreeViewItem newItem = codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem;
             SelectComponent(newItem);
         }
@@ -585,9 +589,9 @@ namespace CodeReader.Scripts.View.Controls
         {
             ICodeComponent sourceItem = dropInfo.Data as ICodeComponent;
             ICodeComponent copiedItem = (sourceItem as CodeComponent).GetCopy();
-            int index = History.CalculateDropIndex(sourceItem);
+            int index = App.mainVM.History.CalculateDropIndex(sourceItem);
             defaultDropHandler.Drop(dropInfo);
-            History.PushDropOp(dropInfo, copiedItem, index);
+            App.mainVM.History.PushDropOp(dropInfo, copiedItem, index);
         }
 
         #endregion
@@ -783,7 +787,7 @@ namespace CodeReader.Scripts.View.Controls
         {
             get => undoCommand ?? (undoCommand = new RelayCommand(obj =>
             {
-                History.Undo();
+                App.mainVM.History.Undo();
                 OpenSelectedItem();
             }));
         }
@@ -798,7 +802,7 @@ namespace CodeReader.Scripts.View.Controls
         {
             get => redoCommand ?? (redoCommand = new RelayCommand(obj =>
             {
-                History.Redo();
+                App.mainVM.History.Redo();
                 OpenSelectedItem();
             }));
         }
