@@ -137,10 +137,6 @@ namespace CodeReader.Scripts
         #endregion
 
 
-
-
-
-
         #region Methods
 
         private void DefaultInit(string label = "code", string code = "", string description = "",

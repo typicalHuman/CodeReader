@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using CodeBox.Enums;
 using CodeReader.Scripts.Enums;
+using Newtonsoft.Json;
 
 namespace CodeReader.Scripts.Interfaces
 {
@@ -37,6 +38,7 @@ namespace CodeReader.Scripts.Interfaces
         /// <summary>
         /// Parent of component.
         /// </summary>
+        [JsonIgnore]
         ICodeComponent Parent { get; set; }
         /// <summary>
         /// Programming language
@@ -49,6 +51,7 @@ namespace CodeReader.Scripts.Interfaces
         /// <summary>
         /// History of file changes.
         /// </summary>
+        [JsonIgnore]
         UndoStack History { get; set; }
     }
 }

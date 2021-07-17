@@ -17,5 +17,11 @@ namespace CodeReader
             extendedPanelVM = new ExtendedPanelVM();
             confirmingWindowVM = new ConfirmingWindowVM();
         }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            // here you take control
+        }
     }
 }

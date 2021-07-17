@@ -187,3 +187,5 @@ C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Contr
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Controls\RelationshipButton.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Controls\KeyBindedMenuItem.g.cs
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Controls\KeyBindedMenuItem.baml
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Newtonsoft.Json.dll
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Newtonsoft.Json.xml

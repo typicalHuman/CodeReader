@@ -30,29 +30,47 @@
         <Separator Grid.Row="1" VerticalAlignment="Bottom" Margin="5"/>
         <Menu Grid.Row="1" Margin="5 0" Height="35" VerticalAlignment="Top">
             <Menu.Resources>
-                <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-                    <Setter Property="FontSize" Value="11"/>
+                <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                    <Setter Property="MainFontSize" Value="12"/>
+                    <Setter Property="ContentMargin" Value="3 0 3 0"/>
                 </Style>
             </Menu.Resources>
-            <MenuItem Header="_File">
+            <controls:KeyBindedMenuItem MainText="File">
                 <controls:KeyBindedMenuItem MainText="New" 
                                             TipText="Ctrl+Shift+N"
-                                            ClickCommand="{Binding SelectNextCommand}"/>
-                <MenuItem Header="_Open" />
-                <MenuItem Header="_Save" />
-                <MenuItem Header="_Save as" />
+                                            ClickCommand="{Binding NewProjectCommand}"
+                                            Width="140"/>
+                <controls:KeyBindedMenuItem MainText="Open" 
+                                            TipText="Ctrl+Shift+O"
+                                            ClickCommand="{Binding OpenCommand}"/>
+                <controls:KeyBindedMenuItem MainText="Save" 
+                                            TipText="Ctrl+S"
+                                            ClickCommand="{Binding SaveCommand}"/>
+                <controls:KeyBindedMenuItem MainText="Save as" 
+                                            TipText="Ctrl+Shift+S"
+                                            ClickCommand="{Binding SaveAsCommand}"/>
                 <Separator />
-                <MenuItem Header="_Exit" />
-            </MenuItem>
-            <MenuItem Header="Edit">
-                <MenuItem Header="Undo" />
-                <MenuItem Header="Redo" />
-            </MenuItem>
-            <MenuItem Header="Code" >
-                <MenuItem Header="Import code"/>
-                <MenuItem Header="Change default language" />
-                <MenuItem Header="Beautify all code" />
-            </MenuItem>
+                <controls:KeyBindedMenuItem MainText="Exit" 
+                                            MainForeground="Red"
+                                            ClickCommand="{Binding ExitCommand}"/>
+            </controls:KeyBindedMenuItem>
+            <controls:KeyBindedMenuItem MainText="Edit">
+                <controls:KeyBindedMenuItem MainText="Undo" 
+                                            TipText="Ctrl+Z"
+                                            ClickCommand="{Binding UndoCommand}"
+                                            Width="130"/>
+                <controls:KeyBindedMenuItem MainText="Redo" 
+                                            TipText="Ctrl+Y"
+                                            ClickCommand="{Binding RedoCommand}"/>
+            </controls:KeyBindedMenuItem>
+            <controls:KeyBindedMenuItem MainText="Code" >
+                <controls:KeyBindedMenuItem MainText="Import code" 
+                                            ClickCommand="{Binding ImportCodeCommand}"/>
+                <controls:KeyBindedMenuItem MainText="Change default language" 
+                                            ClickCommand="{Binding ChangeDefaultLanguageCommand}"/>
+                <controls:KeyBindedMenuItem MainText="Beautify all code" 
+                                            ClickCommand="{Binding BeautifyAllCodeCommand}"/>
+            </controls:KeyBindedMenuItem>
         </Menu>
         
         <!--#region NotificationsArea-->

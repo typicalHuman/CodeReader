@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using CodeReader.Scripts.Extensions;
 using CodeReader.Scripts.Enums;
+using System.IO;
+using CodeReader.Scripts.FileSystem;
 
 namespace CodeReader.Scripts.ViewModel
 {
@@ -64,15 +66,18 @@ namespace CodeReader.Scripts.ViewModel
 
         #region Commands
 
-        #region SelectNextCommand
-        private RelayCommand selectNextCommand;
-        public RelayCommand SelectNextCommand
+        #region SaveCommand
+        private RelayCommand saveCommand;
+        public RelayCommand SaveCommand
         {
-            get => selectNextCommand ?? (selectNextCommand = new RelayCommand(obj =>
+            get => saveCommand ?? (saveCommand = new RelayCommand(obj =>
             {
-                
+                Saver.associate();
+                //Saver.Save(CodeComponents, "");
+                //var a = Saver.Open("");
             }));
         }
+
         #endregion
 
         #endregion

@@ -17,7 +17,8 @@
             </Grid.Resources>
             <TextBlock x:Name="helpTb" Visibility="Collapsed"/>
             <TextBlock Text="{Binding MainText, UpdateSourceTrigger=PropertyChanged}" 
-                       x:Name="mainText">
+                       x:Name="mainText"
+                       FontSize="{Binding MainFontSize, UpdateSourceTrigger=PropertyChanged}">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock" BasedOn="{StaticResource MainTextStyle}">
                         <Style.Triggers>
@@ -35,7 +36,8 @@
             </TextBlock>
             <TextBlock Text="{Binding TipText, UpdateSourceTrigger=PropertyChanged}" 
                        Style="{DynamicResource TipTBStyle}"
-                       x:Name="tipText"/>
+                       x:Name="tipText"
+                       FontSize="{Binding TipFontSize, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </MenuItem.Header>
     <i:Interaction.Triggers>
