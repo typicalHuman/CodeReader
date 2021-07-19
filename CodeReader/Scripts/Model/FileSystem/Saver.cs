@@ -50,13 +50,13 @@ namespace CodeReader.Scripts.FileSystem
         {
             string jsonString = Serializer.Serialize(components);
             string encodedString = Encoder64.Encode(jsonString);
-            using (StreamWriter sw = new StreamWriter(@"C:\Users\HP\Desktop\test.cdrd"))
+            using (StreamWriter sw = new StreamWriter(path))
                 sw.Write(encodedString);
         }
 
         internal static CodeComponentsCollection Open(string path)
         {
-            string encodedData = File.ReadAllText(@"C:\Users\HP\Desktop\test.cdrd");
+            string encodedData = File.ReadAllText(path);
             string jsonString = Encoder64.Decode(encodedData);
             CodeComponentsCollection components = Serializer.Deserialize(jsonString);
             return components;

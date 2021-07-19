@@ -1,6 +1,7 @@
 ﻿using CodeReader.Scripts.Interfaces;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Indentation;
+using Notifications.Wpf;
 using System.Linq;
 
 namespace CodeReader.Scripts.ViewModel
@@ -11,6 +12,17 @@ namespace CodeReader.Scripts.ViewModel
     public class ExtendedPanelVM: BaseViewModel
     {
         #region Properties
+
+        #region Notifications
+
+        private NotificationContent NullSelectedTextError { get; set; } = new NotificationContent()
+        {
+            Title = "Error",
+            Message = "First select a text.",
+            Type = NotificationType.Error
+        };
+
+        #endregion
 
         #region CurrentNode
 
@@ -28,7 +40,6 @@ namespace CodeReader.Scripts.ViewModel
         }
 
         #endregion
-
 
         #region IndentStrategy
 
@@ -84,6 +95,11 @@ namespace CodeReader.Scripts.ViewModel
         {
             get => createNewChildCommand ?? (createNewChildCommand = new RelayCommand(obj =>
             {
+                if(obj == null)
+                {
+                    NotificationsManager.ShowNotificaton(NullSelectedTextError);
+                    return;
+                }
                 string sourceCode = obj.ToString();
                 ICodeComponent newComponent = new CodeComponent
                 {

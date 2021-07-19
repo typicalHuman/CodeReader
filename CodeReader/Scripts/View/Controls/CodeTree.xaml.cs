@@ -719,7 +719,7 @@ namespace CodeReader.Scripts.View.Controls
         {
             get => openAsRootCommand ?? (openAsRootCommand = new RelayCommand(obj =>
             {
-                if (IsDefaultState)
+                if (IsDefaultState && selectedItem != null)
                 {
                     ICodeComponent root = selectedItem.GetItemValue(codeTree.ItemContainerGenerator);
                     codeTree.ItemsSource = new List<ICodeComponent>() { root };
@@ -780,34 +780,7 @@ namespace CodeReader.Scripts.View.Controls
 
         #region Global Operations
 
-        #region Undo
-
-        private RelayCommand undoCommand;
-        public RelayCommand UndoCommand
-        {
-            get => undoCommand ?? (undoCommand = new RelayCommand(obj =>
-            {
-                App.mainVM.History.Undo();
-                OpenSelectedItem();
-            }));
-        }
-
-        #endregion
-
-
-        #region Redo
-
-        private RelayCommand redoCommand;
-        public RelayCommand RedoCommand
-        {
-            get => redoCommand ?? (redoCommand = new RelayCommand(obj =>
-            {
-                App.mainVM.History.Redo();
-                OpenSelectedItem();
-            }));
-        }
-
-        #endregion
+      
 
         #endregion
 

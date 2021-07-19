@@ -20,18 +20,20 @@ namespace CodeReader.Scripts.ViewModel
 
         public MainVM()
         {
-            CodeComponents[0].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
-            CodeComponents[0].Children[0].Parent = CodeComponents[0];
-            CodeComponents[0].Children[0].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
-            CodeComponents[0].Children[0].Children[0].Parent = CodeComponents[0].Children[0];
-            CodeComponents.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
-            CodeComponents[1].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
-            CodeComponents[1].Children[0].Parent = CodeComponents[1];
-            CodeComponents[1].Children[0].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
-            CodeComponents[1].Children[0].Children[0].Parent = CodeComponents[1].Children[0];
-            CodeComponents[1].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
-            CodeComponents[1].Children[1].Parent = CodeComponents[1];
-            CodeComponents.CollectionChanged += (sender, e) => CodeComponents.UpdateItems();
+            //CodeComponents[0].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
+            //CodeComponents[0].Children[0].Parent = CodeComponents[0];
+            //CodeComponents[0].Children[0].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
+            //CodeComponents[0].Children[0].Children[0].Parent = CodeComponents[0].Children[0];
+            //CodeComponents.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
+            //CodeComponents[1].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
+            //CodeComponents[1].Children[0].Parent = CodeComponents[1];
+            //CodeComponents[1].Children[0].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
+            //CodeComponents[1].Children[0].Children[0].Parent = CodeComponents[1].Children[0];
+            //CodeComponents[1].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
+            //CodeComponents[1].Children[1].Parent = CodeComponents[1];
+            //CodeComponents.CollectionChanged += (sender, e) => CodeComponents.UpdateItems();
+            InitComponents();
+            
         }
 
         #region Events
@@ -65,16 +67,54 @@ namespace CodeReader.Scripts.ViewModel
 
         #endregion
 
+        #region Notifications
+
+        private static NotificationContent NonAdministratorModeWarning { get; set; } = new NotificationContent()
+        {
+            Type = NotificationType.Error,
+            Title = "Error",
+            Message = "To perform this operation you should run the application as administrator."
+        };
+
+        private static NotificationContent SavedNotification { get; set; } = new NotificationContent()
+        {
+            Type = NotificationType.Success,
+            Title = "Save info",
+            Message = "Saved!"
+        };
+
+        #endregion
+
         /// <summary>
         /// Path to .cb file.
         /// </summary>
         public string FilePath { get; set; } = string.Empty;
 
+        /// <summary>
+        /// History of file changes.
+        /// </summary>
         public HistoryStack History { get; set; } = new HistoryStack();
 
         #endregion
 
         #region Commands
+
+        #region File Commands
+
+
+        #region ExitCommand
+
+        private RelayCommand exitCommand;
+        public RelayCommand ExitCommand
+        {
+            get => exitCommand ?? (exitCommand = new RelayCommand(obj =>
+            {
+                Application.Current.Shutdown();
+            }));
+        }
+        #endregion
+
+        #endregion
 
         #region SaveCommand
         private RelayCommand saveCommand;
@@ -82,7 +122,7 @@ namespace CodeReader.Scripts.ViewModel
         {
             get => saveCommand ?? (saveCommand = new RelayCommand(obj =>
             {
-                if(FilePath == string.Empty)
+                if (FilePath == string.Empty)
                     saveAsCommand.Execute(null);
                 Saver.Save(CodeComponents, FilePath);
             }));
@@ -103,21 +143,7 @@ namespace CodeReader.Scripts.ViewModel
                     FilePath = saveFileDialog.FileName;
                     Saver.Save(CodeComponents, FilePath);
                 }
-            }));
-        }
-
-        #endregion
-
-
-        #region SetFileAssociationCommand
-        private RelayCommand setFileAssociationCommand;
-        public RelayCommand SetFileAssociationCommand
-        {
-            get => setFileAssociationCommand ?? (setFileAssociationCommand = new RelayCommand(obj =>
-            {
-                bool associationResult = Saver.TryAssociate();
-                if (!associationResult)
-                    NotificationsManager.ShowNotificaton(NonAdministratorModeWarning);
+                NotificationsManager.ShowNotificaton(SavedNotification);
             }));
         }
 
@@ -148,15 +174,66 @@ namespace CodeReader.Scripts.ViewModel
 
         #endregion
 
-        #region Notifications
 
-        private static NotificationContent NonAdministratorModeWarning { get; set; } = new NotificationContent()
+        #region Edit Commands
+
+        #region Undo
+
+        private RelayCommand undoCommand;
+        public RelayCommand UndoCommand
         {
-            Type = NotificationType.Error,
-            Title = "Error",
-            Message = "To perform this operation you should open the application as an administrator."
-        };
+            get => undoCommand ?? (undoCommand = new RelayCommand(obj =>
+            {
+                App.mainVM.History.Undo();
+            }));
+        }
 
         #endregion
+
+
+        #region Redo
+
+        private RelayCommand redoCommand;
+        public RelayCommand RedoCommand
+        {
+            get => redoCommand ?? (redoCommand = new RelayCommand(obj =>
+            {
+                App.mainVM.History.Redo();
+            }));
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Windows Commands
+
+        #region SetFileAssociationCommand
+        private RelayCommand setFileAssociationCommand;
+        public RelayCommand SetFileAssociationCommand
+        {
+            get => setFileAssociationCommand ?? (setFileAssociationCommand = new RelayCommand(obj =>
+            {
+                bool associationResult = Saver.TryAssociate();
+                if (!associationResult)
+                    NotificationsManager.ShowNotificaton(NonAdministratorModeWarning);
+            }));
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        private void InitComponents()
+        {
+            if (FilePath == string.Empty || !File.Exists(FilePath))
+                return;
+            OpenCommand.Execute(null); 
+        }
+
+        #endregion
+
     }
 }

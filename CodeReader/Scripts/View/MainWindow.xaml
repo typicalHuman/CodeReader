@@ -20,7 +20,6 @@
         ResizeMode="CanResizeWithGrip"
         Style="{StaticResource WindowWithThemes}">
     <Grid>
-       
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
@@ -139,5 +138,16 @@
             </GridSplitter>
             <view:ExtendedPanel Grid.Column="2" x:Name="extendedPanel"/>
         </Grid>
+        
+        <!--#region Input Bindings-->
+        <Grid.InputBindings>
+            <KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding NewProjectCommand}"/>
+            <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCommand}"/>
+            <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAsCommand}"/>
+            <KeyBinding Modifiers="Ctrl+Shift" Key="O" Command="{Binding OpenCommand}"/>
+            <KeyBinding Modifiers="Ctrl" Key="Z" Command="{Binding UndoCommand}"/>
+            <KeyBinding Modifiers="Ctrl" Key="Y" Command="{Binding RedoCommand}"/>
+        </Grid.InputBindings>
+        <!--#endregion-->
     </Grid>
 </Window>

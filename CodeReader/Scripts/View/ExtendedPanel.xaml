@@ -45,7 +45,7 @@
                 <MenuItem.Header>
                     <Grid>
                         <TextBlock Text="Create new child" Style="{DynamicResource MainTextStyle}"/>
-                        <TextBlock Text="Ctrl+Shift+N" Style="{DynamicResource TipTBStyle}"/>
+                        <TextBlock Text="Ctrl+Shift+C" Style="{DynamicResource TipTBStyle}"/>
                     </Grid>
                 </MenuItem.Header>
             </MenuItem>
@@ -203,7 +203,7 @@
             <!--#endregion-->
             <!--#region Key Bindings-->
             <codeBox:CodeBoxControl.InputBindings>
-                <KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding CreateNewChildCommand}" CommandParameter="{Binding ElementName=cbc, Path=SelectedText}"/>
+                <KeyBinding Modifiers="Ctrl+Shift" Key="C" Command="{Binding CreateNewChildCommand}" CommandParameter="{Binding ElementName=cbc, Path=SelectedText}"/>
                 <KeyBinding Modifiers="Ctrl" Key="B" Command="{Binding BeautifyCommand}"
                             CommandTarget="{Binding ElementName=cbc}"/>
             </codeBox:CodeBoxControl.InputBindings>
