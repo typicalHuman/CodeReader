@@ -97,12 +97,13 @@ namespace CodeReader.Scripts
 
         #region Language
 
-        private Languages language;
+        private Languages language = App.mainVM.DefaultLanguage;
         public Languages Language
         {
             get => language;
             set
             {
+                bool isEquals = value == language;
                 language = value;
                 OnPropertyChanged("Language");
             }

@@ -8,6 +8,7 @@
         xmlns:notifications="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
         xmlns:controls="clr-namespace:CodeReader.Scripts.View.Controls"
         xmlns:view="clr-namespace:CodeReader.Scripts.View"
+        xmlns:conv="clr-namespace:CodeReader.Scripts.Converters"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
          BorderBrush="#007acb"
@@ -19,6 +20,9 @@
         Height="450" Width="800" 
         ResizeMode="CanResizeWithGrip"
         Style="{StaticResource WindowWithThemes}">
+    <Window.Resources>
+        <conv:IsTextSameWithEnumValueConverter x:Key="IsSameTextEnum"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -66,7 +70,38 @@
                 <controls:KeyBindedMenuItem MainText="Import code" 
                                             ClickCommand="{Binding ImportCodeCommand}"/>
                 <controls:KeyBindedMenuItem MainText="Change default language" 
-                                            ClickCommand="{Binding ChangeDefaultLanguageCommand}"/>
+                                            Style="{StaticResource MenuItemWithSubmenu}"
+                                            MainFontSize="12"
+                                            ContentMargin="3 0 3 0">
+                    <controls:KeyBindedMenuItem.Resources>
+                        <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                            <Setter Property="IsCheckable" Value="True"/>
+                            <Setter Property="MainFontSize" Value="12"/>
+                            <Setter Property="ContentMargin" Value="0"/>
+                            <Setter Property="ClickCommand" Value="{Binding ChangeDefaultLanguageCommand}"/>
+                            <Setter Property="ClickCommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self},
+                                Path=MainText}"/>
+                            <Style.Triggers>
+                                <DataTrigger Value="True">
+                                    <DataTrigger.Binding>
+                                        <MultiBinding Converter="{StaticResource IsSameTextEnum}">
+                                            <Binding Path="MainText" RelativeSource="{RelativeSource Mode=Self}"/>
+                                            <Binding Path="DefaultLanguage"/>
+                                        </MultiBinding>
+                                    </DataTrigger.Binding>
+                                    <Setter Property="IsChecked" Value="True"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </controls:KeyBindedMenuItem.Resources>
+                    <controls:KeyBindedMenuItem MainText="CSharp"/>
+                    <controls:KeyBindedMenuItem MainText="CPP" />
+                    <controls:KeyBindedMenuItem MainText="C" />
+                    <controls:KeyBindedMenuItem MainText="Python" />
+                    <controls:KeyBindedMenuItem MainText="JS" />
+                    <controls:KeyBindedMenuItem MainText="PHP" />
+                    <controls:KeyBindedMenuItem MainText="Assembly" />
+                </controls:KeyBindedMenuItem>
                 <controls:KeyBindedMenuItem MainText="Beautify all code" 
                                             ClickCommand="{Binding BeautifyAllCodeCommand}"/>
             </controls:KeyBindedMenuItem>

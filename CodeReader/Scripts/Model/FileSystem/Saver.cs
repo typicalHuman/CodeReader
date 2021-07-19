@@ -1,4 +1,6 @@
 ﻿using Associations;
+using CodeBox.Enums;
+using CodeReader.Scripts.Interfaces;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -60,6 +62,33 @@ namespace CodeReader.Scripts.FileSystem
             string jsonString = Encoder64.Decode(encodedData);
             CodeComponentsCollection components = Serializer.Deserialize(jsonString);
             return components;
+        }
+
+        internal static ICodeComponent ImportCode(string path)
+        {
+            string srcCode = File.ReadAllText(path);
+            ICodeComponent comp = new CodeComponent
+            {
+                Code = srcCode,
+                Language = GetLanguageByPath(path)
+            };
+            return comp;
+        }
+
+        private static Languages GetLanguageByPath(string path)
+        {
+            string extension = Path.GetExtension(path);
+            switch(extension)
+            {
+                case ".cs": return Languages.CSharp;
+                case ".cpp": return Languages.CPP;
+                case ".h": return Languages.CPP;
+                case ".c": return Languages.C;
+                case ".py": return Languages.Python;
+                case ".js": return Languages.JS;
+                case ".php": return Languages.PHP;
+                default: return Languages.Assembly;
+            }
         }
 
     }

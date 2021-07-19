@@ -12,29 +12,38 @@ using System.IO;
 using CodeReader.Scripts.FileSystem;
 using Notifications.Wpf;
 using Microsoft.Win32;
+using CodeReader.Scripts.Interfaces;
+using CodeBox.Enums;
 
 namespace CodeReader.Scripts.ViewModel
 {
     public class MainVM: BaseViewModel
     {
 
+        #region Constants
+
+        private const string CODE_BOOK_FILE_FILTER = "Code book file (*.cb)|*.cb";
+
+        private const string CODE_FILE_FILTER = "C# (*.cs)|*.cs|" +
+                                                "C++ (*.cpp, *.h)|*.cpp; *.h|" +
+                                                "C (*.c, *.h)|*.c; *.h|" +
+                                                "Python (*.py)|*.py|" +
+                                                "JavaScript (*.js)|*.js|" +
+                                                "PHP (*.php)|*.php|" +
+                                                "Assembly (*.asm, *.s)|*.asm; *.s" ;
+
+        #endregion
+
+        #region Ctor
+
         public MainVM()
         {
-            //CodeComponents[0].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
-            //CodeComponents[0].Children[0].Parent = CodeComponents[0];
-            //CodeComponents[0].Children[0].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
-            //CodeComponents[0].Children[0].Children[0].Parent = CodeComponents[0].Children[0];
-            //CodeComponents.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
-            //CodeComponents[1].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
-            //CodeComponents[1].Children[0].Parent = CodeComponents[1];
-            //CodeComponents[1].Children[0].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
-            //CodeComponents[1].Children[0].Children[0].Parent = CodeComponents[1].Children[0];
-            //CodeComponents[1].Children.Add(new CodeComponent("Method", "public void DoSmth()\n{\n}\n", "", CodeComponentType.Method));
-            //CodeComponents[1].Children[1].Parent = CodeComponents[1];
-            //CodeComponents.CollectionChanged += (sender, e) => CodeComponents.UpdateItems();
+            CodeComponents.CollectionChanged += (sender, e) => CodeComponents.UpdateItems();
             InitComponents();
-            
         }
+
+        #endregion
+
 
         #region Events
         private void MyCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -46,10 +55,7 @@ namespace CodeReader.Scripts.ViewModel
         #region Properties
 
         #region CodeComponents
-        public CodeComponentsCollection CodeComponents { get; set; } = new CodeComponentsCollection()
-        {
-            new CodeComponent("Class", "public abstract class Avangard\n{\n}\n", "", CodeComponentType.AbstractClass),
-        };
+        public CodeComponentsCollection CodeComponents { get; set; } = new CodeComponentsCollection();
         #endregion
 
         #region IsDarkModeEnabled
@@ -62,6 +68,21 @@ namespace CodeReader.Scripts.ViewModel
             {
                 isDarkModeEnabled = value;
                 OnPropertyChanged("IsDarkModeEnabled");
+            }
+        }
+
+        #endregion
+
+        #region DefaultLanguage
+
+        private Languages defaultLanguage = Languages.C;
+        public Languages DefaultLanguage
+        {
+            get => defaultLanguage;
+            set
+            {
+                defaultLanguage = value;
+                OnPropertyChanged("DefaultLanguage");
             }
         }
 
@@ -137,7 +158,7 @@ namespace CodeReader.Scripts.ViewModel
             get => saveAsCommand ?? (saveAsCommand = new RelayCommand(obj =>
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = "Code book file (*.cb)|*.cb";
+                saveFileDialog.Filter = CODE_BOOK_FILE_FILTER;
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     FilePath = saveFileDialog.FileName;
@@ -156,7 +177,7 @@ namespace CodeReader.Scripts.ViewModel
             get => openCommand ?? (openCommand = new RelayCommand(obj =>
             {
                 OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.Filter = "Code book file (*.cb)|*.cb";
+                openFileDialog.Filter = CODE_BOOK_FILE_FILTER;
                 if (openFileDialog.ShowDialog() == true)
                 {
                     FilePath = openFileDialog.FileName;
@@ -199,6 +220,42 @@ namespace CodeReader.Scripts.ViewModel
             get => redoCommand ?? (redoCommand = new RelayCommand(obj =>
             {
                 App.mainVM.History.Redo();
+            }));
+        }
+
+        #endregion
+
+        #endregion
+
+        #region CodeCommands
+
+        #region ImportCodeCommand
+        private RelayCommand importCodeCommand;
+        public RelayCommand ImportCodeCommand
+        {
+            get => importCodeCommand ?? (importCodeCommand = new RelayCommand(obj =>
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = CODE_FILE_FILTER;
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    string filePath = openFileDialog.FileName;
+                    ICodeComponent importedComponent = Saver.ImportCode(filePath);
+                    CodeComponents.Insert(0, importedComponent);
+                }
+            }));
+        }
+
+        #endregion
+
+        #region ChangeDefaultLanguageCommand
+        private RelayCommand changeDefaultLanguageCommand;
+        public RelayCommand ChangeDefaultLanguageCommand
+        {
+            get => changeDefaultLanguageCommand ?? (changeDefaultLanguageCommand = new RelayCommand(obj =>
+            {
+                Enum.TryParse(obj.ToString(), out Languages res);
+                DefaultLanguage = res;
             }));
         }
 

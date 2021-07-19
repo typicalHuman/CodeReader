@@ -43,8 +43,11 @@
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Click">
             <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=MenuItem}, 
-                Path=ClickCommand,
-                UpdateSourceTrigger=PropertyChanged}"/>
+                                    Path=ClickCommand,
+                                    UpdateSourceTrigger=PropertyChanged}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=MenuItem}, 
+                                    Path=ClickCommandParameter,
+                                    UpdateSourceTrigger=PropertyChanged}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 </MenuItem>

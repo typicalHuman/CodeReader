@@ -131,10 +131,10 @@
                             <StackPanel Orientation="Horizontal" Grid.Column="2">
                                 <TextBlock Text="Language" Margin="5" VerticalAlignment="Center"
                            FontSize="17"  />
-                                <ComboBox Text="{Binding  CurrentComponent.Language, UpdateSourceTrigger=PropertyChanged}"
-                             Style="{StaticResource CodeComponentCmbBox}"
-                              ui:ComboBoxHelper.TextBoxStyle="{StaticResource TransparentTextBox}"
-                              ItemsSource="{Binding Source={StaticResource langsEnum}}"/>
+                                <ComboBox SelectedItem="{Binding CurrentComponent.Language, UpdateSourceTrigger=PropertyChanged}"
+                                          Style="{StaticResource CodeComponentCmbBox}"
+                                          ui:ComboBoxHelper.TextBoxStyle="{StaticResource TransparentTextBox}"
+                                          ItemsSource="{Binding Source={StaticResource langsEnum}}"/>
                             </StackPanel>
                             <!--#endregion-->
                         </Grid>

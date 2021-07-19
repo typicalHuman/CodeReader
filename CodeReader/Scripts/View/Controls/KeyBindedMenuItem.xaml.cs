@@ -131,6 +131,23 @@ namespace CodeReader.Scripts.View.Controls
 
         #endregion
 
+        #region ClickCommandParameter
+        public static readonly DependencyProperty ClickCommandParameterProperty =
+      DependencyProperty.Register("ClickCommandParameter", typeof(object), typeof(KeyBindedMenuItem),
+           new FrameworkPropertyMetadata(null));
+
+        public object ClickCommandParameter
+        {
+            get => (object)GetValue(ClickCommandParameterProperty);
+            set
+            {
+                SetValue(ClickCommandParameterProperty, value);
+                OnPropertyChanged("ClickCommandParameter");
+            }
+        }
+
+        #endregion
+
         #region ContentMargin
         public static readonly DependencyProperty ContentMarginProperty =
       DependencyProperty.Register("ContentMargin", typeof(Thickness), typeof(KeyBindedMenuItem),

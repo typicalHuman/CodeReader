@@ -18,5 +18,6 @@ namespace CodeReader.Scripts.View
         {
             e.Handled = true;
         }
+
     }
 }
