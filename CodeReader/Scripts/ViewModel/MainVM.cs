@@ -75,7 +75,7 @@ namespace CodeReader.Scripts.ViewModel
 
         #region DefaultLanguage
 
-        private Languages defaultLanguage = Languages.C;
+        private Languages defaultLanguage = Languages.CSharp;
         public Languages DefaultLanguage
         {
             get => defaultLanguage;
@@ -83,6 +83,21 @@ namespace CodeReader.Scripts.ViewModel
             {
                 defaultLanguage = value;
                 OnPropertyChanged("DefaultLanguage");
+            }
+        }
+
+        #endregion
+
+        #region ViewMode
+
+        private ViewMode viewMode = ViewMode.Default;
+        public ViewMode ViewMode
+        {
+            get => viewMode;
+            set
+            {
+                viewMode = value;
+                OnPropertyChanged("ViewMode");
             }
         }
 
@@ -133,8 +148,6 @@ namespace CodeReader.Scripts.ViewModel
                 Application.Current.Shutdown();
             }));
         }
-        #endregion
-
         #endregion
 
         #region SaveCommand
@@ -194,7 +207,6 @@ namespace CodeReader.Scripts.ViewModel
         #endregion
 
         #endregion
-
 
         #region Edit Commands
 
@@ -261,6 +273,18 @@ namespace CodeReader.Scripts.ViewModel
 
         #endregion
 
+        #region ChangeModeCommand
+        private RelayCommand changeModeCommand;
+        public RelayCommand ChangeModeCommand
+        {
+            get => changeModeCommand ?? (changeModeCommand = new RelayCommand(obj =>
+            {
+
+            }));
+        }
+
+        #endregion
+
         #endregion
 
         #region Windows Commands
@@ -280,6 +304,11 @@ namespace CodeReader.Scripts.ViewModel
         #endregion
 
         #endregion
+
+        #endregion
+
+
+
 
         #region Methods
 

@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using CodeReader.Scripts.View;
+using GalaSoft.MvvmLight.Messaging;
+using System;
+using System.Windows;
 using System.Windows.Controls.Primitives;
 
 namespace CodeReader
@@ -13,14 +16,13 @@ namespace CodeReader
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Event for catching window change and resizing grid columns.
-        /// </summary>
-        private void SplitterDragDelta(object sender, DragDeltaEventArgs e)
+        private void NavigationSetup()
         {
-            double newWidth = codeReaderPanel.ColumnDefinitions[0].ActualWidth + e.HorizontalChange;
-            if(newWidth >= 0)
-                codeReaderPanel.ColumnDefinitions[0].Width = new GridLength(newWidth);
+            Messenger.Default.Register<NavigateArgs>(this, (x) =>
+            {
+                if (!x.Url.Contains("Select"))
+                    Frame1.Navigate(new Uri(x.Url, UriKind.Relative));
+            });
         }
     }
 

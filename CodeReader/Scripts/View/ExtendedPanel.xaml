@@ -9,12 +9,11 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:conv="clr-namespace:CodeReader.Scripts.Converters"
              xmlns:vm="clr-namespace:CodeReader.Scripts.ViewModel"
-             xmlns:codeBox="clr-namespace:CodeBox;assembly=CodeBox"          
+             xmlns:codeBox="clr-namespace:CodeBox;assembly=CodeBox" 
              FontFamily="{StaticResource RegularFont}"
              DataContext="{x:Static local:App.extendedPanelVM}"
              d:DesignHeight="450" d:DesignWidth="800"
-             Name="ExtendedPanelControl"
-             >
+             Name="ExtendedPanelControl">
     <!--#region Resources-->
     <UserControl.Resources>
         <Style BasedOn="{StaticResource {x:Type ComboBoxItem}}" TargetType="ComboBoxItem">

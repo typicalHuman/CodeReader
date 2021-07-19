@@ -48,6 +48,18 @@
     <Reference Include="CodeBox, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CodeBox.1.0.0\lib\net461\CodeBox.dll</HintPath>
     </Reference>
+    <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net47\CommonServiceLocator.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.4.1.0, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
     <Reference Include="GongSolutions.WPF.DragDrop, Version=2.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
       <HintPath>..\packages\gong-wpf-dragdrop.2.3.2\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
     </Reference>
@@ -78,8 +90,8 @@
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -99,6 +111,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Scripts\View\NavigateArgs.cs" />
+    <Compile Include="Scripts\View\ReferencesViewPage.xaml.cs">
+      <DependentUpon>ReferencesViewPage.xaml</DependentUpon>
+    </Compile>
     <Page Include="Scripts\Resources\EnumItemsSource.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,6 +167,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Scripts\View\DefaultViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Scripts\View\ExtendedPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -176,6 +196,7 @@
     <Compile Include="Scripts\Model\CodeComponentsCollection.cs" />
     <Compile Include="Scripts\Model\Enums\CodeComponentType.cs" />
     <Compile Include="Scripts\Model\Enums\OperationType.cs" />
+    <Compile Include="Scripts\Model\Enums\ViewMode.cs" />
     <Compile Include="Scripts\Model\FileSystem\Encoder64.cs" />
     <Compile Include="Scripts\Model\FileSystem\Saver.cs" />
     <Compile Include="Scripts\Model\FileSystem\Serializer.cs" />
@@ -205,6 +226,9 @@
     <Compile Include="Scripts\View\Controls\RelationshipButton.xaml.cs">
       <DependentUpon>RelationshipButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Scripts\View\DefaultViewPage.xaml.cs">
+      <DependentUpon>DefaultViewPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Scripts\View\ExtendedPanel.xaml.cs">
       <DependentUpon>ExtendedPanel.xaml</DependentUpon>
     </Compile>
@@ -212,6 +236,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Scripts\View\ReferencesViewPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

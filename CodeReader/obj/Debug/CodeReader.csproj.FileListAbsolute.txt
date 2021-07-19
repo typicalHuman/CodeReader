@@ -175,7 +175,6 @@ C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GongSolutions.WPF.
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Microsoft.Expression.Interactions.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\System.Windows.Interactivity.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Microsoft.Expression.Interactions.xml
-C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\System.Windows.Interactivity.xml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\TextBlockStyle.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\Styles\MenuItemStyle.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\ConfirmingWindow.g.cs
@@ -189,3 +188,17 @@ C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Contr
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Controls\KeyBindedMenuItem.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Newtonsoft.Json.dll
 C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\Newtonsoft.Json.xml
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\ReferencesViewPage.g.cs
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\CommonServiceLocator.dll
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GalaSoft.MvvmLight.dll
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GalaSoft.MvvmLight.Extras.dll
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GalaSoft.MvvmLight.Platform.dll
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GalaSoft.MvvmLight.pdb
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GalaSoft.MvvmLight.xml
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GalaSoft.MvvmLight.Extras.pdb
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GalaSoft.MvvmLight.Extras.xml
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GalaSoft.MvvmLight.Platform.pdb
+C:\files\Programming\Projects\CodeReader\CodeReader\bin\Debug\GalaSoft.MvvmLight.Platform.xml
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\DefaultViewPage.g.cs
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\DefaultViewPage.baml
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\ReferencesViewPage.baml
