@@ -112,7 +112,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Scripts\View\NavigateArgs.cs" />
-    <Compile Include="Scripts\View\ReferencesViewPage.xaml.cs">
+    <Compile Include="Scripts\View\Pages\ReferencesViewPage.xaml.cs">
       <DependentUpon>ReferencesViewPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Scripts\Resources\EnumItemsSource.xaml">
@@ -167,7 +167,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Scripts\View\DefaultViewPage.xaml">
+    <Page Include="Scripts\View\Pages\DefaultViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -226,7 +226,7 @@
     <Compile Include="Scripts\View\Controls\RelationshipButton.xaml.cs">
       <DependentUpon>RelationshipButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Scripts\View\DefaultViewPage.xaml.cs">
+    <Compile Include="Scripts\View\Pages\DefaultViewPage.xaml.cs">
       <DependentUpon>DefaultViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Scripts\View\ExtendedPanel.xaml.cs">
@@ -236,7 +236,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Scripts\View\ReferencesViewPage.xaml">
+    <Page Include="Scripts\View\Pages\ReferencesViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

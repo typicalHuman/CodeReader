@@ -7,11 +7,11 @@
         xmlns:local="clr-namespace:CodeReader"
         xmlns:notifications="clr-namespace:Notifications.Wpf.Controls;assembly=Notifications.Wpf"
         xmlns:controls="clr-namespace:CodeReader.Scripts.View.Controls"
-        xmlns:view="clr-namespace:CodeReader.Scripts.View"
+        xmlns:enums="clr-namespace:CodeReader.Scripts.Enums"
         xmlns:conv="clr-namespace:CodeReader.Scripts.Converters"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
-         BorderBrush="#007acb"
+        BorderBrush="#007acb"
         BorderThickness="1.2"
         Title="CodeReader" MinHeight="450" MinWidth="850"
         DataContext="{x:Static local:App.mainVM}"   
@@ -72,8 +72,7 @@
                                             ClickCommand="{Binding ImportCodeCommand}"/>
                 <controls:KeyBindedMenuItem MainText="Change default language" 
                                             Style="{StaticResource MenuItemWithSubmenu}"
-                                            MainFontSize="12"
-                                            ContentMargin="3 0 3 0">
+                                            MainFontSize="12">
                     <controls:KeyBindedMenuItem.Resources>
                         <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
                             <Setter Property="IsCheckable" Value="True"/>
@@ -103,8 +102,20 @@
                     <controls:KeyBindedMenuItem MainText="PHP" />
                     <controls:KeyBindedMenuItem MainText="Assembly" />
                 </controls:KeyBindedMenuItem>
-                <controls:KeyBindedMenuItem MainText="References mode" 
-                                            ClickCommand="{Binding ChangeModeCommand}"/>
+                <controls:KeyBindedMenuItem  ClickCommand="{Binding ChangeModeCommand}" MainFontSize="12">
+                    <controls:KeyBindedMenuItem.Style>
+                        <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ViewMode,UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ViewMode.Default}">
+                                    <Setter Property="MainText" Value="References mode"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ViewMode, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ViewMode.References}">
+                                    <Setter Property="MainText" Value="Default mode"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </controls:KeyBindedMenuItem.Style>
+                </controls:KeyBindedMenuItem>
             </controls:KeyBindedMenuItem>
             <controls:KeyBindedMenuItem MainText="Windows">
                 <controls:KeyBindedMenuItem MainText="Set file association" 
@@ -145,7 +156,7 @@
         </DockPanel>
         <!--#endregion-->
 
-        <ui:Frame Grid.Row="2" Source="DefaultViewPage.xaml" x:Name="Frame1"/>
+        <ui:Frame Grid.Row="2" Source="Pages\DefaultViewPage.xaml" x:Name="Frame1"/>
         <!--#region Input Bindings-->
         <Grid.InputBindings>
             <KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding NewProjectCommand}"/>

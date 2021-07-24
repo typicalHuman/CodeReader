@@ -14,16 +14,17 @@ namespace CodeReader
         public MainWindow()
         {
             InitializeComponent();
+            App.mainVM.Navigate = Frame1.Navigate;
         }
 
-        private void NavigationSetup()
-        {
-            Messenger.Default.Register<NavigateArgs>(this, (x) =>
-            {
-                if (!x.Url.Contains("Select"))
-                    Frame1.Navigate(new Uri(x.Url, UriKind.Relative));
-            });
-        }
+        //private void NavigationSetup()
+        //{
+        //    Messenger.Default.Register<NavigateArgs>(this, (x) =>
+        //    {
+        //        if (!x.Url.Contains("Select"))
+        //            Frame1.Navigate(new Uri(x.Url, UriKind.Relative));
+        //    });
+        //}
     }
 
 }

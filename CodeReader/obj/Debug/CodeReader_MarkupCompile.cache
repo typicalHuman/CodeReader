@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\files\Programming\Projects\CodeReader\CodeReader\App.xaml
-171472166552
+17723771215
 
-44-1242870225
+44647663355
 1341786066092
-Scripts\Resources\EnumItemsSource.xaml;Scripts\Styles\Colors.xaml;Scripts\Styles\ComboBoxStyle.xaml;Scripts\Styles\Fonts.xaml;Scripts\Styles\MenuItemStyle.xaml;Scripts\Styles\TextBlockStyle.xaml;Scripts\Styles\TextBoxStyle.xaml;Scripts\Styles\TreeViewStyle.xaml;Scripts\Styles\WindowStyle.xaml;Scripts\View\Controls\CodeTree.xaml;Scripts\View\ConfirmingWindow.xaml;Scripts\View\Controls\KeyBindedMenuItem.xaml;Scripts\View\Controls\RelationshipButton.xaml;Scripts\View\DefaultViewPage.xaml;Scripts\View\ExtendedPanel.xaml;Scripts\View\MainWindow.xaml;Scripts\View\ReferencesViewPage.xaml;
+Scripts\Resources\EnumItemsSource.xaml;Scripts\Styles\Colors.xaml;Scripts\Styles\ComboBoxStyle.xaml;Scripts\Styles\Fonts.xaml;Scripts\Styles\MenuItemStyle.xaml;Scripts\Styles\TextBlockStyle.xaml;Scripts\Styles\TextBoxStyle.xaml;Scripts\Styles\TreeViewStyle.xaml;Scripts\Styles\WindowStyle.xaml;Scripts\View\Controls\CodeTree.xaml;Scripts\View\ConfirmingWindow.xaml;Scripts\View\Controls\KeyBindedMenuItem.xaml;Scripts\View\Controls\RelationshipButton.xaml;Scripts\View\Pages\DefaultViewPage.xaml;Scripts\View\ExtendedPanel.xaml;Scripts\View\MainWindow.xaml;Scripts\View\Pages\ReferencesViewPage.xaml;
 
 False
 

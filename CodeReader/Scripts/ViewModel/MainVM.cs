@@ -274,12 +274,17 @@ namespace CodeReader.Scripts.ViewModel
         #endregion
 
         #region ChangeModeCommand
+        public delegate bool NavigateAction(Uri path);
+        public NavigateAction Navigate { get; set; }
+
         private RelayCommand changeModeCommand;
         public RelayCommand ChangeModeCommand
         {
             get => changeModeCommand ?? (changeModeCommand = new RelayCommand(obj =>
             {
-
+                Uri ur = new Uri("pack://application:,,,/Scripts/View/Pages/ReferencesViewPage.xaml");
+                Navigate(ur);
+                ViewMode = ViewMode.References;
             }));
         }
 
