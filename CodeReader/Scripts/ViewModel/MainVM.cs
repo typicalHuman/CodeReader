@@ -282,9 +282,18 @@ namespace CodeReader.Scripts.ViewModel
         {
             get => changeModeCommand ?? (changeModeCommand = new RelayCommand(obj =>
             {
-                Uri ur = new Uri("pack://application:,,,/Scripts/View/Pages/ReferencesViewPage.xaml");
-                Navigate(ur);
-                ViewMode = ViewMode.References;
+                if (ViewMode == ViewMode.Default)
+                {
+                    Uri ur = new Uri("pack://application:,,,/Scripts/View/Pages/ReferencesViewPage.xaml");
+                    Navigate(ur);
+                    ViewMode = ViewMode.References;
+                }
+                else
+                {
+                    Uri ur = new Uri("pack://application:,,,/Scripts/View/Pages/DefaultViewPage.xaml");
+                    Navigate(ur);
+                    ViewMode = ViewMode.Default;
+                }
             }));
         }
 

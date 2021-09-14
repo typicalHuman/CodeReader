@@ -50,22 +50,6 @@
             </MenuItem>
             <!--#endregion-->
 
-            <!--#region Beautify Code-->
-            <MenuItem>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding BeautifyCommand}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <MenuItem.Header>
-                    <Grid>
-                        <TextBlock Text="Beautify" Style="{DynamicResource MainTextStyle}"/>
-                        <TextBlock Text="Ctrl+B" Style="{DynamicResource TipTBStyle}"/>
-                    </Grid>
-                </MenuItem.Header>
-            </MenuItem>
-            <!--#endregion-->
-
             <!--#endregion-->
         </ContextMenu>
 
@@ -79,90 +63,96 @@
           DataContext="{Binding}">
         <!--#region Grid definitions-->
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MaxHeight="40"/>
-            <RowDefinition Height="70*"/>
+            <RowDefinition Height="130*"/>
             <RowDefinition Height="10"/>
             <RowDefinition Height="341*"/>
         </Grid.RowDefinitions>
         <!--#endregion-->
-
-         <!--#region Main info panel-->
-                    <StackPanel Orientation="Vertical">
-                        <Grid>
-                            <!--#region Grid definitions-->
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <!--#endregion-->
-                            <!--#region Name-->
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Name" Margin="5" VerticalAlignment="Center"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" MaxHeight="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--#region Main info panel-->
+            <StackPanel Orientation="Vertical">
+                <Grid>
+                    <!--#region Grid definitions-->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <!--#endregion-->
+                    <!--#region Name-->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Name" Margin="5" VerticalAlignment="Center"
                            FontSize="17" DockPanel.Dock="Left"/>
-                                <TextBox Text="{Binding  CurrentComponent.Label, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Text="{Binding  CurrentComponent.Label, UpdateSourceTrigger=PropertyChanged}"
                          Background="Transparent" HorizontalAlignment="Stretch"
                              MinWidth="150" MaxWidth="150"
                         FontFamily="{StaticResource RegularFont}" Margin="5 5"/>
-                            </StackPanel>
-                            <!--#endregion-->
-                            <!--#region Type-->
-                            <StackPanel Orientation="Horizontal" Grid.Column="1">
-                                <TextBlock Text="Type" Margin="5" VerticalAlignment="Center"
+                    </StackPanel>
+                    <!--#endregion-->
+                    <!--#region Type-->
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <TextBlock Text="Type" Margin="5" VerticalAlignment="Center"
                            FontSize="17"  />
-                                <ComboBox Text="{Binding  CurrentComponent.ComponentType, UpdateSourceTrigger=PropertyChanged}"
+                        <ComboBox Text="{Binding  CurrentComponent.ComponentType, UpdateSourceTrigger=PropertyChanged}"
                               ItemsSource="{Binding Source={StaticResource typesEnum}}"
                                ui:ComboBoxHelper.TextBoxStyle="{StaticResource TransparentTextBox}"
                               Style="{StaticResource CodeComponentCmbBox}" MinWidth="150">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <TextBlock Text="{Binding}"/>
-                                    <Image HorizontalAlignment="Right" Source="{Binding Path=., UpdateSourceTrigger=PropertyChanged, 
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock Text="{Binding}"/>
+                                        <Image HorizontalAlignment="Right" Source="{Binding Path=., UpdateSourceTrigger=PropertyChanged, 
                                         Converter={StaticResource TypeToSourceConverter}}"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                                </ComboBox>
-                            </StackPanel>
-                            <!--#endregion-->
-                            <!--#region Programming language-->
-                            <StackPanel Orientation="Horizontal" Grid.Column="2">
-                                <TextBlock Text="Language" Margin="5" VerticalAlignment="Center"
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <!--#endregion-->
+                    <!--#region Programming language-->
+                    <StackPanel Orientation="Horizontal" Grid.Column="2">
+                        <TextBlock Text="Language" Margin="5" VerticalAlignment="Center"
                            FontSize="17"  />
-                                <ComboBox SelectedItem="{Binding CurrentComponent.Language, UpdateSourceTrigger=PropertyChanged}"
+                        <ComboBox SelectedItem="{Binding CurrentComponent.Language, UpdateSourceTrigger=PropertyChanged}"
                                           Style="{StaticResource CodeComponentCmbBox}"
                                           ui:ComboBoxHelper.TextBoxStyle="{StaticResource TransparentTextBox}"
                                           ItemsSource="{Binding Source={StaticResource langsEnum}}"/>
-                            </StackPanel>
-                            <!--#endregion-->
-                        </Grid>
                     </StackPanel>
                     <!--#endregion-->
-         <!--#region Description-->
-        <Grid Grid.Row="1">
-            <!--#region Grid definitions-->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+                </Grid>
+            </StackPanel>
             <!--#endregion-->
-            <TextBlock Text="Description" Margin="5 0 0 1" VerticalAlignment="Bottom"
+            <!--#region Description-->
+            <Grid Grid.Row="1">
+                <!--#region Grid definitions-->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!--#endregion-->
+                <TextBlock Text="Description" Margin="5 0 0 1" VerticalAlignment="Bottom"
                        Grid.Row="0"
                            FontSize="17" />
-            <TextBox Text="{Binding  CurrentComponent.Description, UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Text="{Binding  CurrentComponent.Description, UpdateSourceTrigger=PropertyChanged}"
                      Background="Transparent" 
                      FontSize="17" Grid.Row="1"
                      Name="tbDesc"
                      FontFamily="{StaticResource RegularFont}" 
                      Margin="5 0" 
                      TextWrapping="Wrap"/>
-        </Grid>
-        <!--#endregion-->
+            </Grid>
+            <!--#endregion-->
 
+        </Grid>
+    
+       
         <GridSplitter  Margin="5 0 5 0" ResizeDirection="Rows"
                               Background="{StaticResource GridSplitterGray}"
-                      ShowsPreview="True" Grid.Row="2" Name="Splitter"
+                      ShowsPreview="True" Grid.Row="1" Name="Splitter"
                 HorizontalAlignment="Stretch" VerticalAlignment="Center">
             <GridSplitter.Template>
                 <ControlTemplate TargetType="GridSplitter">
@@ -174,6 +164,7 @@
                 </ControlTemplate>
             </GridSplitter.Template>
         </GridSplitter>
+        
         <!--#region Code Editor-->
         <codeBox:CodeBoxControl Grid.Row="3"
                                 Grid.ColumnSpan="2"

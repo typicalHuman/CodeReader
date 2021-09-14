@@ -3,7 +3,7 @@ using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Indentation;
 using Notifications.Wpf;
 using System.Linq;
-
+using CodeBox.Enums;
 namespace CodeReader.Scripts.ViewModel
 {
     /// <summary>
@@ -77,6 +77,9 @@ namespace CodeReader.Scripts.ViewModel
 
         private void UpdateIndentation()
         {
+            //if it's language from C family
+            if (CurrentComponent.Language == Languages.C ||CurrentComponent.Language == Languages.CPP ||
+                CurrentComponent.Language == Languages.CSharp )
             IndentStrategy.IndentLines(Document, 1, GetLinesCount(currentComponent.Code));
         }
 
@@ -108,17 +111,6 @@ namespace CodeReader.Scripts.ViewModel
                 };
                 CurrentComponent.Children.Insert(0, newComponent);
                 CurrentComponent = CurrentComponent.Children[0];
-                UpdateIndentation();
-            }));
-        }
-        #endregion
-
-        #region BeautifyCommand
-        private RelayCommand beautifyCommand;
-        public RelayCommand BeautifyCommand
-        {
-            get => beautifyCommand ?? (beautifyCommand = new RelayCommand(obj =>
-            {
                 UpdateIndentation();
             }));
         }

@@ -107,13 +107,13 @@ namespace CodeReader.Scripts.View.Controls
 
         private void OnTargetComponentChanged(DependencyPropertyChangedEventArgs e)
         {
-                ICodeComponent newValue = e.NewValue as ICodeComponent;
-                if (e.NewValue != codeTree.SelectedItem && e.NewValue != null)
-                {
-                    openedItem.InitItemContainer();
-                    (openedItem.ItemContainerGenerator.ContainerFromItem(newValue) as TreeViewItem).IsSelected = true;
-                    OpenSelectedItem();
-                }
+                //ICodeComponent newValue = e.NewValue as ICodeComponent;
+                //if (newValue != codeTree.SelectedItem && newValue != null)
+                //{
+                //    openedItem.InitItemContainer();
+                //    (openedItem.ItemContainerGenerator.ContainerFromItem(newValue) as TreeViewItem).IsSelected = true;
+                //    OpenSelectedItem();
+                //}
         }
 
         #endregion
@@ -737,6 +737,11 @@ namespace CodeReader.Scripts.View.Controls
         {
             get => backCommand ?? (backCommand = new RelayCommand(obj =>
             {
+                if (!IsDefaultState)
+                {
+                    CancelRelationshipModeCommand.Execute(null);
+                    return;
+                }
                 IsSingleRootOpen = false;
                 codeTree.ItemsSource = App.mainVM.CodeComponents;
             }));
@@ -758,8 +763,6 @@ namespace CodeReader.Scripts.View.Controls
                     IsDefaultState = false;
                     App.extendedPanelVM.CurrentComponent = null;
                 }
-                else
-                    CancelRelationshipModeCommand.Execute(null);
             }));
         }
 
