@@ -39,7 +39,6 @@ namespace CodeReader.Scripts.ViewModel
         public MainVM()
         {
             CodeComponents.CollectionChanged += (sender, e) => CodeComponents.UpdateItems();
-            InitComponents();
         }
 
         #endregion
@@ -124,7 +123,7 @@ namespace CodeReader.Scripts.ViewModel
         /// <summary>
         /// Path to .cb file.
         /// </summary>
-        public string FilePath { get; set; } = string.Empty;
+        private string FilePath { get; set; } = string.Empty;
 
         /// <summary>
         /// History of file changes.
@@ -194,14 +193,19 @@ namespace CodeReader.Scripts.ViewModel
                 if (openFileDialog.ShowDialog() == true)
                 {
                     FilePath = openFileDialog.FileName;
-                    CodeComponentsCollection result = Saver.Open(FilePath);
-                    History.Clear();
-                    CodeComponents.Clear();
-                    foreach (CodeComponent comp in result)
-                        CodeComponents.Add(comp);
-                    App.extendedPanelVM.CurrentComponent = null;
+                    OpenFile();
                 }
             }));
+        }
+
+        private void OpenFile()
+        {
+            CodeComponentsCollection result = Saver.Open(FilePath);
+            History.Clear();
+            CodeComponents.Clear();
+            foreach (CodeComponent comp in result)
+                CodeComponents.Add(comp);
+            App.extendedPanelVM.CurrentComponent = null;
         }
 
         #endregion
@@ -326,11 +330,12 @@ namespace CodeReader.Scripts.ViewModel
 
         #region Methods
 
-        private void InitComponents()
+        public void OpenFile(string filePath)
         {
+            FilePath = filePath;
             if (FilePath == string.Empty || !File.Exists(FilePath))
                 return;
-            OpenCommand.Execute(null); 
+            OpenFile(); 
         }
 
         #endregion

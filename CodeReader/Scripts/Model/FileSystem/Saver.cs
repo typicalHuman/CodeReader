@@ -23,7 +23,7 @@ namespace CodeReader.Scripts.FileSystem
         /// <summary>
         /// The instance for creating file associations.
         /// </summary>
-        private static AF_FileAssociator _associator { get; set; } = new AF_FileAssociator(App.FILE_EXTENSION);
+        private static AF_FileAssociator _associator { get; set; } = new AF_FileAssociator(MainWindow.FILE_EXTENSION);
 
         internal static bool TryAssociate()
         {
