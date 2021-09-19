@@ -30,98 +30,116 @@
             <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-
+        
         <Separator Grid.Row="1" VerticalAlignment="Bottom" Margin="5"/>
-        <Menu Grid.Row="1" Margin="5 0" Height="35" VerticalAlignment="Top">
-            <Menu.Resources>
-                <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-                    <Setter Property="MainFontSize" Value="12"/>
-                    <Setter Property="ContentMargin" Value="3 0 3 0"/>
-                </Style>
-            </Menu.Resources>
-            <controls:KeyBindedMenuItem MainText="File">
-                <controls:KeyBindedMenuItem MainText="New" 
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/> 
+                <ColumnDefinition Width="4*"/> 
+            </Grid.ColumnDefinitions>
+            <Menu  Margin="5 0" Height="35" VerticalAlignment="Top"
+              HorizontalAlignment="Left">
+                <Menu.Resources>
+                    <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="MainFontSize" Value="12"/>
+                        <Setter Property="ContentMargin" Value="3 0 3 0"/>
+                    </Style>
+                </Menu.Resources>
+                <controls:KeyBindedMenuItem MainText="File">
+                    <controls:KeyBindedMenuItem MainText="New" 
                                             TipText="Ctrl+Shift+N"
                                             ClickCommand="{Binding NewProjectCommand}"
                                             Width="140"/>
-                <controls:KeyBindedMenuItem MainText="Open" 
+                    <controls:KeyBindedMenuItem MainText="Open" 
                                             TipText="Ctrl+Shift+O"
                                             ClickCommand="{Binding OpenCommand}"/>
-                <controls:KeyBindedMenuItem MainText="Save" 
+                    <controls:KeyBindedMenuItem MainText="Save" 
                                             TipText="Ctrl+S"
                                             ClickCommand="{Binding SaveCommand}"/>
-                <controls:KeyBindedMenuItem MainText="Save as" 
+                    <controls:KeyBindedMenuItem MainText="Save as" 
                                             TipText="Ctrl+Shift+S"
                                             ClickCommand="{Binding SaveAsCommand}"/>
-                <Separator />
-                <controls:KeyBindedMenuItem MainText="Exit" 
+                    <Separator />
+                    <controls:KeyBindedMenuItem MainText="Exit" 
                                             MainForeground="Red"
                                             ClickCommand="{Binding ExitCommand}"/>
-            </controls:KeyBindedMenuItem>
-            <controls:KeyBindedMenuItem MainText="Edit">
-                <controls:KeyBindedMenuItem MainText="Undo" 
+                </controls:KeyBindedMenuItem>
+                <controls:KeyBindedMenuItem MainText="Edit">
+                    <controls:KeyBindedMenuItem MainText="Undo" 
                                             TipText="Ctrl+Z"
                                             ClickCommand="{Binding UndoCommand}"
                                             Width="130"/>
-                <controls:KeyBindedMenuItem MainText="Redo" 
+                    <controls:KeyBindedMenuItem MainText="Redo" 
                                             TipText="Ctrl+Y"
                                             ClickCommand="{Binding RedoCommand}"/>
-            </controls:KeyBindedMenuItem>
-            <controls:KeyBindedMenuItem MainText="Code" >
-                <controls:KeyBindedMenuItem MainText="Import code" 
+                </controls:KeyBindedMenuItem>
+                <controls:KeyBindedMenuItem MainText="Code" >
+                    <controls:KeyBindedMenuItem MainText="Import code" 
                                             ClickCommand="{Binding ImportCodeCommand}"/>
-                <controls:KeyBindedMenuItem MainText="Change default language" 
+                    <controls:KeyBindedMenuItem MainText="Change default language" 
                                             Style="{StaticResource MenuItemWithSubmenu}"
                                             MainFontSize="12">
-                    <controls:KeyBindedMenuItem.Resources>
-                        <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-                            <Setter Property="IsCheckable" Value="True"/>
-                            <Setter Property="MainFontSize" Value="12"/>
-                            <Setter Property="ContentMargin" Value="0"/>
-                            <Setter Property="ClickCommand" Value="{Binding ChangeDefaultLanguageCommand}"/>
-                            <Setter Property="ClickCommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self},
+                        <controls:KeyBindedMenuItem.Resources>
+                            <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                <Setter Property="IsCheckable" Value="True"/>
+                                <Setter Property="MainFontSize" Value="12"/>
+                                <Setter Property="ContentMargin" Value="0"/>
+                                <Setter Property="ClickCommand" Value="{Binding ChangeDefaultLanguageCommand}"/>
+                                <Setter Property="ClickCommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self},
                                 Path=MainText}"/>
-                            <Style.Triggers>
-                                <DataTrigger Value="True">
-                                    <DataTrigger.Binding>
-                                        <MultiBinding Converter="{StaticResource IsSameTextEnum}">
-                                            <Binding Path="MainText" RelativeSource="{RelativeSource Mode=Self}"/>
-                                            <Binding Path="DefaultLanguage"/>
-                                        </MultiBinding>
-                                    </DataTrigger.Binding>
-                                    <Setter Property="IsChecked" Value="True"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </controls:KeyBindedMenuItem.Resources>
-                    <controls:KeyBindedMenuItem MainText="CSharp"/>
-                    <controls:KeyBindedMenuItem MainText="CPP" />
-                    <controls:KeyBindedMenuItem MainText="C" />
-                    <controls:KeyBindedMenuItem MainText="Python" />
-                    <controls:KeyBindedMenuItem MainText="JS" />
-                    <controls:KeyBindedMenuItem MainText="PHP" />
-                    <controls:KeyBindedMenuItem MainText="Assembly" />
+                                <Style.Triggers>
+                                    <DataTrigger Value="True">
+                                        <DataTrigger.Binding>
+                                            <MultiBinding Converter="{StaticResource IsSameTextEnum}">
+                                                <Binding Path="MainText" RelativeSource="{RelativeSource Mode=Self}"/>
+                                                <Binding Path="DefaultLanguage"/>
+                                            </MultiBinding>
+                                        </DataTrigger.Binding>
+                                        <Setter Property="IsChecked" Value="True"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:KeyBindedMenuItem.Resources>
+                        <controls:KeyBindedMenuItem MainText="CSharp"/>
+                        <controls:KeyBindedMenuItem MainText="CPP" />
+                        <controls:KeyBindedMenuItem MainText="C" />
+                        <controls:KeyBindedMenuItem MainText="Python" />
+                        <controls:KeyBindedMenuItem MainText="JS" />
+                        <controls:KeyBindedMenuItem MainText="PHP" />
+                        <controls:KeyBindedMenuItem MainText="Assembly" />
+                    </controls:KeyBindedMenuItem>
+                    <controls:KeyBindedMenuItem  ClickCommand="{Binding ChangeModeCommand}" MainFontSize="12">
+                        <controls:KeyBindedMenuItem.Style>
+                            <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ViewMode,UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ViewMode.Default}">
+                                        <Setter Property="MainText" Value="References mode"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ViewMode, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ViewMode.References}">
+                                        <Setter Property="MainText" Value="Default mode"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </controls:KeyBindedMenuItem.Style>
+                    </controls:KeyBindedMenuItem>
                 </controls:KeyBindedMenuItem>
-                <controls:KeyBindedMenuItem  ClickCommand="{Binding ChangeModeCommand}" MainFontSize="12">
-                    <controls:KeyBindedMenuItem.Style>
-                        <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ViewMode,UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ViewMode.Default}">
-                                    <Setter Property="MainText" Value="References mode"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding ViewMode, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ViewMode.References}">
-                                    <Setter Property="MainText" Value="Default mode"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </controls:KeyBindedMenuItem.Style>
-                </controls:KeyBindedMenuItem>
-            </controls:KeyBindedMenuItem>
-            <controls:KeyBindedMenuItem MainText="Windows">
-                <controls:KeyBindedMenuItem MainText="Set file association" 
+                <controls:KeyBindedMenuItem MainText="Windows">
+                    <controls:KeyBindedMenuItem MainText="Set file association" 
                                             ClickCommand="{Binding SetFileAssociationCommand}"/>
-            </controls:KeyBindedMenuItem>
-        </Menu>
+                </controls:KeyBindedMenuItem>
+            </Menu>
+                <TextBox Height="20" VerticalAlignment="Top" Margin="5 1 5 0"
+                         BorderThickness="0 0 0 1" x:Name="searchBox"
+                         ui:ControlHelper.PlaceholderText="Search"
+                         Grid.Column="1"
+                         ui:ControlHelper.CornerRadius="0"
+                         HorizontalAlignment="Stretch"
+                         Style="{StaticResource SearchBox}">
+
+                </TextBox>
+        
+        </Grid>
+       
         
         <!--#region NotificationsArea-->
         <!--Area where notifications will appear-->

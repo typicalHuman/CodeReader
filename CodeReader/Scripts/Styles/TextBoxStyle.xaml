@@ -13,5 +13,10 @@
 
     <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
         <Setter Property="CaretBrush" Value="{StaticResource SystemControlForegroundAccentBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}" x:Key="SearchBox">
+    
     </Style>
 </ResourceDictionary>
