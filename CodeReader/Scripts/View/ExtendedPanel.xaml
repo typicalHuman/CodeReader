@@ -169,8 +169,10 @@
         <codeBox:CodeBoxControl Grid.Row="3"
                                 Grid.ColumnSpan="2"
                                 Name="cbc"
+                                Margin="5 2 5 5"
+                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                 ProgrammingLanguage="{Binding CurrentComponent.Language, UpdateSourceTrigger=PropertyChanged}"
-                                Margin="5 0 10 10" Text="{Binding CurrentComponent.Code, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding CurrentComponent.Code, UpdateSourceTrigger=PropertyChanged}"
                                 UndoOperations="{Binding CurrentComponent.History, UpdateSourceTrigger=PropertyChanged}"
                                 ContextMenu="{DynamicResource EditorContextMenu}"
                                 IndentationStrategy="{Binding IndentStrategy, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}">
