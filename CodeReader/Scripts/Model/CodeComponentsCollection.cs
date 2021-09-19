@@ -34,5 +34,23 @@ namespace CodeReader.Scripts
             }
             return -1;
         }
+
+        public CodeComponentsCollection GetAllElementsWithLabel(string label, CodeComponentsCollection output = null)
+        {
+            if (output == null)
+                output = new CodeComponentsCollection();
+            foreach(var comp in this)
+            {
+                if (comp.Label.Contains(label))
+                    output.Add(comp);
+                foreach(var child in comp.Children)
+                {
+                    if (child.Label.Contains(label))
+                        output.Add(child);
+                    output.AddRange(child.Children.GetAllElementsWithLabel(label));
+                }
+            }
+            return output;
+        }
     }
 }

@@ -12,8 +12,7 @@
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="ComboBoxBackgroundPointerOver" Color="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Background}" />
                             <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}"/>
-                            <Thickness x:Key="TextControlBorderThemeThicknessFocused">0</Thickness>
-                            <Thickness x:Key="TextControlBorderThemeThickness">0</Thickness>
+                            <!--<Thickness x:Key="TextControlBorderThemeThicknessFocused">0 0 0 1</Thickness>-->
                             <ResourceDictionary.MergedDictionaries>
                                 <ui:ColorPaletteResources
                     TargetTheme="Dark"

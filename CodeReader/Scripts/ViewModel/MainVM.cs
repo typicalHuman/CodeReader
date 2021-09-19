@@ -55,6 +55,10 @@ namespace CodeReader.Scripts.ViewModel
 
         #region CodeComponents
         public CodeComponentsCollection CodeComponents { get; set; } = new CodeComponentsCollection();
+        /// <summary>
+        /// Collection for saving components values when we're searching an element in searchBox.
+        /// </summary>
+        public CodeComponentsCollection CodeComponentsBuffer { get; set; } = new CodeComponentsCollection();
         #endregion
 
         #region IsDarkModeEnabled
@@ -320,6 +324,24 @@ namespace CodeReader.Scripts.ViewModel
         }
 
         #endregion
+
+        #endregion
+
+        #region SearchElementCommand
+        private RelayCommand searchElementCommand;
+        public RelayCommand SearchElementCommand
+        {
+            get => searchElementCommand ?? (searchElementCommand = new RelayCommand(obj =>
+            {
+                ICodeComponent[] buffer = new CodeComponent[CodeComponents.Count];
+                CodeComponents.CopyTo(buffer, 0);
+                CodeComponentsBuffer.Clear();
+                CodeComponentsBuffer.AddRange(buffer);
+                CodeComponents.Clear();
+                foreach (var comp in CodeComponentsBuffer.GetAllElementsWithLabel(obj.ToString()))
+                    CodeComponents.Add(comp);
+            }));
+        }
 
         #endregion
 

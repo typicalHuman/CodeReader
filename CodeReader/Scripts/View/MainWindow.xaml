@@ -31,11 +31,11 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         
-        <Separator Grid.Row="1" VerticalAlignment="Bottom" Margin="5"/>
+        <!--<Separator Grid.Row="1" VerticalAlignment="Bottom" Margin="5"/>-->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/> 
-                <ColumnDefinition Width="4*"/> 
+                <ColumnDefinition Width="auto"/> 
+                <ColumnDefinition Width="*"/> 
             </Grid.ColumnDefinitions>
             <Menu  Margin="5 0" Height="35" VerticalAlignment="Top"
               HorizontalAlignment="Left">
@@ -128,15 +128,19 @@
                                             ClickCommand="{Binding SetFileAssociationCommand}"/>
                 </controls:KeyBindedMenuItem>
             </Menu>
-                <TextBox Height="20" VerticalAlignment="Top" Margin="5 1 5 0"
-                         BorderThickness="0 0 0 1" x:Name="searchBox"
+            <TextBox Height="20" VerticalAlignment="Top" Margin="2 1 10 0"
+                         BorderThickness="0" x:Name="searchBox"
                          ui:ControlHelper.PlaceholderText="Search"
+                         ui:ControlHelper.PlaceholderForeground="{StaticResource GridSplitterGray}"
                          Grid.Column="1"
-                         ui:ControlHelper.CornerRadius="0"
+                         ui:ControlHelper.CornerRadius="10"
                          HorizontalAlignment="Stretch"
                          Style="{StaticResource SearchBox}">
-
-                </TextBox>
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding SearchElementCommand}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=Text}"/>
+                </TextBox.InputBindings>
+            </TextBox>
         
         </Grid>
        
