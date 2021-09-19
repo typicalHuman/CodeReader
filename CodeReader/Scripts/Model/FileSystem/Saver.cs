@@ -1,6 +1,8 @@
 ﻿using Associations;
 using CodeBox.Enums;
 using CodeReader.Scripts.Interfaces;
+using CodeReader.Scripts.ViewModel;
+using Notifications.Wpf;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -9,6 +11,11 @@ namespace CodeReader.Scripts.FileSystem
 {
     internal static class Saver
     {
+
+        #region Properties
+
+        #endregion
+
         #region Constants
 
         private const string PROG_ID = "CodeReader";
@@ -53,7 +60,7 @@ namespace CodeReader.Scripts.FileSystem
             string jsonString = Serializer.Serialize(components);
             string encodedString = Encoder64.Encode(jsonString);
             using (StreamWriter sw = new StreamWriter(path))
-                sw.Write(encodedString);
+                  sw.Write(encodedString);
         }
 
         internal static CodeComponentsCollection Open(string path)

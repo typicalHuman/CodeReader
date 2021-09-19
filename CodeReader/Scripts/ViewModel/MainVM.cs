@@ -122,6 +122,14 @@ namespace CodeReader.Scripts.ViewModel
             Message = "Saved!"
         };
 
+
+        private static NotificationContent CancelledOperationNotification { get; set; } = new NotificationContent()
+        {
+            Type = NotificationType.Warning,
+            Title = "Saving warning",
+            Message = "Saving was cancelled!"
+        };
+
         #endregion
 
         /// <summary>
@@ -159,8 +167,11 @@ namespace CodeReader.Scripts.ViewModel
         {
             get => saveCommand ?? (saveCommand = new RelayCommand(obj =>
             {
-                if (FilePath == string.Empty)
+                if (string.IsNullOrEmpty(FilePath))
+                {
                     saveAsCommand.Execute(null);
+                    return;
+                }
                 Saver.Save(CodeComponents, FilePath);
             }));
         }
@@ -179,8 +190,10 @@ namespace CodeReader.Scripts.ViewModel
                 {
                     FilePath = saveFileDialog.FileName;
                     Saver.Save(CodeComponents, FilePath);
+                    NotificationsManager.ShowNotificaton(SavedNotification);
                 }
-                NotificationsManager.ShowNotificaton(SavedNotification);
+                else
+                    NotificationsManager.ShowNotificaton(CancelledOperationNotification);
             }));
         }
 
@@ -333,10 +346,25 @@ namespace CodeReader.Scripts.ViewModel
         {
             get => searchElementCommand ?? (searchElementCommand = new RelayCommand(obj =>
             {
-                ICodeComponent[] buffer = new CodeComponent[CodeComponents.Count];
-                CodeComponents.CopyTo(buffer, 0);
-                CodeComponentsBuffer.Clear();
-                CodeComponentsBuffer.AddRange(buffer);
+                string searchQuery = obj.ToString();
+                if(string.IsNullOrWhiteSpace(searchQuery))
+                {
+                    if (CodeComponentsBuffer.Count > 0)
+                    {
+                        CodeComponents.Clear();
+                        foreach (var comp in CodeComponentsBuffer)
+                            CodeComponents.Add(comp);
+                        CodeComponentsBuffer.Clear();
+                    }
+                    return;
+                }
+                if(CodeComponentsBuffer.Count == 0)
+                {
+                    ICodeComponent[] buffer = new CodeComponent[CodeComponents.Count];
+                    CodeComponents.CopyTo(buffer, 0);
+                    CodeComponentsBuffer.Clear();
+                    CodeComponentsBuffer.AddRange(buffer);
+                }
                 CodeComponents.Clear();
                 foreach (var comp in CodeComponentsBuffer.GetAllElementsWithLabel(obj.ToString()))
                     CodeComponents.Add(comp);
