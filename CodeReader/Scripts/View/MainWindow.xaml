@@ -50,7 +50,7 @@
                            x:Key="CodeControl">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ViewMode, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ViewMode.Main}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -61,13 +61,16 @@
                                             ClickCommand="{Binding NewProjectCommand}"
                                             Width="140"/>
                     <controls:KeyBindedMenuItem MainText="Open" 
+                                             
                                             TipText="Ctrl+Shift+O"
                                             ClickCommand="{Binding OpenCommand}"/>
                     <controls:KeyBindedMenuItem MainText="Save" 
                                             TipText="Ctrl+S"
+                                            Style="{StaticResource CodeControl}"
                                             ClickCommand="{Binding SaveCommand}"/>
                     <controls:KeyBindedMenuItem MainText="Save as" 
                                             TipText="Ctrl+Shift+S"
+                                            Style="{StaticResource CodeControl}"
                                             ClickCommand="{Binding SaveAsCommand}"/>
                     <Separator />
                     <controls:KeyBindedMenuItem MainText="Exit" 
@@ -77,10 +80,12 @@
                 <controls:KeyBindedMenuItem MainText="Edit" Style="{StaticResource CodeControl}">
                     <controls:KeyBindedMenuItem MainText="Undo" 
                                             TipText="Ctrl+Z"
+                                            Style="{StaticResource CodeControl}"
                                             ClickCommand="{Binding UndoCommand}"
                                             Width="130"/>
                     <controls:KeyBindedMenuItem MainText="Redo" 
                                             TipText="Ctrl+Y"
+                                            Style="{StaticResource CodeControl}"
                                             ClickCommand="{Binding RedoCommand}"/>
                 </controls:KeyBindedMenuItem>
                 <controls:KeyBindedMenuItem MainText="Code" Style="{StaticResource CodeControl}">
@@ -208,13 +213,13 @@
             <ui:Frame.InputBindings>
                 <KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding NewProjectCommand}" 
                         CommandTarget="{Binding ElementName=MainGrid}" />
+                <KeyBinding Modifiers="Ctrl+Shift" Key="O" Command="{Binding OpenCommand}"/>
             </ui:Frame.InputBindings>
         </ui:Frame>
         <!--#region Input Bindings-->
         <Grid.InputBindings>
             <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCommand}"/>
             <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAsCommand}"/>
-            <KeyBinding Modifiers="Ctrl+Shift" Key="O" Command="{Binding OpenCommand}"/>
             <KeyBinding Modifiers="Ctrl" Key="Z" Command="{Binding UndoCommand}"/>
             <KeyBinding Modifiers="Ctrl" Key="Y" Command="{Binding RedoCommand}"/>
         </Grid.InputBindings>

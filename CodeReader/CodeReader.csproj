@@ -111,6 +111,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Scripts\Model\RecentFile.cs" />
     <Compile Include="Scripts\View\NavigateArgs.cs" />
     <Compile Include="Scripts\View\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -299,10 +300,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\darkLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\blackTea.gif" />
-    <Resource Include="Images\whiteTea.gif" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icons8_informatics_book_100_c6H_icon.ico" />

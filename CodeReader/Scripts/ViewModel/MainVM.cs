@@ -14,6 +14,7 @@ using Notifications.Wpf;
 using Microsoft.Win32;
 using CodeReader.Scripts.Interfaces;
 using CodeBox.Enums;
+using CodeReader.Scripts.Model;
 
 namespace CodeReader.Scripts.ViewModel
 {
@@ -103,6 +104,15 @@ namespace CodeReader.Scripts.ViewModel
                 OnPropertyChanged("ViewMode");
             }
         }
+
+        #endregion
+
+        #region RecentFiles
+
+        /// <summary>
+        /// Recent opened files.
+        /// </summary>
+        private List<RecentFile> RecentFiles { get; set; } = new List<RecentFile>();
 
         #endregion
 
