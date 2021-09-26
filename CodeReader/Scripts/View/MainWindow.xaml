@@ -11,6 +11,7 @@
         xmlns:conv="clr-namespace:CodeReader.Scripts.Converters"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
+        xmlns:behav="clr-namespace:CodeReader.Scripts.Behaviors"
         BorderBrush="#007acb"
         BorderThickness="1.2"
         Title="CodeReader" MinHeight="450" MinWidth="850"
@@ -24,7 +25,7 @@
     <Window.Resources>
         <conv:IsTextSameWithEnumValueConverter x:Key="IsSameTextEnum"/>
     </Window.Resources>
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
@@ -40,9 +41,18 @@
             <Menu  Margin="5 0" Height="35" VerticalAlignment="Top"
               HorizontalAlignment="Left">
                 <Menu.Resources>
-                    <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                    <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource {x:Type MenuItem}}" x:Key="BaseMenuStyle">
                         <Setter Property="MainFontSize" Value="12"/>
                         <Setter Property="ContentMargin" Value="3 0 3 0"/>
+                    </Style>
+                    <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource BaseMenuStyle}"></Style>
+                    <Style TargetType="controls:KeyBindedMenuItem" BasedOn="{StaticResource BaseMenuStyle}"
+                           x:Key="CodeControl">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ViewMode, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ViewMode.Main}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
                     </Style>
                 </Menu.Resources>
                 <controls:KeyBindedMenuItem MainText="File">
@@ -64,7 +74,7 @@
                                             MainForeground="Red"
                                             ClickCommand="{Binding ExitCommand}"/>
                 </controls:KeyBindedMenuItem>
-                <controls:KeyBindedMenuItem MainText="Edit">
+                <controls:KeyBindedMenuItem MainText="Edit" Style="{StaticResource CodeControl}">
                     <controls:KeyBindedMenuItem MainText="Undo" 
                                             TipText="Ctrl+Z"
                                             ClickCommand="{Binding UndoCommand}"
@@ -73,7 +83,7 @@
                                             TipText="Ctrl+Y"
                                             ClickCommand="{Binding RedoCommand}"/>
                 </controls:KeyBindedMenuItem>
-                <controls:KeyBindedMenuItem MainText="Code" >
+                <controls:KeyBindedMenuItem MainText="Code" Style="{StaticResource CodeControl}">
                     <controls:KeyBindedMenuItem MainText="Import code" 
                                             ClickCommand="{Binding ImportCodeCommand}"/>
                     <controls:KeyBindedMenuItem MainText="Change default language" 
@@ -134,8 +144,16 @@
                          ui:ControlHelper.PlaceholderForeground="{StaticResource GridSplitterGray}"
                          Grid.Column="1"
                          ui:ControlHelper.CornerRadius="10"
-                         HorizontalAlignment="Stretch"
-                         Style="{StaticResource SearchBox}">
+                         HorizontalAlignment="Stretch">
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource SearchBox}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ViewMode, UpdateSourceTrigger=PropertyChanged}" Value="{x:Static enums:ViewMode.Main}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="KeyUp">
                         <i:InvokeCommandAction Command="{Binding SearchElementCommand}"
@@ -159,6 +177,11 @@
                 <ui:TitleBarButton Height="38" Width="60" 
                                VerticalAlignment="Bottom" Margin="2 0"
                                    ToolTip="Home">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding HomeCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <Image 
                            RenderOptions.BitmapScalingMode="HighQuality" 
                            Source="pack://application:,,,/Images/house.png"
@@ -180,10 +203,15 @@
         </DockPanel>
         <!--#endregion-->
 
-        <ui:Frame Grid.Row="2" Source="Pages\DefaultViewPage.xaml" x:Name="Frame1"/>
+        <ui:Frame Grid.Row="2" Source="Pages\DefaultViewPage.xaml" x:Name="Frame1"
+                  behav:InputBindingBehavior.PropagateInputBindingsToWindow="True">
+            <ui:Frame.InputBindings>
+                <KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding NewProjectCommand}" 
+                        CommandTarget="{Binding ElementName=MainGrid}" />
+            </ui:Frame.InputBindings>
+        </ui:Frame>
         <!--#region Input Bindings-->
         <Grid.InputBindings>
-            <KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding NewProjectCommand}"/>
             <KeyBinding Modifiers="Ctrl" Key="S" Command="{Binding SaveCommand}"/>
             <KeyBinding Modifiers="Ctrl+Shift" Key="S" Command="{Binding SaveAsCommand}"/>
             <KeyBinding Modifiers="Ctrl+Shift" Key="O" Command="{Binding OpenCommand}"/>

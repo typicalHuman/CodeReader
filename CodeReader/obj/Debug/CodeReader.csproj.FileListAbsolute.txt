@@ -202,3 +202,5 @@ C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Pages
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Pages\ReferencesViewPage.g.cs
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Pages\DefaultViewPage.baml
 C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Pages\ReferencesViewPage.baml
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Pages\MainPage.g.cs
+C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\Scripts\View\Pages\MainPage.baml

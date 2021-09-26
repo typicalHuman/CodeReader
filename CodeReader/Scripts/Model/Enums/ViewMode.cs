@@ -2,6 +2,6 @@
 {
     public enum ViewMode
     {
-        Default, References
+        Default, References, Main
     }
 }

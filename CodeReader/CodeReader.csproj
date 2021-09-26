@@ -112,6 +112,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Scripts\View\NavigateArgs.cs" />
+    <Compile Include="Scripts\View\Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Scripts\View\Pages\ReferencesViewPage.xaml.cs">
       <DependentUpon>ReferencesViewPage.xaml</DependentUpon>
     </Compile>
@@ -236,6 +239,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Scripts\View\Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Scripts\View\Pages\ReferencesViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -223,6 +223,7 @@ namespace CodeReader.Scripts.ViewModel
             foreach (CodeComponent comp in result)
                 CodeComponents.Add(comp);
             App.extendedPanelVM.CurrentComponent = null;
+            NavigateDefaultPage();
         }
 
         #endregion
@@ -304,17 +305,9 @@ namespace CodeReader.Scripts.ViewModel
             get => changeModeCommand ?? (changeModeCommand = new RelayCommand(obj =>
             {
                 if (ViewMode == ViewMode.Default)
-                {
-                    Uri ur = new Uri("pack://application:,,,/Scripts/View/Pages/ReferencesViewPage.xaml");
-                    Navigate(ur);
-                    ViewMode = ViewMode.References;
-                }
+                    NavigateReferencesPage();
                 else
-                {
-                    Uri ur = new Uri("pack://application:,,,/Scripts/View/Pages/DefaultViewPage.xaml");
-                    Navigate(ur);
-                    ViewMode = ViewMode.Default;
-                }
+                    NavigateDefaultPage();
             }));
         }
 
@@ -373,6 +366,34 @@ namespace CodeReader.Scripts.ViewModel
 
         #endregion
 
+        #region HomeCommand
+        private RelayCommand homeCommand;
+        public RelayCommand HomeCommand
+        {
+            get => homeCommand ?? (homeCommand = new RelayCommand(obj =>
+            {
+                NavigateMainPage();
+            }));
+        }
+
+        #endregion
+
+        #region NewProjectCommand
+        private RelayCommand newProjectCommand;
+        public RelayCommand NewProjectCommand
+        {
+            get => newProjectCommand ?? (newProjectCommand = new RelayCommand(obj =>
+            {
+                History.Clear();
+                CodeComponents.Clear();
+                App.extendedPanelVM.CurrentComponent = null;
+                FilePath = string.Empty;
+                NavigateDefaultPage();
+            }));
+        }
+
+        #endregion
+
         #endregion
 
 
@@ -387,6 +408,31 @@ namespace CodeReader.Scripts.ViewModel
                 return;
             OpenFile(); 
         }
+
+        #region Navigation Methods
+
+        private void NavigateMainPage()
+        {
+            Uri ur = new Uri("pack://application:,,,/Scripts/View/Pages/MainPage.xaml");
+            Navigate(ur);
+            ViewMode = ViewMode.Main;
+        }
+
+        private void NavigateReferencesPage()
+        {
+            Uri ur = new Uri("pack://application:,,,/Scripts/View/Pages/ReferencesViewPage.xaml");
+            Navigate(ur);
+            ViewMode = ViewMode.References;
+        }
+
+        private void NavigateDefaultPage()
+        {
+            Uri ur = new Uri("pack://application:,,,/Scripts/View/Pages/DefaultViewPage.xaml");
+            Navigate(ur);
+            ViewMode = ViewMode.Default;
+        }
+
+        #endregion
 
         #endregion
 
