@@ -7,17 +7,27 @@
       mc:Ignorable="d" 
       xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="MainPage"
+      x:Name="main"
+      xmlns:controls="clr-namespace:CodeReader.Scripts.View.Controls"
       DataContext="{x:Static local:App.mainPageVM}">
-
-    <Grid>
+    <Page.Resources>
+        
+    </Page.Resources>
+    <Grid x:Name="mainGrid">
         <StackPanel Orientation="Vertical" Margin="50 20 50 20">
             <TextBlock Text="Recent" Foreground="#2867cb" FontSize="50"
-                   HorizontalAlignment="Left"/>
+                   HorizontalAlignment="Left" Margin="10 0 0 0"/>
+
             <ListBox Margin="0 10 0 0" 
+                     PreviewMouseRightButtonDown="RecentFilesList_PreviewMouseRightButtonDown"
+                     ScrollViewer.CanContentScroll="True"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      Background="Transparent"
                      ItemsSource="{Binding RecentFiles, UpdateSourceTrigger=PropertyChanged}"
-                     Name="recentFilesList">
+                     Name="recentFilesList" 
+                     Height="250"
+                     Tag="{Binding ElementName=mainGrid, Path=DataContext}">
                 <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
                                     <i:InvokeCommandAction Command="{Binding Path=OpenCommand}"
@@ -28,38 +38,61 @@
                     <DataTemplate>
                         <Grid HorizontalAlignment="Stretch"
                               VerticalAlignment="Stretch">
-                            <StackPanel Orientation="Horizontal" MaxHeight="70" Height="70">
+                            <StackPanel Orientation="Horizontal" MaxHeight="50" Height="50">
                                 <Image VerticalAlignment="Center" HorizontalAlignment="Left"
                                    RenderOptions.BitmapScalingMode="HighQuality" 
                                 Source="pack://application:,,,/Images/source-code.png"
-                                Stretch="Uniform" Height="50" Width="50"/>
+                                Stretch="Uniform" Height="30" Width="30"/>
                                 <StackPanel Orientation="Vertical" 
                                         Margin="5 0 0 0" 
                                         VerticalAlignment="Center">
                                     <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
                                        VerticalAlignment="Center" 
-                                       FontSize="25"
+                                       FontSize="20"
                                        FontWeight="Bold"/>
                                     <TextBlock Text="{Binding Location, UpdateSourceTrigger=PropertyChanged}" FontStyle="Italic"
-                                   FontSize="14" Foreground="{StaticResource GridSplitterGray}"/>
+                                   FontSize="11" Foreground="{StaticResource GridSplitterGray}"/>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
-                       
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <ListBox.Resources>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu FontFamily="{StaticResource RegularFont}"
+                                     MinWidth="170" DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ListBox}}">
+                                    <!--#region ContextMenu Resources-->
+                                    <ContextMenu.Resources>
+                                        <!--#region Base MenuItem Style-->
+                                        <Style TargetType="controls:KeyBindedMenuItem" 
+                       BasedOn="{StaticResource {x:Type MenuItem}}">
+                                            <Setter Property="Width" Value="200"/>
+                                        </Style>
+                                        <!--#endregion-->
+                                    </ContextMenu.Resources>
+                                    <!--#endregion-->
+                                    <!--#region Delete MenuItem-->
+                                    <controls:KeyBindedMenuItem
+                                        MainText="Delete"
+                                        TipText="Dlt"
+                                        MainForeground="Red"
+                                        ClickCommand="{Binding DeleteCommand}">
+                                    </controls:KeyBindedMenuItem>
+                                    <!--#endregion-->
+
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Cursor" Value="Hand"/>
                             </Trigger>
                         </Style.Triggers>
-                        
                     </Style>
                 </ListBox.Resources>
             </ListBox>
         </StackPanel>
-
     </Grid>
 </Page>
