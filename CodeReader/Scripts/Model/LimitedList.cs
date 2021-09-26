@@ -22,10 +22,9 @@ namespace CodeReader.Scripts.Model
 
         public new void Add(T item)
         {
-            if (this.Contains(item))
-                this.Remove(item);
             this.Insert(0, item);
             DeleteExcess();
         }
+
     }
 }

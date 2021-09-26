@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CodeReader.Scripts.Model;
+using Newtonsoft.Json;
 
 namespace CodeReader.Scripts.FileSystem
 {
@@ -16,6 +17,17 @@ namespace CodeReader.Scripts.FileSystem
         internal static CodeComponentsCollection Deserialize(string jsonString)
         {
             return JsonConvert.DeserializeObject<CodeComponentsCollection>(jsonString, settings);
+        }
+
+
+        internal static string SerializeFilesHistory(RecentFilesList list)
+        {
+            return JsonConvert.SerializeObject(list, typeof(RecentFilesList), settings);
+        }
+
+        internal static RecentFilesList DeserializeFilesHistory(string jsonString)
+        {
+            return JsonConvert.DeserializeObject<RecentFilesList>(jsonString, settings);
         }
     }
 }

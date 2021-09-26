@@ -15,5 +15,12 @@
         {
             return $"{Location}\\{Name}.cb";
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is RecentFile)
+                return (obj as RecentFile).GetPath() == GetPath();
+            return false;
+        }
     }
 }

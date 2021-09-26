@@ -1,4 +1,5 @@
-﻿using CodeReader.Scripts.Model;
+﻿using CodeReader.Scripts.FileSystem;
+using CodeReader.Scripts.Model;
 using Notifications.Wpf;
 using System.IO;
 
@@ -6,7 +7,6 @@ namespace CodeReader.Scripts.ViewModel
 {
     public class MainPageVM: BaseViewModel
     {
-        private const int RECENT_FILES_COUNT = 10;
 
         #region Notifications
 
@@ -22,15 +22,14 @@ namespace CodeReader.Scripts.ViewModel
         /// <summary>
         /// Recent opened files.
         /// </summary>
-        public RecentFilesList RecentFiles { get; set; } = new RecentFilesList(RECENT_FILES_COUNT)
-        {
-            new RecentFile(){Location = "C:\\Users\\HP\\Desktop\\6502", Name="cBook"},
-        };
+        public RecentFilesList RecentFiles { get; set; } = new RecentFilesList();
 
         public MainPageVM()
         {
-            for (int i = 0; i < 5; i++)
-                RecentFiles.Add(new RecentFile() { Location = "C:\\Users\\HP\\Desktop\\6502", Name = $"cBook{i}"});
+            RecentFilesList historyFiles = Saver.LoadFilesHistory();
+            if(historyFiles != null)
+                for (int i = 0; i < historyFiles.Count; i++)
+                    RecentFiles.Add(historyFiles[i]); 
         }
 
 
@@ -43,10 +42,12 @@ namespace CodeReader.Scripts.ViewModel
                 if(obj is RecentFile)
                 {
                     RecentFile file = obj as RecentFile;
-                    RecentFiles.Add(file);
                     string path = file.GetPath();
                     if (File.Exists(path))
+                    {
                         App.mainVM.OpenFile(file.GetPath());
+                        Saver.SaveFilesHistory(RecentFiles);
+                    }
                     else
                         NotificationsManager.ShowNotificaton(FileNotFound);
                 }

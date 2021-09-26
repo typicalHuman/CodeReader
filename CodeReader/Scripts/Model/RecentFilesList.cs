@@ -1,15 +1,26 @@
-﻿namespace CodeReader.Scripts.Model
+﻿using System.IO;
+
+namespace CodeReader.Scripts.Model
 {
     public class RecentFilesList: LimitedList<RecentFile>
     {
-        public RecentFilesList(int size) : base(size) { }
+        public const int RECENT_FILES_COUNT = 10;
 
-        public new bool Contains(RecentFile file)
+        public RecentFilesList() : base(RECENT_FILES_COUNT) {   }
+
+        public void CreateNewItem(string path)
         {
-            foreach (RecentFile _file in this)
-                if (_file.GetPath() == file.GetPath())
-                    return true;
-            return false;
+            RecentFile rf = new RecentFile();
+            rf.Location = Path.GetDirectoryName(path);
+            rf.Name = Path.GetFileNameWithoutExtension(path);
+            this.Add(rf);
+        }
+
+        public new void Add(RecentFile item)
+        {
+            if (Contains(item))
+                Remove(item);
+            base.Add(item);
         }
     }
 }

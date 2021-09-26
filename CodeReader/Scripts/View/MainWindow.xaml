@@ -149,7 +149,8 @@
                          ui:ControlHelper.PlaceholderForeground="{StaticResource GridSplitterGray}"
                          Grid.Column="1"
                          ui:ControlHelper.CornerRadius="10"
-                         HorizontalAlignment="Stretch">
+                         HorizontalAlignment="Stretch"
+                         Focusable="True">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource SearchBox}">
                         <Style.Triggers>
@@ -165,6 +166,9 @@
                                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=Text}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding OpenFirstFoundCommand}"/>
+                </TextBox.InputBindings>
             </TextBox>
         
         </Grid>
@@ -208,12 +212,13 @@
         </DockPanel>
         <!--#endregion-->
 
-        <ui:Frame Grid.Row="2" Source="Pages\DefaultViewPage.xaml" x:Name="Frame1"
+        <ui:Frame Grid.Row="2" Source="Pages\MainPage.xaml" x:Name="Frame1"
                   behav:InputBindingBehavior.PropagateInputBindingsToWindow="True">
             <ui:Frame.InputBindings>
                 <KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding NewProjectCommand}" 
                         CommandTarget="{Binding ElementName=MainGrid}" />
                 <KeyBinding Modifiers="Ctrl+Shift" Key="O" Command="{Binding OpenCommand}"/>
+                <KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding SearchCommand}" CommandParameter="{Binding ElementName=searchBox}"/>
             </ui:Frame.InputBindings>
         </ui:Frame>
         <!--#region Input Bindings-->

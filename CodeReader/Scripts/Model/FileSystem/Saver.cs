@@ -1,8 +1,9 @@
 ﻿using Associations;
 using CodeBox.Enums;
 using CodeReader.Scripts.Interfaces;
+using CodeReader.Scripts.Model;
 using CodeReader.Scripts.ViewModel;
-using Notifications.Wpf;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -24,6 +25,8 @@ namespace CodeReader.Scripts.FileSystem
             "and convert it to info about code components.";
 
         private const string ICON_FILE_PATH = "bookIcon.ico";
+
+        private const string FILES_HISTORY_FILE_NAME = "recentfiles.json";
 
         #endregion
 
@@ -60,7 +63,7 @@ namespace CodeReader.Scripts.FileSystem
             string jsonString = Serializer.Serialize(components);
             string encodedString = Encoder64.Encode(jsonString);
             using (StreamWriter sw = new StreamWriter(path))
-                  sw.Write(encodedString);
+                sw.Write(encodedString);
         }
 
         internal static CodeComponentsCollection Open(string path)
@@ -85,7 +88,7 @@ namespace CodeReader.Scripts.FileSystem
         private static Languages GetLanguageByPath(string path)
         {
             string extension = Path.GetExtension(path);
-            switch(extension)
+            switch (extension)
             {
                 case ".cs": return Languages.CSharp;
                 case ".cpp": return Languages.CPP;
@@ -96,6 +99,23 @@ namespace CodeReader.Scripts.FileSystem
                 case ".php": return Languages.PHP;
                 default: return Languages.Assembly;
             }
+        }
+
+
+        public static void SaveFilesHistory(RecentFilesList files)
+        {
+            string json = Serializer.SerializeFilesHistory(files);
+            File.WriteAllText(FILES_HISTORY_FILE_NAME, json);
+        }
+
+        public static RecentFilesList LoadFilesHistory()
+        {
+            if(File.Exists(FILES_HISTORY_FILE_NAME))
+            {
+                string json = File.ReadAllText(FILES_HISTORY_FILE_NAME);
+                return Serializer.DeserializeFilesHistory(json);
+            }
+            return null;
         }
 
     }

@@ -7,7 +7,7 @@ namespace CodeReader.Scripts.FileSystem
     {
         internal static string Encode(string input)
         {
-            byte[] toEncodeAsBytes= Encoding.ASCII.GetBytes(input);
+            byte[] toEncodeAsBytes= Encoding.UTF8.GetBytes(input);
             string returnValue = Convert.ToBase64String(toEncodeAsBytes);
             return returnValue;
         }
@@ -15,7 +15,7 @@ namespace CodeReader.Scripts.FileSystem
         internal static string Decode(string encodedData)
         {
             byte[] encodedDataAsBytes = Convert.FromBase64String(encodedData);
-            string returnValue = Encoding.ASCII.GetString(encodedDataAsBytes);
+            string returnValue = Encoding.UTF8.GetString(encodedDataAsBytes);
             return returnValue;
         }
     }

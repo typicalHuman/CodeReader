@@ -15,6 +15,8 @@ using Microsoft.Win32;
 using CodeReader.Scripts.Interfaces;
 using CodeBox.Enums;
 using CodeReader.Scripts.Model;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace CodeReader.Scripts.ViewModel
 {
@@ -94,7 +96,7 @@ namespace CodeReader.Scripts.ViewModel
 
         #region ViewMode
 
-        private ViewMode viewMode = ViewMode.Default;
+        private ViewMode viewMode = ViewMode.Main;
         public ViewMode ViewMode
         {
             get => viewMode;
@@ -231,6 +233,7 @@ namespace CodeReader.Scripts.ViewModel
                 CodeComponents.Add(comp);
             App.extendedPanelVM.CurrentComponent = null;
             NavigateDefaultPage();
+            App.mainPageVM.RecentFiles.CreateNewItem(FilePath);
         }
 
         #endregion
@@ -401,6 +404,26 @@ namespace CodeReader.Scripts.ViewModel
 
         #endregion
 
+        private RelayCommand searchCommand;
+        public RelayCommand SearchCommand
+        {
+            get => searchCommand ?? (searchCommand = new RelayCommand(obj =>
+            {
+                if(obj is IInputElement)
+                    Keyboard.Focus(obj as IInputElement);
+            }));
+        }
+
+        private RelayCommand openFirstFoundCommand;
+        public RelayCommand OpenFirstFoundCommand
+        {
+            get => openFirstFoundCommand ?? (openFirstFoundCommand = new RelayCommand(obj =>
+            {
+                if (CodeComponents.Count > 0)
+                    App.extendedPanelVM.CurrentComponent = CodeComponents.First();
+            }));
+        }
+
         #endregion
 
 
@@ -413,7 +436,7 @@ namespace CodeReader.Scripts.ViewModel
             FilePath = filePath;
             if (FilePath == string.Empty || !File.Exists(FilePath))
                 return;
-            OpenFile(); 
+            OpenFile();
         }
 
         #region Navigation Methods

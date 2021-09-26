@@ -25,9 +25,8 @@
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      Background="Transparent"
                      ItemsSource="{Binding RecentFiles, UpdateSourceTrigger=PropertyChanged}"
-                     Name="recentFilesList" 
-                     Height="250"
-                     Tag="{Binding ElementName=mainGrid, Path=DataContext}">
+                     x:Name="recentFilesList" 
+                     Height="250">
                 <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
                                     <i:InvokeCommandAction Command="{Binding Path=OpenCommand}"
@@ -62,7 +61,7 @@
                         <Setter Property="ContextMenu">
                             <Setter.Value>
                                 <ContextMenu FontFamily="{StaticResource RegularFont}"
-                                     MinWidth="170" DataContext="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ListBox}}">
+                                     MinWidth="170">
                                     <!--#region ContextMenu Resources-->
                                     <ContextMenu.Resources>
                                         <!--#region Base MenuItem Style-->
@@ -77,8 +76,14 @@
                                     <controls:KeyBindedMenuItem
                                         MainText="Delete"
                                         TipText="Dlt"
-                                        MainForeground="Red"
-                                        ClickCommand="{Binding DeleteCommand}">
+                                        MainForeground="Red">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding Source={x:Reference recentFilesList},
+                                     Path=DataContext.DeleteCommand}"
+                                                       CommandParameter="{Binding}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                     </controls:KeyBindedMenuItem>
                                     <!--#endregion-->
 
