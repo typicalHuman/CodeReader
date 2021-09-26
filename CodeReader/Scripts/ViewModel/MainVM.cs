@@ -109,10 +109,7 @@ namespace CodeReader.Scripts.ViewModel
 
         #region RecentFiles
 
-        /// <summary>
-        /// Recent opened files.
-        /// </summary>
-        private List<RecentFile> RecentFiles { get; set; } = new List<RecentFile>();
+
 
         #endregion
 

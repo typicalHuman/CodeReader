@@ -1,5 +1,4 @@
 ﻿using CodeReader.Scripts.ViewModel;
-using System.IO;
 using System.Windows;
 
 namespace CodeReader
@@ -15,6 +14,7 @@ namespace CodeReader
         public static MainVM mainVM { get; set; }
         public static ExtendedPanelVM extendedPanelVM { get; set; }
         public static ConfirmingWindowVM confirmingWindowVM { get; set; }
+        public static MainPageVM mainPageVM{ get; set; }
         #endregion
 
         public App()
@@ -22,6 +22,7 @@ namespace CodeReader
             mainVM = new MainVM();
             extendedPanelVM = new ExtendedPanelVM();
             confirmingWindowVM = new ConfirmingWindowVM();
+            mainPageVM = new MainPageVM();
         }
     }
 }

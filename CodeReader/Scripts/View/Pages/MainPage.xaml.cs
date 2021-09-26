@@ -24,5 +24,6 @@ namespace CodeReader.Scripts.View.Pages
         {
             InitializeComponent();
         }
+
     }
 }

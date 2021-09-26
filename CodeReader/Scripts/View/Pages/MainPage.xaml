@@ -3,35 +3,61 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:CodeReader.Scripts.View.Pages"
+      xmlns:local="clr-namespace:CodeReader"
       mc:Ignorable="d" 
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="MainPage">
+      Title="MainPage"
+      DataContext="{x:Static local:App.mainPageVM}">
 
     <Grid>
         <StackPanel Orientation="Vertical" Margin="50 20 50 20">
             <TextBlock Text="Recent" Foreground="#2867cb" FontSize="50"
                    HorizontalAlignment="Left"/>
-            <ListBox Margin="0 10 0 0" Background="Transparent">
-                <ListBoxItem MaxHeight="75" Height="75" Background="Transparent">
-                    <StackPanel Orientation="Horizontal">
-                        <Image VerticalAlignment="Center" HorizontalAlignment="Left"
+            <ListBox Margin="0 10 0 0" 
+                     Background="Transparent"
+                     ItemsSource="{Binding RecentFiles, UpdateSourceTrigger=PropertyChanged}"
+                     Name="recentFilesList">
+                <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenCommand}"
+                                                           CommandParameter="{Binding ElementName=recentFilesList, Path=SelectedItem}"/>
+                                </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch">
+                            <StackPanel Orientation="Horizontal" MaxHeight="70" Height="70">
+                                <Image VerticalAlignment="Center" HorizontalAlignment="Left"
                                    RenderOptions.BitmapScalingMode="HighQuality" 
-                                Source="C:\Users\HP\Desktop\source-code.png"
+                                Source="pack://application:,,,/Images/source-code.png"
                                 Stretch="Uniform" Height="50" Width="50"/>
-                        <StackPanel Orientation="Vertical"   Margin="5 0 0 0" >
-                            <TextBlock Text="Title"
+                                <StackPanel Orientation="Vertical" 
+                                        Margin="5 0 0 0" 
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"
                                        VerticalAlignment="Center" 
                                        FontSize="25"
                                        FontWeight="Bold"/>
-                            <TextBlock Text="C:\Users\HP\Desktop" FontStyle="Italic"
+                                    <TextBlock Text="{Binding Location, UpdateSourceTrigger=PropertyChanged}" FontStyle="Italic"
                                    FontSize="14" Foreground="{StaticResource GridSplitterGray}"/>
-                        </StackPanel>
-                     
-                    </StackPanel>
-                </ListBoxItem>
-                <ListBoxItem Background="Transparent">Second</ListBoxItem>
-                <ListBoxItem Background="Transparent">third</ListBoxItem>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                       
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.Resources>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </Style.Triggers>
+                        
+                    </Style>
+                </ListBox.Resources>
             </ListBox>
         </StackPanel>
 

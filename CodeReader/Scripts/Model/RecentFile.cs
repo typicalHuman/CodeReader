@@ -1,6 +1,6 @@
 ﻿namespace CodeReader.Scripts.Model
 {
-    class RecentFile
+    public class RecentFile
     {
         /// <summary>
         /// File location.
@@ -10,5 +10,10 @@
         /// File name.
         /// </summary>
         public string Name { get; set; }
+
+        public string GetPath()
+        {
+            return $"{Location}\\{Name}.cb";
+        }
     }
 }

@@ -112,6 +112,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Scripts\Model\RecentFile.cs" />
+    <Compile Include="Scripts\ViewModel\MainPageVM.cs" />
     <Compile Include="Scripts\View\NavigateArgs.cs" />
     <Compile Include="Scripts\View\Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -313,6 +314,9 @@
     <Resource Include="Images\composition.png" />
     <Resource Include="Images\dependency.png" />
     <Resource Include="Images\inheritance.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\source-code.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Runtime.WindowsRuntime.4.6.0\build\net451\System.Runtime.WindowsRuntime.targets" Condition="Exists('..\packages\System.Runtime.WindowsRuntime.4.6.0\build\net451\System.Runtime.WindowsRuntime.targets')" />
