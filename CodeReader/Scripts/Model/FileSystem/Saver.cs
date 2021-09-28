@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Reflection;
 
 namespace CodeReader.Scripts.FileSystem
 {
@@ -106,14 +107,15 @@ namespace CodeReader.Scripts.FileSystem
         public static void SaveFilesHistory(RecentFilesList files)
         {
             string json = Serializer.SerializeFilesHistory(files);
-            File.WriteAllText(FILES_HISTORY_FILE_NAME, json);
+            File.WriteAllText(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\" + FILES_HISTORY_FILE_NAME, json);
         }
 
         public static RecentFilesList LoadFilesHistory()
         {
-            if(File.Exists(FILES_HISTORY_FILE_NAME))
+            string fp = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\" + FILES_HISTORY_FILE_NAME;
+            if (File.Exists(fp))
             {
-                string json = File.ReadAllText(FILES_HISTORY_FILE_NAME);
+                string json = File.ReadAllText(fp);
                 var des = Serializer.DeserializeFilesHistory(json);
                 RecentFilesList rf = new RecentFilesList();
                 rf.AddRange(des);
