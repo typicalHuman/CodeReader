@@ -107,13 +107,13 @@ namespace CodeReader.Scripts.View.Controls
 
         private void OnTargetComponentChanged(DependencyPropertyChangedEventArgs e)
         {
-                //ICodeComponent newValue = e.NewValue as ICodeComponent;
-                //if (newValue != codeTree.SelectedItem && newValue != null)
-                //{
-                //    openedItem.InitItemContainer();
-                //    (openedItem.ItemContainerGenerator.ContainerFromItem(newValue) as TreeViewItem).IsSelected = true;
-                //    OpenSelectedItem();
-                //}
+            ICodeComponent newValue = e.NewValue as ICodeComponent;
+            if (newValue != codeTree.SelectedItem && newValue != null)
+            {
+                openedItem.InitItemContainer();
+                (openedItem.ItemContainerGenerator.ContainerFromItem(newValue) as TreeViewItem).IsSelected = true;
+                OpenSelectedItem();
+            }
         }
 
         #endregion
@@ -558,20 +558,6 @@ namespace CodeReader.Scripts.View.Controls
         }
         #endregion
 
-        #region ControlButtonsClick
-
-        #region AddParent
-        private void AddParent_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            ICodeComponent newComponent = GetDefaultComponent(null);
-            CodeComponents.Insert(0, newComponent);
-            App.mainVM.History.Push(OperationType.Add, newComponent, CodeComponents);
-            TreeViewItem newItem = codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem;
-            SelectComponent(newItem);
-        }
-        #endregion
-
-        #endregion
 
         #region IDropTarget Implementation
 
@@ -599,6 +585,22 @@ namespace CodeReader.Scripts.View.Controls
         #endregion
 
         #region KeyCommands
+
+        #region AddParent
+        private RelayCommand addParentCommand;
+        public RelayCommand AddParentCommand
+        {
+            get => addParentCommand ?? (addParentCommand = new RelayCommand(obj =>
+            {
+                ICodeComponent newComponent = GetDefaultComponent(null);
+                CodeComponents.Insert(0, newComponent);
+                App.mainVM.History.Push(OperationType.Add, newComponent, CodeComponents);
+                TreeViewItem newItem = codeTree.ItemContainerGenerator.ContainerFromIndex(0) as TreeViewItem;
+                SelectComponent(newItem);
+                App.extendedPanelVM.IsLabelBoxFocused = true;
+            }));
+        }
+        #endregion
 
         #region RenameCommand
         private RelayCommand renameCommand;
@@ -664,6 +666,7 @@ namespace CodeReader.Scripts.View.Controls
                 if (IsDefaultState)
                 {
                     AddChild(selectedItem);
+                    App.extendedPanelVM.IsLabelBoxFocused = true;
                 }
             }));
         }

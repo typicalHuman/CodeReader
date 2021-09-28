@@ -109,11 +109,23 @@ namespace CodeReader.Scripts.ViewModel
 
         #endregion
 
-        #region RecentFiles
+        #region SearchText
 
-
+        private string searchText;
+        public string SearchText
+        {
+            get => searchText;
+            set
+            {
+                searchText = value;
+                if(string.IsNullOrWhiteSpace(value))
+                    ClearSearchResults();
+                OnPropertyChanged("SearchText");
+            }
+        }
 
         #endregion
+
 
         #region Notifications
 
@@ -144,7 +156,7 @@ namespace CodeReader.Scripts.ViewModel
         /// <summary>
         /// Path to .cb file.
         /// </summary>
-        private string FilePath { get; set; } = string.Empty;
+        public string FilePath { get; set; } = string.Empty;
 
         /// <summary>
         /// History of file changes.
@@ -179,6 +191,7 @@ namespace CodeReader.Scripts.ViewModel
                 if (string.IsNullOrEmpty(FilePath))
                 {
                     saveAsCommand.Execute(null);
+                    App.mainPageVM.RecentFiles.CreateNewItem(FilePath);
                     return;
                 }
                 Saver.Save(CodeComponents, FilePath);
@@ -349,16 +362,9 @@ namespace CodeReader.Scripts.ViewModel
         {
             get => searchElementCommand ?? (searchElementCommand = new RelayCommand(obj =>
             {
-                string searchQuery = obj.ToString();
-                if(string.IsNullOrWhiteSpace(searchQuery))
+                if(string.IsNullOrWhiteSpace(SearchText))
                 {
-                    if (CodeComponentsBuffer.Count > 0)
-                    {
-                        CodeComponents.Clear();
-                        foreach (var comp in CodeComponentsBuffer)
-                            CodeComponents.Add(comp);
-                        CodeComponentsBuffer.Clear();
-                    }
+                    ClearSearchResults();
                     return;
                 }
                 if(CodeComponentsBuffer.Count == 0)
@@ -369,9 +375,20 @@ namespace CodeReader.Scripts.ViewModel
                     CodeComponentsBuffer.AddRange(buffer);
                 }
                 CodeComponents.Clear();
-                foreach (var comp in CodeComponentsBuffer.GetAllElementsWithLabel(obj.ToString()))
+                foreach (var comp in CodeComponentsBuffer.GetAllElementsWithLabel(SearchText))
                     CodeComponents.Add(comp);
             }));
+        }
+
+        public void ClearSearchResults()
+        {
+            if (CodeComponentsBuffer.Count > 0)
+            {
+                CodeComponents.Clear();
+                foreach (var comp in CodeComponentsBuffer)
+                    CodeComponents.Add(comp);
+                CodeComponentsBuffer.Clear();
+            }
         }
 
         #endregion

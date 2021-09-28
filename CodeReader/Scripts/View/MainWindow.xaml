@@ -150,7 +150,8 @@
                          Grid.Column="1"
                          ui:ControlHelper.CornerRadius="10"
                          HorizontalAlignment="Stretch"
-                         Focusable="True">
+                         Focusable="True"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
                 <TextBox.Style>
                     <Style TargetType="TextBox" BasedOn="{StaticResource SearchBox}">
                         <Style.Triggers>
@@ -162,8 +163,7 @@
                 </TextBox.Style>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="KeyUp">
-                        <i:InvokeCommandAction Command="{Binding SearchElementCommand}"
-                                               CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=Text}"/>
+                        <i:InvokeCommandAction Command="{Binding SearchElementCommand}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <TextBox.InputBindings>

@@ -1,4 +1,5 @@
-﻿using CodeReader.Scripts.View;
+﻿using CodeReader.Scripts.FileSystem;
+using CodeReader.Scripts.View;
 using GalaSoft.MvvmLight.Messaging;
 using System;
 using System.IO;
@@ -23,6 +24,15 @@ namespace CodeReader
             InitializeComponent();
             App.mainVM.Navigate = Frame1.Navigate;
             this.Loaded += WindowLoaded;
+            this.Closing += (obj, e) =>
+            {
+                Saver.SaveFilesHistory(App.mainPageVM.RecentFiles);
+                if(!string.IsNullOrWhiteSpace(App.mainVM.FilePath))
+                {
+                    App.mainVM.ClearSearchResults();
+                    Saver.Save(App.mainVM.CodeComponents, App.mainVM.FilePath);
+                }
+            };
         }
 
         private void WindowLoaded(object sender, EventArgs e)

@@ -111,6 +111,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Scripts\Behaviors\FocusBehavior.cs" />
+    <Compile Include="Scripts\Extensions\FocusExtension.cs" />
     <Compile Include="Scripts\Model\LimitedList.cs" />
     <Compile Include="Scripts\Model\RecentFile.cs" />
     <Compile Include="Scripts\Model\RecentFilesList.cs" />

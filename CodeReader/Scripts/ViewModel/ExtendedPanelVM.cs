@@ -4,6 +4,10 @@ using ICSharpCode.AvalonEdit.Indentation;
 using Notifications.Wpf;
 using System.Linq;
 using CodeBox.Enums;
+using System;
+using System.Windows;
+using System.Windows.Input;
+
 namespace CodeReader.Scripts.ViewModel
 {
     /// <summary>
@@ -36,6 +40,21 @@ namespace CodeReader.Scripts.ViewModel
                 if(currentComponent != null)
                   currentComponent.History.UndoPop();//for removing value from last component
                 OnPropertyChanged("CurrentComponent");
+            }
+        }
+
+        #endregion
+
+        #region IsLabelBoxFocused
+
+        private bool isLabelBoxFocused = false;
+        public bool IsLabelBoxFocused
+        {
+            get => isLabelBoxFocused;
+            set
+            {
+                isLabelBoxFocused = value;
+                OnPropertyChanged("IsLabelBoxFocused");
             }
         }
 
@@ -92,6 +111,7 @@ namespace CodeReader.Scripts.ViewModel
 
         #region Commands
 
+
         #region CreateNewChildCommand
         private RelayCommand createNewChildCommand;
         public RelayCommand CreateNewChildCommand
@@ -109,9 +129,23 @@ namespace CodeReader.Scripts.ViewModel
                     Code = sourceCode,
                     Parent = currentComponent
                 };
-                CurrentComponent.Children.Insert(0, newComponent);
-                CurrentComponent = CurrentComponent.Children[0];
+                newComponent.ComponentType = CurrentComponent.ComponentType;
+                CurrentComponent.Children.Add(newComponent);
+                CurrentComponent = CurrentComponent.Children.Last();
                 UpdateIndentation();
+                IsLabelBoxFocused = true;
+            }));
+        }
+        #endregion
+
+        #region FocusOnCodeCommand
+        private RelayCommand focusOnCodeCommand;
+        public RelayCommand FocusOnCodeCommand
+        {
+            get => focusOnCodeCommand ?? (focusOnCodeCommand = new RelayCommand(obj =>
+            {
+                if (obj is IInputElement)
+                    Keyboard.Focus(obj as IInputElement);
             }));
         }
         #endregion

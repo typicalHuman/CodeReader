@@ -7,6 +7,7 @@
              xmlns:ui="http://schemas.modernwpf.com/2019"
              mc:Ignorable="d"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ext="clr-namespace:CodeReader.Scripts.Extensions"
              xmlns:conv="clr-namespace:CodeReader.Scripts.Converters"
              xmlns:vm="clr-namespace:CodeReader.Scripts.ViewModel"
              xmlns:codeBox="clr-namespace:CodeBox;assembly=CodeBox" 
@@ -88,9 +89,20 @@
                         <TextBlock Text="Name" Margin="5" VerticalAlignment="Center"
                            FontSize="17" DockPanel.Dock="Left"/>
                         <TextBox Text="{Binding  CurrentComponent.Label, UpdateSourceTrigger=PropertyChanged}"
-                         Background="Transparent" HorizontalAlignment="Stretch"
-                             MinWidth="150" MaxWidth="150"
-                        FontFamily="{StaticResource RegularFont}" Margin="5 5"/>
+                                 Background="Transparent" 
+                                 HorizontalAlignment="Stretch"
+                                 x:Name="labelBox"
+                                 Focusable="True"
+                                 ext:FocusExtension.IsFocused="{Binding IsLabelBoxFocused,UpdateSourceTrigger=PropertyChanged}"
+                                 MinWidth="150" 
+                                 MaxWidth="150"
+                                 FontFamily="{StaticResource RegularFont}" 
+                                 Margin="5 5">
+                            <TextBox.InputBindings>
+                                <KeyBinding Key="Return" Command="{Binding FocusOnCodeCommand}" 
+                                            CommandParameter="{Binding ElementName=cbc}"/>
+                            </TextBox.InputBindings>
+                        </TextBox>
                     </StackPanel>
                     <!--#endregion-->
                     <!--#region Type-->

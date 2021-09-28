@@ -2,6 +2,7 @@
 using CodeBox.Enums;
 using CodeReader.Scripts.Interfaces;
 using CodeReader.Scripts.Model;
+using System.Linq;
 using CodeReader.Scripts.ViewModel;
 using Newtonsoft.Json;
 using System;
@@ -113,7 +114,10 @@ namespace CodeReader.Scripts.FileSystem
             if(File.Exists(FILES_HISTORY_FILE_NAME))
             {
                 string json = File.ReadAllText(FILES_HISTORY_FILE_NAME);
-                return Serializer.DeserializeFilesHistory(json);
+                var des = Serializer.DeserializeFilesHistory(json);
+                RecentFilesList rf = new RecentFilesList();
+                rf.AddRange(des);
+                return rf;
             }
             return null;
         }

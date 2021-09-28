@@ -121,8 +121,9 @@
         <!--#endregion-->
     </UserControl.Resources>
     <!--#endregion-->
-    
+
     <Grid x:Name="mainGrid" behav:InputBindingBehavior.PropagateInputBindingsToWindow="True">
+
         <Grid>
             <!--#region Column Definitions-->
             <Grid.RowDefinitions>
@@ -201,7 +202,6 @@
                         Content="Add parent"
                         FontFamily="{StaticResource RegularFont}" 
                         Grid.Column="2"
-                        Click="AddParent_Btn_Click"
                         IsEnabled="{Binding IsDefaultState, UpdateSourceTrigger=PropertyChanged}">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource AccentButtonStyle}">
@@ -217,6 +217,11 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding AddParentCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </Button>
                 <!--#endregion-->
              
@@ -240,8 +245,11 @@
                                        
                                       Source="{Binding Path=ComponentType, Converter={StaticResource TypeToSourceConverter}, UpdateSourceTrigger=PropertyChanged}">
                                 </Image>
-                                <TextBox Text="{Binding Label}" FontFamily="{StaticResource RegularFont}"
-                                   FontSize="15" VerticalAlignment="Center" Name="nameBox"
+                                <TextBox Text="{Binding Label}" 
+                                         FontFamily="{StaticResource RegularFont}"
+                                   FontSize="15" 
+                                         VerticalAlignment="Center"
+                                         x:Name="nameBox"
                                          Style="{StaticResource TransparentTextBox}"
                                          ui:TextBoxHelper.IsDeleteButtonVisible="False"
                                          IsReadOnly="{Binding Source={x:Reference Name=mainGrid},
@@ -272,6 +280,7 @@
         <!--#region InputBindings-->
         <Grid.InputBindings>
             <KeyBinding Key="F2" Command="{Binding RenameCommand}"/>
+            <KeyBinding Modifiers="Ctrl" Key="P"  Command="{Binding AddParentCommand}"/>
             <KeyBinding Key="Esc" Command="{Binding BackCommand}"/>
             <KeyBinding Key="Delete" Command="{Binding DeleteCommand}"/>
             <KeyBinding Key="Down" Command="{Binding SelectNextCommand}"/>

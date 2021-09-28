@@ -25,6 +25,5 @@ namespace CodeReader.Scripts.Model
             this.Insert(0, item);
             DeleteExcess();
         }
-
     }
 }
