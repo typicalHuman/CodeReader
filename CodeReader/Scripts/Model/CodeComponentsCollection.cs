@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using CodeReader.Scripts.Extensions;
 using CodeReader.Scripts.Interfaces;
-фыфывафывафыва
 namespace CodeReader.Scripts
 {
     /// <summary>
