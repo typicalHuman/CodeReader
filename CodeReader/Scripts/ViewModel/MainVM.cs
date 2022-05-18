@@ -239,9 +239,11 @@ namespace CodeReader.Scripts.ViewModel
 
         private void OpenFile()
         {
+            App.mainPageVM.RecentFiles = new RecentFilesList();
             CodeComponentsCollection result = Saver.Open(FilePath);
             History.Clear();
             CodeComponents.Clear();
+            CodeComponentsBuffer.Clear();
             foreach (CodeComponent comp in result)
                 CodeComponents.Add(comp);
             App.extendedPanelVM.CurrentComponent = null;
@@ -461,6 +463,10 @@ namespace CodeReader.Scripts.ViewModel
         private void NavigateMainPage()
         {
             Uri ur = new Uri("pack://application:,,,/Scripts/View/Pages/MainPage.xaml");
+            History.Clear();
+            CodeComponents.Clear();
+            CodeComponentsBuffer.Clear();
+            App.extendedPanelVM = new ExtendedPanelVM();
             Navigate(ur);
             ViewMode = ViewMode.Main;
         }
