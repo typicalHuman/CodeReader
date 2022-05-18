@@ -111,7 +111,9 @@ namespace CodeReader.Scripts.View.Controls
             if (newValue != codeTree.SelectedItem && newValue != null)
             {
                 openedItem.InitItemContainer();
-                (openedItem.ItemContainerGenerator.ContainerFromItem(newValue) as TreeViewItem).IsSelected = true;
+                TreeViewItem tvi = openedItem.ItemContainerGenerator.ContainerFromItem(newValue) as TreeViewItem;
+                if(tvi != null)
+                    tvi.IsSelected = true;
                 OpenSelectedItem();
             }
         }
