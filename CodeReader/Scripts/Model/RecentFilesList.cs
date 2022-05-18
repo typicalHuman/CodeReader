@@ -11,10 +11,13 @@ namespace CodeReader.Scripts.Model
 
         public void CreateNewItem(string path)
         {
-            RecentFile rf = new RecentFile();
-            rf.Location = Path.GetDirectoryName(path);
-            rf.Name = Path.GetFileNameWithoutExtension(path);
-            this.Add(rf);
+            if (path != "")
+            {
+                RecentFile rf = new RecentFile();
+                rf.Location = Path.GetDirectoryName(path);
+                rf.Name = Path.GetFileNameWithoutExtension(path);
+                this.Add(rf);
+            }
         }
 
         public void AddRange(IEnumerable<RecentFile> range)

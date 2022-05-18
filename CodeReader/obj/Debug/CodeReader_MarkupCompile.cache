@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\files\Programming\Projects\CodeReader\CodeReader\obj\Debug\
+C:\Users\reall\Desktop\codereader\CodeReader\CodeReader\obj\Debug\
 CodeReader
 none
 false
 DEBUG;TRACE
-C:\files\Programming\Projects\CodeReader\CodeReader\App.xaml
+C:\Users\reall\Desktop\codereader\CodeReader\CodeReader\App.xaml
 18408976255
 
 51579256782
-1341786066092
+82683261380
 Scripts\Resources\EnumItemsSource.xaml;Scripts\Styles\Colors.xaml;Scripts\Styles\ComboBoxStyle.xaml;Scripts\Styles\Fonts.xaml;Scripts\Styles\MenuItemStyle.xaml;Scripts\Styles\TextBlockStyle.xaml;Scripts\Styles\TextBoxStyle.xaml;Scripts\Styles\TreeViewStyle.xaml;Scripts\Styles\WindowStyle.xaml;Scripts\View\Controls\CodeTree.xaml;Scripts\View\ConfirmingWindow.xaml;Scripts\View\Controls\KeyBindedMenuItem.xaml;Scripts\View\Controls\RelationshipButton.xaml;Scripts\View\Pages\DefaultViewPage.xaml;Scripts\View\ExtendedPanel.xaml;Scripts\View\MainWindow.xaml;Scripts\View\Pages\MainPage.xaml;Scripts\View\Pages\ReferencesViewPage.xaml;
 
 False
