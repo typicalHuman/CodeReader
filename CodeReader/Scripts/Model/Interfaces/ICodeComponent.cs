@@ -34,6 +34,7 @@ namespace CodeReader.Scripts.Interfaces
         /// <summary>
         /// Relationships to this component.
         /// </summary>
+        [JsonIgnore]
         ObservableCollection<IRelationship> Relationships { get; }
         /// <summary>
         /// Parent of component.
